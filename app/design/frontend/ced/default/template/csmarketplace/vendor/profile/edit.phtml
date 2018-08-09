@@ -1,0 +1,109 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php $helper=Mage::helper('csmarketplace');?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="row">
+<div class="col-md-12" style="margin-top:10px;">
+	<div class="panel panel-default">
+	<div class="panel-heading col-md-12 uptransform" style="font-weight:bold;padding:4px 15px;font-size:17px;">
+		<div class="col-md-10 col-sm-10 col-xs-9 button_sec_font" style="line-height:31px;font-size:17px;">
+    	<?php echo $helper->__('Edit')." ".$helper->__('Profile Information') ?>
+    	</div>
+    	<div class="buttons-set col-md-2 col-sm-2 col-xs-3" style="text-align:right;">
+        <button type="submit" onClick="dataForm.submit();" title="<?php echo $helper->__('Save') ?>" class="uptransform button btn btn-success"><span><span><?php echo $helper->__('Save') ?></span></span></button>
+    </div>
+	<div class="clear_both"></div>
+    </div>
+	
+    <div class="panel-body">
+		<form id="form-validate" enctype="multipart/form-data" method="POST" action="<?php echo $this->getFormUrl() ?>">
+			<div class="col-md-12" style="margin-top:10px;">
+				<div class="fieldset">
+					<div class="form-list" style="padding-left:0;">
+						<?php echo $this->getFormHtml(); ?>
+						<?php echo $this->getBlockHtml('formkey') ?>
+						<div class="wide form-group">
+							<label for="change_password"><?php echo $this->__('Change Password') ?></label>
+							<div >
+								<input type="checkbox" name="change_password" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="<?php echo $this->__('Change Password') ?>"<?php /* if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; */ ?> class="checkbox" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="fieldset" style="display:none;">
+					<!--<h2 class="legend"><?php echo $this->__('Change Password') ?></h2>-->
+					<div class="form-list">
+						<div>
+							<label for="current_password" class="required"><?php echo $this->__('Current Password') ?> <em>*</em></label>
+							<div class="input-box">
+								<!-- This is a dummy hidden field to trick firefox from auto filling the password -->
+								<input type="text" style="display:none;" class=" input-text no-display" name="dummy" id="dummy" />
+								<input type="password" title="<?php echo $this->__('Current Password') ?>" class="form-control input-text" name="current_password" id="current_password" />
+							</div>
+						</div>
+						<div class="fields">
+							<div class="field">
+								<label for="password" class="required"><?php echo $this->__('New Password') ?> <em>*</em></label>
+								<div class="input-box">
+									<input type="password" title="<?php echo $this->__('New Password') ?>" class=" form-control input-text validate-password" name="password" id="password" />
+								</div>
+							</div>
+							<div class="field">
+								<label for="confirmation" class="required"><?php echo $this->__('Confirm New Password') ?> <em>*</em></label>
+								<div class="input-box">
+									<input type="password" title="<?php echo $this->__('Confirm New Password') ?>" class="form-control input-text validate-cpassword" name="confirmation" id="confirmation" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12" style="padding:0;">
+				<p class="back-link col-md-6"><a href="<?php echo $this->getUrl('csmarketplace/vendor/profileview',array('_secure'=>true,'_nosid'=>true)) ?>"><small>&laquo; </small><?php echo $helper->__('Back') ?></a></p>
+				
+				<p class="required col-md-6" style="text-align: right;"><?php echo $helper->__('* Required Fields') ?></p>
+				
+			</div>
+		</form>
+    </div>
+    </div>
+   </div>
+   </div>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+	function setPasswordForm(arg){
+        if(arg){
+            $('current_password').up(3).show();
+            $('current_password').addClassName('required-entry');
+            $('password').addClassName('required-entry');
+            $('confirmation').addClassName('required-entry');
+
+        }else{
+            $('current_password').up(3).hide();
+            $('current_password').removeClassName('required-entry');
+            $('password').removeClassName('required-entry');
+            $('confirmation').removeClassName('required-entry');
+        }
+    }
+	 new RegionUpdater('country_id', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip_code');
+//]]>
+</script>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVAttribute
+  * @author   	 CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+
+<layout>
+
+	<!--
+	vendor attributes grid
+	-->
+	<adminhtml_adminhtml_attributes_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="csvattribute/adminhtml_vendor_attributes_grid" name="csvattribute.vendor.attributes.grid"/>
+		</block>
+	</adminhtml_adminhtml_attributes_grid>
+	
+	<!--
+	vendor attributes edit layout
+	-->
+	<adminhtml_adminhtml_attributes_edit>
+		<reference name="head">
+			<action method="addJs" ifconfig="ced_csmarketplace/general/activation"><script>ced/csmarketplace/vendor.js</script></action>
+		</reference>
+		<reference name="left">
+            <block type="csvattribute/adminhtml_vendor_attributes_edit_tabs" name="vendor_attribute_edit_tabs"></block>
+        </reference>
+        <reference name="content">
+            <block type="csvattribute/adminhtml_vendor_attributes_edit" name="vendor_attribute_edit_content"></block>
+        </reference>
+		<reference name="js">
+            <block type="adminhtml/template" name="attribute_edit_js" template="csmarketplace/vendor/attributes/js.phtml"></block>
+        </reference>
+	</adminhtml_adminhtml_attributes_edit>
+
+	<adminhtml_sales_order_invoice_view>
+	    <reference name="content">
+		<block type="core/template" name="addthis_sharetool" after="-" >
+			<action method="setTemplate">
+			    <template>ced/csvattribute/sales/order/view/sellerinfo.phtml</template>
+			</action>
+		</block>
+	    </reference>
+	</adminhtml_sales_order_invoice_view>
+</layout>

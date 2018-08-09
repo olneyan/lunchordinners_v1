@@ -1,0 +1,203 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+
+<?php
+	$vendorsArray = $this->getVendorCollection();
+	
+	$vendors=$vendorsArray['vendor'];
+	if($vendors)
+	$vendors->addAttributeToSort('sponsored', 'desc');
+	$distance = $vendorsArray['distance'];
+//	print_r($distance); die("jkg");
+	$helper = Mage::helper('csmarketplace/tool_image');
+	$title = Mage::getStoreConfig('ced_vshops/general/vshoppage_title',Mage::app()->getStore()->getId())?Mage::getStoreConfig('ced_vshops/general/vshoppage_title',Mage::app()->getStore()->getId()):"CsMarketplace";
+	// banner
+	$width = (int)Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_width',Mage::app()->getStore()->getId());
+	$height = (int)Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_height',Mage::app()->getStore()->getId());
+	$img=Mage::getStoreConfig("ced_vshops/general/vshoppage_banner",Mage::app()->getStore()->getId())?"ced/csmarketplace/".Mage::getStoreConfig("ced_vshops/general/vshoppage_banner",Mage::app()->getStore()->getId()):'';
+	$width = $width?$width:800;
+	$height = $height?$height:200;
+?>
+<?php if(Mage::helper('csmarketplace/acl')->isEnabled()) { ?>  
+	
+
+  <?php // echo "sdfdsfds";die(); ?>
+    
+	
+<?php if(!$vendors || !$vendors->count()){ ?>
+	<div class="remove_vendors_wrap">
+		<p class="note-msg"><?php echo $this->__('Sorry!! No Records available.') ?></p>
+		<span class="currently_search">
+			<a class="remove" href="<?php echo $this->getUrl('csmarketplace/vshops/index') ?>">
+				<?php echo $this->__('X');?>
+			</a>
+		</span>
+		
+		</div>
+		<?php }
+
+	else{ 
+$url = $this->getBaseUrl();
+?>
+<div class="">
+		<b><font size="3px"><p class="note-msg"><?php echo $vendors->count(). " restaurants deliver to ". $this->getRequest()->getParam('rest').". <a href='$url'>Change Location</a> "?></p></font></b>
+</div>
+<?php 
+$width = (int)Mage::getStoreConfig('ced_vshops/general/list_image_width',Mage::app()->getStore()->getId());
+$height = (int)Mage::getStoreConfig('ced_vshops/general/list_image_height',Mage::app()->getStore()->getId());
+$width = $width?$width:135;
+$height = $height?$height:135;
+
+?>
+<div class="vendor_list_page">
+ 
+<?php
+$i=0;
+ foreach ($vendors as $vendor){
+
+for($j=0;$j<count($distance);$j++) {
+	if ($distance[$j]['id'] == $vendor->getEntityId()) {
+
+		$diff = $distance[$j]['distance'] ;
+		
+	}
+	else{
+         
+		continue;
+	}
+	
+}
+	
+
+	$day = Mage::getSingleton('core/date')->date('w');
+	
+	if($day == 0)
+	{
+		$value= $vendor->getSunCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getSunOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+		
+	}
+	elseif($day ==1)
+	{
+		$value= $vendor->getMonCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getMonOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+		
+	}
+	elseif($day ==2)
+	{
+	
+		$value= $vendor->getTueCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getTueOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+	
+	}
+	elseif($day ==3)
+	{
+		
+		$value= $vendor->getWedCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getWedOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+		
+	}
+	elseif($day ==4)
+	{
+		$value= $vendor->getThuCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getThuOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+		
+	}
+	elseif($day ==5)
+	{
+		$value= $vendor->getFriCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getFriOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+	
+	}
+	elseif($day ==6)
+	{
+		$value= $vendor->getSatCloseTime();
+		$value = explode(',',$value);
+		$value = implode(':',$value);
+		
+		$Openvalue= $vendor->getSatOpenTime();
+		$Openvalue = explode(',',$Openvalue);
+		$Openvalue = implode(':',$Openvalue);
+	
+	}
+	
+	
+	?><ol><li class="logo"> <a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?php echo $helper->init($vendor->getData('company_logo'))->keepFrame(false)->resize($width,$height); ?>" alt="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" /></a></li>
+	  <li class="name"><a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>"<font size="4px"><?php echo $vendor->getPublicName();?></font></a><span class="value"> <?php echo $vendor->getAddress();?></span>
+	  <?php $rest= $this->getRequest()->getParam('rest'); if($rest){?>
+	  <span><?php echo $this->__("Approx. Distance: "); echo $diff; ?></span>
+	  <?php  }?> </li>
+	<li class="open_time">
+	  	<?php echo __('Starts At'); ?>
+	  	<span class="value">
+	  		<?php  echo date("h:i a", strtotime($Openvalue)); ?>
+	  	</span>
+	  </li>
+	  <li class="open_time">
+	  	<?php echo __('Open Until'); ?>
+	  	<span class="value">
+	  		<?php  echo date("h:i a", strtotime($value)); ?>
+	  	</span>
+	  </li>
+	
+	  <li class="rating"><?php echo __('Rating');?><span class="value"> <?php echo $this->getReviewsSummaryHtml($vendor);?></span> </li>
+	  <li class="min_amount"><?php echo __('Minimum delivery order');?><span class="value"> <?php if($vendor->getMinOrderAmount()){echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();}echo $vendor->getMinFreeship(); ?></li>
+	  <li class="wait_time"><?php echo __('Wait Time'); ?><span class="value"> <?php echo $vendor->getDeliveryTime(); ?></li>
+	  <li class="delivery"><?php echo __('Delivery'); ?><span class="value"> <?php if($vendor->getDeliveryFee()){ echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();}echo $vendor->getDeliveryFee(); ?></li>
+	<li class="view_product"><a href="<?php echo $vendor->getVendorShopUrl() ?>"></a></li>
+</ol>
+<?php 	}
+	?>
+</div>
+<?php } 
+
+}?>
+

@@ -1,0 +1,5 @@
+[02-Feb-2018 22:19:01 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/aather/public_html/lunchordinners.com/lib/Zend/Locale/Data.php on line 339
+[02-Feb-2018 22:22:19 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/aather/public_html/lunchordinners.com/lib/Zend/Locale/Data.php on line 339
+[05-Feb-2018 22:00:22 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/aather/public_html/lunchordinners.com/lib/Zend/Locale/Data.php on line 339
+[06-Feb-2018 04:17:33 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/aather/public_html/lunchordinners.com/lib/Varien/Object.php on line 270
+[06-Feb-2018 04:34:05 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 20480 bytes) in /home/aather/public_html/lunchordinners.com/lib/Zend/Locale/Data.php on line 339

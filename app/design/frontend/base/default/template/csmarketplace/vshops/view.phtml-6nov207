@@ -1,0 +1,582 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+	$helper = Mage::helper('csmarketplace/tool_image');
+	$width = (int)Mage::getStoreConfig('ced_vshops/general/logo_image_width',Mage::app()->getStore()->getId());
+	$height = (int)Mage::getStoreConfig('ced_vshops/general/logo_image_height',Mage::app()->getStore()->getId());
+	$width = $width?$width:175;
+	$height = $height?$height:150;
+	$vattribute_enabled = FALSE;
+	if(Mage::helper('core')->isModuleEnabled('Ced_CsVAttribute')) {
+		$vattribute_enabled = TRUE;
+	}
+?>
+<?php if(Mage::helper('csmarketplace/acl')->isEnabled()) { ?>
+<style>
+.block-content h3:before, .block-content h3:after,
+.block-content li:before, .block-content li:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+</style>
+	<div class="block block-poll">
+		<div class="block-title">
+		<strong><span><?php echo $this->__("Store Profile")?></span></strong>
+		</div>
+		<?php ?>
+		<div class="block-content" style="padding: 10px;">
+			<div class="marketplace-shop-icon">
+				<img src="<?php echo $helper->init($this->getVendorLogo())->resize($width,$height); ?>"/>
+				<span class="shop_name"><?php echo $this->getPublicName();?></span>
+			</div>
+			<ul class="shopl-details">
+				<?php foreach($this->getLeftProfileAttributes() as $attribute) { 
+				    
+					?>
+					<li>
+						<?php $method = 'get'.$this->camelize($attribute->getAttributeCode()); ?>
+						<?php if(method_exists($this,$method)) { ?>
+							<?php echo $this->$method($attribute); ?>
+						<?php } else {
+							if (!$this->$method()) {
+								continue;
+							}
+							if(strlen($attribute->getStoreLabel()) > 0) {
+								$label = $vattribute_enabled?$attribute->getStoreLabel():$helper->__($attribute->getStoreLabel());
+							} else { 
+								$label = $vattribute_enabled?$attribute->getAttributeCode():$helper->__($attribute->getAttributeCode());
+							}
+							?>
+						   <?php if($attribute->getData('frontend_input') != 'time')
+							{?>
+                                <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+							<?php
+								}
+						   ?>
+							
+								<?php if($attribute->getData('frontend_input') == 'file') {
+							        if ($this->$method()) {
+							        	$url = Mage::getBaseUrl('media').$this->$method();
+							        	?><span class="attr_value"><?php 
+							    		echo '<a href="'.$url.'" target="_blank" >'.$lable.' '.$helper->__('Download').'</a>';?><span><?php 
+							        }
+							    }
+                                elseif($attribute->getData('frontend_input') == 'time')
+                                {
+                                	$day = Mage::getSingleton('core/date')->date('w');
+                                	
+                                	if($day ==0)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'sun') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value); ?>
+                                	<span class="attr_value">
+                                	    <?php echo date("h:i a", strtotime($value)); ?><span class="attr_value">
+                                	<?php }
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==1)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'mon') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	?><span class="attr_value"><?php 
+                                	    echo date("h:i a", strtotime($value));?></span><?php 
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==2)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'tue') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	    ?><span class="attr_value"><?php
+                                	    echo date("h:i a", strtotime($value));?></span><?php 
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==3)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'wed') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	    ?><span class="attr_value"><?php
+                                	    echo date("h:i a", strtotime($value));?></span><?php 
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==4)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'thu') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	    ?><span class="attr_value"><?php
+                                	    echo date("h:i a", strtotime($value));?></span><?php 
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==5)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'fri') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	    ?><span class="attr_value"><?php
+                                	    echo date("h:i a", strtotime($value));?></span><?php 
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                	if($day ==6)
+                                	{
+                                	if (strpos($attribute->getData('attribute_code'), 'sat') !== false) {
+                                		?>
+                                         <label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+                                		<?php
+										$value= $this->escapeHtml($this->$method());
+                                	    $value = explode(',',$value);
+                                	    $value = implode(':',$value);
+                                	    ?><span class="attr_value"><?php
+                                	    echo date("h:i a", strtotime($value));?></span><?php
+                                	}
+                                	else{
+                                	
+                                		continue;
+                                	}
+
+                                	}
+                                }
+							     else {
+								if($attribute->getData('attribute_code') == "delivery_fee" || $attribute->getData('attribute_code') == "min_freeship")
+								{
+									$currency = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+								
+									if($this->$method())
+									{
+										 ?><span class="attr_value"><?php
+										echo $currency.$this->escapeHtml($this->$method());?></span><?php
+									}
+								}
+								else if($attribute->getData('attribute_code') == "food_group")
+								{
+									$values = explode(',',$this->$method()); 
+									$attribute = Mage::getSingleton('eav/config')
+									->getAttribute('csmarketplace_vendor','food_group');
+									
+									if ($attribute->usesSource()) {
+										$options = $attribute->getSource()->getAllOptions(false);
+									}
+									$result ='';
+									foreach ($options as $key => $value) {
+										 
+									
+										//	print_r($value['value']); echo "<br>";
+										for($i=0;$i<count($values);$i++) {
+									
+											if($value['value'] == $values[$i])
+											{
+												//echo $value['value'];echo "<br>";
+												$result.= $value['label']." ";
+											}
+											else{
+												continue;
+											}
+											 
+										}
+									}
+									?><span class="attr_value"><?php
+									echo $result;?></span><?php 
+								}
+								else{
+									?><span class="attr_value"><?php
+									echo $this->escapeHtml($this->$method());?></span><?php
+								}
+							       
+							    } ?>
+								
+						<?php } ?>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+	<div class="success-add-to-cart">
+		<div class="success-add-to-cart-inner">
+			<span class="close">x</span>
+			<p><?php echo $this->__("You have added item in cart.")?></p>
+		</div>
+	</div>
+	
+<?php } 
+$venId = $this->getVendor()->getId(); 
+
+$eligible = Mage::helper('csmarketplace')->eligible($venId);
+//print_r($eligible); die("df");
+
+?>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.success-add-to-cart .close').click(function(){
+			jQuery('.success-add-to-cart').removeClass('active');
+		});
+	});
+</script>
+
+<script>
+
+
+
+jQuery('#product_addtocart_form').removeAttr('action');
+
+jQuery(".btn-cart").attr("onclick",'fun(this.id);');
+var cartaddzz = 'no';
+function fun(id)
+{
+	
+
+	jQuery("#product-price-"+id).attr("id","product-price-00-"+id);
+	
+	var eligible = "<?php echo $eligible['name']; ?>";
+	
+	var shopUrl = "<?php if(isset($eligible['shop'])){echo $eligible['shop'];} ?>";
+
+	if(eligible == "success" || cartaddzz =="yes")
+	{
+	
+	var url ="<?php echo $this->getUrl('csmarketplace/product/view')?>";
+	//gGift.fancybox.showLoading();
+	var myForm= new VarienForm('product_addtocart_form',true);
+	var value = {
+            "product": id,
+            "qty": 1
+           
+        };
+        var data = { "product": id,
+                "qty": 1};
+		var overlay = jQuery('<div id="overlay" style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%;background-color: #000; filter:alpha(opacity=50); -moz-opacity:0.5;-khtml-opacity: 0.5;opacity: 0.5; z-index: 10000; display: block;"> </div>');
+
+		var loader = jQuery(' <div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+		var formData = jQuery('#product_addtocart_form').serializeArray();	
+		loader.appendTo(document.body);
+		
+		jQuery.ajax({
+		type: 'POST',
+		url: url,
+		data: data,
+		})
+		 .success (function(result){
+			 loader.delay( 3000 ).remove();
+			//overlay.appendTo(document.body);
+			//overlay.remove();
+			
+			
+			 if(gGift('.fancybox-inner')[0]){
+				 gGift('.fancybox-inner').html(result);
+				jQuery(".tabs").remove();
+				jQuery(".extra-info").remove();
+				jQuery(".additional-info").remove();
+				jQuery(".add-to-links").remove();
+				jQuery(".product-img-box").remove();
+				jQuery(".addthis_toolbox").remove();
+				jQuery(".breadcrumbs").remove();
+				
+			 }else{
+				 gGift.fancybox({
+						'content' : result,
+					}); 
+				jQuery(".tabs").remove();
+				jQuery(".product-img-box").remove();
+				jQuery(".addthis_toolbox").remove();
+				jQuery(".extra-info").remove();
+				jQuery(".additional-info").remove();
+				jQuery(".add-to-links").remove();
+				jQuery(".breadcrumbs").remove();
+				jQuery(".fancybox-overlay-fixed").addClass('design'); 
+				jQuery(".btn-cart").attr("onclick",'submitForm(this.id);');
+				jQuery("li").attr("onclick",'price(this);');
+				jQuery(".price-notice").attr("style",'display:none');
+				jQuery("dd").attr('class','dd');
+				jQuery("dd").addClass('change-font');
+			 } 
+			 jQuery(".fancybox-mobile").addClass('cart-form');
+		}); 
+	}
+else{
+	gGift.fancybox({
+'content' : " You were shopping at "+eligible+"<br>Mixing of orders from different stores is not allowed<br><br>Either go to the same store or empty the cart and go to new vendor<br><button class='go-previous' type='button' onclick='goprevious(\""+shopUrl+"\")' >Go to Previous</button><button class='empty-cart' type='button' onclick='emptycart("+id+");'>Empty Cart & Add</button>",
+	});
+}
+}
+
+function goprevious(url)
+{
+	window.location.href=url;
+}
+
+function emptycart(id)
+{
+	
+	var url ="<?php  echo $this->getUrl('csmarketplace/product/remove')?>";
+	
+	jQuery.ajax({url: url,type:"POST", data :{id:id}, success: function(result){
+		
+		// jQuery(".fancybox-overlay").remove();
+		 gGift.fancybox({
+				'content' : '',
+			});
+		 if(result == "no")
+		 {
+			 window.cartaddzz = 'yes';
+			 submitForm(id);
+			 
+		}
+		 else{
+			 cartadd(id);
+			 }
+		
+			
+     }});
+
+	
+	
+}
+
+function  cartadd(id)
+{
+	
+		
+	var url ="<?php echo $this->getUrl('csmarketplace/product/view')?>";
+	//gGift.fancybox.showLoading();
+	var myForm= new VarienForm('product_addtocart_form',true);
+	var value = {
+            "product": id,
+            "qty": 1
+           
+        };
+        var data = { "product": id,
+                "qty": 1};
+		var overlay = jQuery('<div id="overlay" style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%;background-color: #000; filter:alpha(opacity=50); -moz-opacity:0.5;-khtml-opacity: 0.5;opacity: 0.5; z-index: 10000; display: block;"> </div>');
+		var loader = jQuery(' <div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+		loader.appendTo(document.body);
+		//overlay.appendTo(document.body);
+		var formData = jQuery('#product_addtocart_form').serializeArray();	
+		jQuery.ajax({
+		type: 'POST',
+		url: url,
+		data: data,
+		})
+		 .success (function(result){
+			window.cartaddzz = 'yes';
+			//overlay.remove();
+			
+			 loader.delay( 3000 ).remove();
+			 if(gGift('.fancybox-inner')[0]){
+				 gGift('.fancybox-inner').html(result);
+				jQuery(".tabs").remove();
+				jQuery(".extra-info").remove();
+				jQuery(".additional-info").remove();
+				jQuery(".add-to-links").remove();
+				jQuery(".product-img-box").remove();
+				jQuery(".addthis_toolbox").remove();
+				jQuery(".breadcrumbs").remove();
+				
+			 }else{
+				 gGift.fancybox({
+						'content' : result,
+					});
+				jQuery(".tabs").remove();
+				jQuery(".product-img-box").remove();
+				jQuery(".addthis_toolbox").remove();
+				jQuery(".extra-info").remove();
+				jQuery(".breadcrumbs").remove();
+                jQuery(".additional-info").remove();
+				jQuery(".add-to-links").remove();
+				jQuery(".fancybox-overlay-fixed").addClass('design'); 
+				jQuery(".btn-cart").attr("onclick",'submitForm(this);');
+				jQuery("li").attr("onclick",'price(this);');
+				jQuery(".price-notice").attr("style",'display:none');
+				jQuery("dd").attr('class','dd');
+				jQuery("dd").addClass('change-font');
+			 } 
+			 jQuery(".fancybox-mobile").addClass('cart-form');
+		}); 
+	
+}
+
+function submitForm(id){
+
+	var loader = jQuery('<div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+	//loader.appendTo(document.body);
+	if(jQuery('#product_addtocart_form').is(":visible"))
+	{
+		var url = jQuery('#product_addtocart_form').attr('action');
+		url = url.replace("checkout", "csmarketplace"); 
+	}
+	else{
+		
+		var eligible = "<?php echo $eligible['name']; ?>";
+		
+		var shopUrl = "<?php if(isset($eligible['shop'])){echo $eligible['shop'];} ?>";
+	
+			if(eligible == "success" || cartaddzz =="yes")
+			{
+				
+				var url = "<?php echo $this->getUrl('csmarketplace/cart/add',['qty'=>1]);?>";
+				url = url+'product/'+id;
+				
+			}
+			else{
+                // loader.delay( 3000 ).remove();
+				gGift.fancybox({
+			'content' : " You were shopping at "+eligible+"<br>Mixing of orders from different stores is not allowed<br><br>Either go to the same store or empty the cart and go to new vendor<br><button class='go-previous' type='button' onclick='goprevious(\""+shopUrl+"\")' >Go to Previous</button><button class='empty-cart' type='button' onclick='emptycart("+id+");'>Empty Cart & Add</button>",
+				});
+
+				 return;
+			}
+		}
+	  jQuery(".fancybox-overlay").attr("style",'display:none');
+
+	var pickup = "<?php echo $this->getUrl('checkout/onepage/',['pickup'=>'true']);?>";
+	 jQuery.ajax({
+         url : url,
+         type: "POST",
+         showLoader: true,
+         async:false,
+         data :jQuery("#product_addtocart_form").serialize(),
+         dataType:'json',
+         success: function(data){ 
+      //  loader.delay( 3000 ).remove();
+          if(data.status == "SUCCESS")
+          {
+              //loader.delay( 3000 ).remove();
+              jQuery(".success-add-to-cart").addClass('active');
+
+        	  gGift.fancybox({
+					'content' : '',
+				});
+          
+        	  jQuery('#header').after('<ul id="msg" class="messages"><li class="success-msg"><ul><li><span>'+data.message+'</span></li></ul></li></ul>');
+             jQuery(".fancybox-overlay").remove();
+           //  loader.delay( 3000 ).remove();
+           
+         	  jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+         	
+         	  jQuery('#msg').delay(6000).fadeOut();
+         	  jQuery(".btn-cart").attr("onclick",'fun(this.id);');
+         	
+         	  jQuery(".block-cart-inner").html(data.cart_sidebar);
+         	  jQuery(".count").html(data.qty);
+
+              
+           }
+           if(data.status == "ERROR")
+           {
+        	  
+        	  jQuery('#header').after('<ul id="msg" class="messages"><li class="error-msg"><ul><li><span>'+data.message+'</span></li></ul></li></ul>');
+        	  jQuery(".fancybox-overlay").remove();
+         	  jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+         	  jQuery('#msg').delay(6000).fadeOut();
+         	  jQuery(".btn-cart").attr("onclick",'fun(this.id);');
+         	//   loader.delay( 3000 ).remove();
+         	
+
+              
+           }
+         },
+          error: function(data){
+        	
+        	  jQuery('#header').after('<ul id="msg" class="messages"><li class="error-msg"><ul><li><span>'+data.message+'</span></li></ul></li></ul>');
+        	  jQuery(".fancybox-overlay").remove();
+         	  jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+         	  jQuery('#msg').delay(1000).fadeOut();
+         	  jQuery(".btn-cart").attr("onclick",'fun(this.id);'); 
+         	  //loader.delay( 3000 ).remove();
+          }         
+      });
+	
+}
+
+function price(id){
+	jQuery(".price-notice").attr("style",'display:none');
+	var checked_button = jQuery('input[type="radio"]:checked');
+	checked_button.each(function(){
+		
+		jQuery(this).parent().find(".price-notice").show();;
+	});
+	var checked_checkbox = jQuery('input[type="checkbox"]:checked');
+	checked_checkbox.each(function(){
+	
+		jQuery(this).parent().find(".price-notice").show();;
+	});
+	jQuery(id).find(".price-notice").show();
+	
+	
+}
+
+</script>

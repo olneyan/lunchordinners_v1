@@ -1,0 +1,47 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+ <?php $helper = Mage::helper ( 'csmarketplace' );?>
+ <div class="page-title">
+    <h1><?php $faClass = "fa-".strtolower(Mage::app()->getBaseCurrencyCode()); ?>
+	<i class="fa fa-money fa-fw <?php echo $faClass; ?>"></i><?php echo $this->__('Transactions Statistics') ?></h1>
+</div>
+<div>
+	<table class="data-table orders" id="my-orders-table">
+	<col width="1"/>
+    <col width="1"/>
+    <col width="1"/>
+    <thead>	
+	<tr>
+	<th class="number"><span class="nobr"><?php echo $helper->__('Total Earned Amount') ?></span></th>
+	<th class="number"><span class="nobr"><?php echo $helper->__('Total Pending Amount') ?></span></th>
+	<th class="status"><span class="nobr"><?php echo $helper->__('Pending Transfers') ?></span></th>
+	</tr>
+	<thead>
+	   <tbody>
+	<tr>
+	<td class="number"><span class="nobr"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getEarningAmount()); ?></span></td>
+	<td class="number"><span class="nobr"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getPendingAmount()); ?></span></td>
+	<td  class="status"><span class="nobr"><?php echo $this->getPendingTransfers()?$this->getPendingTransfers():0; ?></span></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+<br/>

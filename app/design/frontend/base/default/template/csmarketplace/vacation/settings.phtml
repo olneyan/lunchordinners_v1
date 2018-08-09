@@ -1,0 +1,125 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+
+<?php 
+
+$helper  = Mage::helper('csvendorvacation');
+$options = Mage::getModel('csvendorvacation/vacation');
+
+$vendors_settings=$this->getVendorsetting()->getData();
+$count=0;
+if($vendors_settings==Null){
+
+/* Set a Default Value of vendor vacation status to '2'(Null)  */
+$vendors_settings['status']="";
+$vendors_settings['vendormsg']="";
+$vendors_settings['date_from']="";
+$vendors_settings['date_to']="";
+$vendors_settings['show_hide']="";
+}
+?>
+	<div class="dashboard">
+		<div class="page-title">
+			<h1><i class="fa fa-cog fa-fw"></i> <?php echo $this->__('Turn On')." ".$this->__('Vacation Settings') ?></h1>
+		</div>
+	
+		<form id="myvacation_form" action="<?php echo Mage::getUrl('csvendorvacation/vacation/save'); ?>" method="post">
+	  <div class="fieldset">
+		
+		<ul class="form-list">
+		
+			<li class="fields">
+				<label class="required" for="enable_status"><?php echo $helper->__('Status'); ?></label><em>*</em>
+				<div class="input-box">
+					<select id="enable_status" class="validate-select required-entry" name="vacation[status]">
+					    
+						<?php foreach($options->getVacationStatus() as $key => $value){ 
+						        ?>
+							<option <?php if($vendors_settings['status'] == $key && $count==0){?> selected="selected"<?php $count++;}?> value="<?php echo $key?>"><?php echo $value?></option>
+						<?php } ?>
+					</select>
+				</div>
+			</li>
+			<li class="fields">
+				
+				<label for="msg"><?php echo $helper->__('Message on Vacation'); ?></label>
+				<div class="input-box">
+					<textarea id="short_description" class="input-text short_description textarea" cols="10" rows="10" name="vacation[msg]" ><?php echo  $vendors_settings['vendormsg'] ?></textarea>
+				</div>
+			</li>
+			<li class="fields">
+				<label class="required" for="date_from"><?php echo $helper->__('Vacation From'); ?></label><em>*</em>
+				<div class="input-box">
+                <img style="" title="Select Date" id="date_select_from"  class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+                 <input type="text" style="width: 120px;" class="input-text required-entry" readonly="readonly" value="<?php echo $vendors_settings['date_from']?>" id="selected_date_from" name="vacation[selected_date_from]"/>
+                  <div class="clear:both"></div>
+                </div>
+			</li>
+			<li class="fields">
+				<label class="required" for="date_to"><?php echo $helper->__('Vacation To'); ?></label><em>*</em>
+				<div class="input-box">
+				<img style="" title="Select Date" id="date_select_to" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+                <input type="text" style="width: 120px;" class="input-text required-entry" readonly="readonly" value="<?php echo $vendors_settings['date_to']?>" id="selected_date_to" name="vacation[selected_date_to]"/>
+    		   <div style="clear:both"></div>
+    		    </div>
+			</li>
+			<li class="fields">
+				<label class="required"><?php echo $helper->__('Shop Orders'); ?></label><em>*</em>
+				<div class="input-box required-entry">
+					<select id="shop_status" class="validate-select" name="vacation[shop_status]">
+						<option value=""><?php echo $helper->__('Choose an Option'); ?></option>
+						<?php foreach($options->getShopOptions() as $key => $value){ ?>
+							<option <?php if($vendors_settings['show_hide'] == $key ){ ?> selected="selected"<?php } ?> value="<?php echo $key?>"><?php echo $value?></option>
+						<?php } ?>
+					</select>			
+				</div>
+			</li>
+		</ul>
+		
+	<button class="button" onclick="nicEditors.findEditor('short_description').saveContent();"><span><?php echo $helper->__('Submit') ?></span></button>
+		
+	</div>
+	
+</form>
+</div>
+<script type="text/javascript">
+var myvacation_form = new VarienForm('myvacation_form', true);
+ bkLib.onDomLoaded(function() {
+        new nicEditor({fullPanel : true}).panelInstance('short_description');
+       
+  });
+  Calendar.setup({
+      inputField: "selected_date_from",
+      ifFormat: "%m/%e/%Y %H:%M:%S",
+      showsTime: true,
+      button: "date_select_from",
+      align: "Bl",
+      singleClick : true
+  });
+  Calendar.setup({
+      inputField: "selected_date_to",
+      ifFormat: "%m/%e/%Y %H:%M:%S",
+      showsTime: true,
+      button: "date_select_to",
+      align: "Bl",
+      singleClick : true
+  });
+</script>

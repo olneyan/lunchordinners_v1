@@ -1,0 +1,44 @@
+<?php 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php
+
+$enable=Mage::getStoreConfig('ced_csmarketplace/vendor_chat_group/vendorchat');
+if($enable=='1'){	?>
+
+<div class="block block-layered-nav block-layered-nav-1">
+    <div class="block-title">
+        <strong><span>Messaging To</span></strong>
+    </div>
+    <div class="block-content">
+        <dl id="narrow-by-list2">
+            <dt class="last odd">Vendor</dt>
+            <dd class="last odd">
+                <ol>
+                    <li>
+                        <?php $vendor_id=$this->getVendorId(); ?>
+								<a href="<?php echo Mage::getBaseUrl() ?>csvendorchat/frontend/customercompose?id=<?php echo $vendor_id?>" class="customer_vendor_contact">Query To Vendor</a>
+                    </li>
+                </ol>
+            </dd>
+        </dl>
+    </div>
+</div>
+<?php 
+		 }
+?>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<menu>
+		<csmarketplace module="csmarketplace" translate="title">
+			<title>Marketplace</title>
+			<sort_order>80</sort_order> 
+			<children>
+				<vendor module="csmarketplace" translate="title">
+					<title>Manage Vendors</title>
+					<sort_order>10</sort_order>
+					<action>adminhtml/adminhtml_vendor/index</action>
+				</vendor>
+				<vendorproduct module="csmarketplace" translate="title">
+					<title>Vendor Products</title>
+					<sort_order>20</sort_order> 
+					<children>
+						<pending module="csmarketplace" translate="title">
+							<title>Pending Products</title>
+							<sort_order>10</sort_order>
+							<action>adminhtml/adminhtml_vproducts/pending</action>
+						</pending>
+						<approved module="csmarketplace" translate="title">
+							<title>Approved Products</title>
+							<sort_order>20</sort_order>
+							<action>adminhtml/adminhtml_vproducts/approved</action>
+						</approved>
+						<all module="csmarketplace" translate="title">
+							<title>All Products</title>
+							<sort_order>30</sort_order>
+							<action>adminhtml/adminhtml_vproducts/index</action>
+						</all>
+					</children>
+				</vendorproduct>
+				<vendororder module="csmarketplace" translate="title">
+					<title>Vendor Orders</title>
+					<sort_order>30</sort_order> 
+					<action>adminhtml/adminhtml_vendororder/index</action>
+				</vendororder>
+				<vendorpayments module="csmarketplace" translate="title">
+					<title>Vendor Transactions</title>
+					<sort_order>40</sort_order> 
+					<children>
+						<vendorcommissionreq module="csmarketplace" translate="title">
+							<title>Requested Transactions</title>
+							<sort_order>10</sort_order> 
+							<action>adminhtml/adminhtml_vpayments_requested/index</action>
+						</vendorcommissionreq>
+						<vendorcommission module="csmarketplace" translate="title">
+							<title>All Transactions</title>
+							<sort_order>20</sort_order> 
+							<action>adminhtml/adminhtml_vpayments/index</action>
+						</vendorcommission>
+					</children>
+				</vendorpayments>
+				<vendorlicense module="csmarketplace" translate="title">
+					<title>Manage Licenses</title>
+					<sort_order>49</sort_order> 
+					<action>adminhtml/system_config/edit/section/cedcore/</action>
+				</vendorlicense>
+				<vendorsettings module="csmarketplace" translate="title">
+					<title>Vendor Configuration</title>
+					<sort_order>50</sort_order> 
+					<action>adminhtml/system_config/edit/section/ced_csmarketplace/</action>
+				</vendorsettings>
+			</children>
+			<depends><config>ced_csmarketplace/general/activation</config></depends>
+		</csmarketplace>		
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all> 
+			<admin>
+				<children>
+					<system>
+                        <children>
+							<config>
+								<children>
+									<cedcore>
+										<title>CedCommerce Extensions</title> 
+									</cedcore>
+									<ced_csmarketplace>
+										<title>CedCommerce CsMarketplace >> Vendor Configuration</title>
+										<sort_order>10</sort_order>
+									</ced_csmarketplace>
+								</children>
+							</config>
+						</children>
+                    </system>
+					<csmarketplace module="csmarketplace" translate="title">
+						<title>CsMarketplace (Developed By CEDCOMMERCE)</title>
+						<sort_order>20</sort_order>
+						<children>
+							<vendor module="csmarketplace" translate="title">
+								<title>Manage Vendors</title>
+								<sort_order>10</sort_order>
+							</vendor>
+							<vendorproduct module="csmarketplace" translate="title">
+								<title>Vendor Products</title>
+								<sort_order>20</sort_order> 
+								<children>
+									<pending module="csmarketplace" translate="title">
+										<title>Pending Products</title>
+										<sort_order>10</sort_order>
+									</pending>
+									<approved module="csmarketplace" translate="title">
+										<title>Approved Products</title>
+										<sort_order>20</sort_order>
+									</approved>
+									<all module="csmarketplace" translate="title">
+										<title>All Products</title>
+										<sort_order>30</sort_order>
+									</all>
+								</children>
+							</vendorproduct>
+							<vendororder module="csmarketplace" translate="title">
+								<title>Vendor Orders</title>
+								<sort_order>30</sort_order> 
+							</vendororder>
+							<vendorpayments module="csmarketplace" translate="title">
+								<title>Vendor Transactions</title>
+								<sort_order>40</sort_order> 
+								<children>
+									<vendorcommissionreq module="csmarketplace" translate="title">
+										<title>Requested Transactions</title>
+										<sort_order>10</sort_order>
+									</vendorcommissionreq>
+									<vendorcommission module="csmarketplace" translate="title">
+										<title>All Transactions</title>
+										<sort_order>20</sort_order> 
+									</vendorcommission>
+								</children>
+							</vendorpayments>
+							<vendorsettings module="csmarketplace" translate="title">
+        						<title>Vendor Configuration</title>
+        						<sort_order>50</sort_order> 
+      						 </vendorsettings>
+						</children>
+					</csmarketplace>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

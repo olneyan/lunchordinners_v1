@@ -1,0 +1,48 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+<?php
+/**
+ * @see Mage_Checkout_Block_Total_Nominal
+ */
+?>
+<tr>
+    <th colspan="<?php echo $this->getColspan() + 1; ?>" style="<?php echo $this->getTotalStyle() ?>" class="a-right">
+        <?php echo sprintf(($this->getRenderingArea() == $this->getTotalArea()) ? '<strong>%s</strong>' : '%s', $this->escapeHtml($this->getTotalTitle())) ?>
+    </th>
+</tr>
+<?php foreach ($this->getTotalItems() as $i => $item): ?>
+<?php foreach ($this->getTotalItemDetails($item) as $j => $row):?>
+<tr class="summary-details <?php echo "summary-details-nominal-{$i}" . (0 == $j ? ' summary-details-first' : '') . ($this->getItemDetailsRowIsCompounded($row) ? '' : ' summary-details-excluded')?>" style="display:none;">
+    <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotalStyle() ?>" class="a-right">
+        <?php echo $this->escapeHtml($this->getItemDetailsRowLabel($row)) ?>
+    </td>
+    <td class="a-right">
+        <?php echo $this->formatPrice($this->getItemDetailsRowAmount($row)) ?>
+    </td>
+</tr>
+<?php endforeach; ?>
+<tr class="summary-total" onclick="expandDetails(this, '<?php echo ".summary-details-nominal-{$i}"?>')">
+    <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotalStyle() ?>">
+        <div class="summary-collapse"><?php echo $this->escapeHtml($this->getItemName($item)); ?></div>
+    </td>
+    <td class="a-right">
+        <?php echo $this->helper('checkout')->formatPrice($this->getItemRowTotal($item)) ?>
+    </td>
+</tr>
+<?php endforeach; ?>

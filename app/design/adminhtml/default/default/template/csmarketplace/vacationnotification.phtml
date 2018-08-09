@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * 
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    design
+ * @package     default_default
+ * @author 	    CedCommerce Magento Core Team <magentocoreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOSS Technologies (http://cedcoss.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ ?>
+
+<?php 
+$check_count=count(Mage::helper('csvendorvacation')->getNewVacation());
+if($check_count>0){
+?>
+<div class="notification-global vacation_notice">	
+	<strong class="label"><span class="critical"><strong><?php echo count(Mage::helper('csvendorvacation')->getNewVacation()); ?></strong></span> <?php echo Mage::helper('csvendorvacation')->__('Vendor(s) gone for vacation today.'); ?></strong>
+	<?php echo Mage::helper('csvendorvacation')->__('Check through'); ?> <a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/adminhtml_index/vendorvacationgrid"); ?>"><?php echo Mage::helper('csvendorvacation')->__('Vendors Vacation').' '.Mage::helper('csvendorvacation')->__('Panel'); ?></a>.
+</div>
+<?php 
+
+}?>

@@ -1,0 +1,157 @@
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+
+<section class="home-page-content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="mobile-app text-center">
+					<img alt="lunchordinners" src="<?php echo $this->getSkinUrl().'images/homepage-image.png' ?>" class="img-responsive"/>
+				</div>
+			</div>
+			<div class="col-lg-offset-1 col-md-offset-1 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+				<div class="mobile-app-content" style="margin-top: 66px">
+					<h4>Restaurants in your pocket</h4>
+					<p style="text-align: center;color: #a52e2d;">Download our free Ios and Andriod App and Order food online with the lightning fast experience.</p>
+				</div>
+				<!--<p>We'll send you a link, open it on your phone to download the app</p>-->
+				<!--<div class="send-app-link mtop0 ptop0 clearfix">
+					<div class="col-l-2">
+						<div class="row" style="width: 16%;float: left;">
+						<div class="ui fluid action input" >
+								<input size="3" id="country-code" value="+1" type="text">
+							</div>
+						</div>
+					</div>
+					<div class="col-l-12">
+						<div class="row">
+							<div class="ui fluid action input">
+								<input id="phone-no" size="25" class="br0" placeholder="Enter phone number" type="tel">
+								<div id="app-download-sms" class="ui button green">
+									<span class="ls1">&nbsp;Text App Link&nbsp;</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<div class="col-l-14 hidden" id="send-sms-error-message">
+						<div class="row mtop0">
+							<div class="ui red message error-message">
+								Your message is not sent because the SMS limit is reached. Please try again later.                  </div>
+							</div>
+						</div>
+						<div class="col-l-14 hidden" id="rest-sms-success-message">
+							<div class="row mtop0">
+								<div class="ui green message">
+									Message sent. Check your phone to find a link to download the app. Happy eating!                  </div>
+								</div>
+							</div>    
+						</div>
+
+						<div class="col-l-14 mt5 mb5">
+							<div class="row">
+								<div class="ui horizontal divider">OR</div>
+							</div>
+						</div>
+
+						<div class="col-l-14 send-app-link-by-email mbot" style="margin-bottom: 15px;">
+							<div class="row">
+								<div class="ui fluid action input">
+									
+									<input id="email-id" placeholder="Enter your email id" type="email">
+									<div id="send-email" id="sendapplink" class="ui button green">
+                  						<span class="ls1">Email App Link</span>
+                					</div>
+                					<br/>
+									
+								</div>
+								<div id="emailapplink"> </div>
+								<div class="clear"></div>
+								<div id="email-error-message" class="mtop0 hidden">
+									<div class="ui red message error-message"></div>
+								</div>
+								<div id="email-success-message" class="mtop0 hidden">
+									<div class="ui green message" id="emailapplink">
+										Email sent. Open the email on your phone to download the app. Happy eating!                </div>
+									</div>
+								</div>
+							</div> -->
+
+							<div class="download-app row">
+								<div class="app_store col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<a href="https://itunes.apple.com/us/app/lunchordinners-food-delivery/id1352693994?ls=1&mt=8" target="_blank">
+										<img alt="app_store" src="<?php echo $this->getSkinUrl().'images/ced_app_store.png' ?>" /></a>
+									</div>
+									<div  class="play_store col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<a href="https://play.google.com/store/apps/details?id=com.lunch.dinners" target="_blank">
+											<img alt="play_store" src="<?php echo $this->getSkinUrl().'images/ced_play_store.png' ?>" />
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+		<div class="row" style="background-color: #241c1c;padding:15px">
+		<div style="text-align:center;font-size: 27px;color: white;">Subscribe to our newsletter:</div>
+		<div style="text-align: center;color: white;"><span style="color: yellow;">&#10004;</span> Don't miss out on our great offers
+		<span style="color: yellow;margin-left: 10px;">&#10004;</span> Receive deals from all our top restaurants via e-mail</div>
+		<br/>
+		<form action="https://lunchordinners.com/newsletter/subscriber/new/" method="post" id="newsletter-validate-detail">
+        <div class="block-content" style="text-align: center;">
+            <!--<div class="form-subscribe-header">
+                <label for="newsletter">Sign Up for Our Newsletter:</label>
+            </div>-->
+            <div class="input-box">
+               <input style="border-radius: 2px;width: 300px;" type="email" spellcheck="false" name="email" id="newsletter" title="Sign up for our newsletter" class="input-text required-entry validate-email" autocapitalize="off" autocorrect="off"> <button style="border-radius: 2px;margin-top: -3px;" type="submit" title="Subscribe" class="button"><span>Subscribe Now</span></span></button>
+            </div>
+            <div class="actions">
+               
+            </div>
+        </div>
+    </form>
+		</div>		
+<script>
+  jQuery(document).ready(function() {
+    jQuery('#send-email').on('click', function() {
+      var email = jQuery("#email-id").val(); 
+     jQuery.ajax({
+      	url: "<?php echo Mage::getUrl('applink/index/sendapplink/'); ?>",
+        type: "POST",
+        data: { "email": email },
+        success: function(data) {
+          jQuery('#emailapplink').html(data);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+jQuery(document).ready(function(){
+	jQuery('#locationbar').on('click', function() { 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showLocation);
+    } else { 
+        jQuery('#location').html('Geolocation is not supported by this browser.');
+    }
+    }); 
+});
+
+function showLocation(position) {
+    var latitude = position.coords.latitude;
+	var longitude = position.coords.longitude;
+	jQuery.ajax({
+		type:'POST',
+		url:"<?php echo Mage::getUrl('lodmarketplace/vshops/getlocation/'); ?> ",
+		data:'latitude='+latitude+'&longitude='+longitude,
+		success:function(msg){
+            if(msg){
+               jQuery("#rest_names1").val(msg);
+            }else{
+               jQuery("#rest_names1").val('');
+            }
+		}
+	});
+}
+</script>

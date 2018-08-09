@@ -1,0 +1,22 @@
+<?php
+/**
+ * Created by Magentix
+ * Based on Module from "Excellence Technologies" (excellencetechnologies.in)
+ *
+ * @category   Magentix
+ * @package    Magentix_Fee
+ * @author     Matthieu Vion (http://www.magentix.fr)
+ * @license    This work is free software, you can redistribute it and/or modify it
+ */
+?>
+
+<?php $this->setPriceDataObject($this->getSource()) ?>
+
+<?php if ((float) $this->getSource()->getFeeAmount()): ?>
+    <tr>
+        <td class="label"><?php echo Mage::helper('fee')->__('Tip') ?></td>
+        <td>
+            <?php echo $this->displayPrices($this->getSource()->getBaseFeeAmount(), $this->getSource()->getFeeAmount()); ?>
+        </td>
+    </tr>
+<?php endif; ?>

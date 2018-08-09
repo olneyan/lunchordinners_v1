@@ -1,0 +1,112 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php $helper = Mage::helper ( 'csmarketplace' );?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $collection = $this->getVproductsReports(); 
+?>
+
+
+<div style="clear:both"></div>
+<form id="payment_form"
+	action=""
+	method="post">
+<?php if(count($collection)>0){?>
+<script type="text/javascript">
+jced('#export_btn').show();
+</script>
+<?php }?>
+<div class="order-items order-details">
+	<table class="data-table orders " id="my-orders-table">
+	    <col width="1" />
+	    <col width="1"/>
+	    <col width="1"/>
+	    <col width="1"/>
+			<thead>
+				<tr>
+					<th class="number"><?php echo $helper->__('Product Name') ?></th>
+			        <th class="status"><?php echo $helper->__('SKU') ?></th> 
+			        <th class="date"><?php echo $helper->__('Sales Items') ?></th>
+					<th class="number"><?php echo $helper->__('Total Sales') ?></th>
+				</tr>
+	    	</thead>
+	    <tbody>
+		<?php if(count($collection)>0): ?>
+	        <?php $_odd = ''; ?>
+	        <?php foreach ($collection as $_report): ?>
+	        <tr>
+	            <td class="number"><?php echo $_report->getOrderItemName();	 ?></td>
+	            <td class="status"><?php echo $_report->getSku() ?></td>
+	            <td class="date"><?php echo round($_report->getOrderedQty()) ?></td>
+				<td class="number"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($_report->getOrderItemTotalSales());  ?></td>
+	        </tr>
+	        <?php endforeach; ?>
+	    
+				<?php else: ?>
+				<tr><td colspan="4">
+				<div>
+				<p><?php echo $helper->__('No Report Available'); ?></p>
+				</div>
+		</td></tr>		
+			<?php endif ?>
+		</tbody>
+	</table>
+</div>
+  </form>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<script type="text/javascript">
+
+<?php if($this->getRequest()->getActionName()=='vproducts'){ ?>
+filterVproductsReports(2);
+  <?php } ?>
+  
+jced(document).ready(function(){
+	  jced("#payment_form").submit(function() {
+				return false;
+			});
+	});
+
+	 function setLocation(url){
+		 jced('#activity-loading').show();
+			new Ajax.Request(url, {
+	           method: 'Get',
+	           onComplete: function(transport) {
+	               jced('.vendor-dashboard').html(transport.responseText);
+	               jced('#activity-loading').hide();
+	           }
+	       });
+	   }
+	   
+		jced('.pages a').click(function(e){
+			jced('#activity-loading').show();
+			e.preventDefault();
+			var url = jced(this).attr('href');
+			new Ajax.Request(url, {
+	           method: 'Get',
+	           onComplete: function(transport) {
+	               jced('.vendor-dashboard').html(transport.responseText);
+	               jced('#activity-loading').hide();
+	           }
+	       });
+		});
+		</script>
+
+
+

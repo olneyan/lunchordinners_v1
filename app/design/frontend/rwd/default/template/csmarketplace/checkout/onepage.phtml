@@ -1,0 +1,230 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php
+$session = Mage::getSingleton('core/session')->getCartParams();
+$order_for = $session['order_for'];
+$vendor_address = '';
+if ($order_for == 'pickup') {
+    $cart_items = Mage::getSingleton('checkout/session')->getQuote()->getAllItems();
+    foreach ($cart_items as $item) {
+        if ($item->getVendorId()) {
+            $vendor_address = Mage::getModel('csmarketplace/vendor')->load($item->getVendorId())->getAddress();
+            $vendor_address = $this->__('Pickup at Store Address') . ' : ' . $vendor_address;
+            break;
+        }
+    }
+    //print_r(Mage::getModel('csmarketplace/vendor')->load(''));
+}
+//print_r($session); die("fgblk");die("fgk");
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('Secure Checkout') ?></h1>
+</div>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout_rwd.js') ?>"></script>
+<ol class="opc opc-firststep-<?php echo $this->getActiveStep() ?>" id="checkoutSteps">
+<?php $i = 0;
+foreach ($this->getSteps() as $_stepId => $_stepInfo): ?>
+        <?php if (!$this->getChild($_stepId) || !$this->getChild($_stepId)->isShow()): continue;
+        endif;
+        $i++ ?>
+        <li id="opc-<?php echo $_stepId ?>" 
+            class="section<?php echo!empty($_stepInfo['allow']) ? ' allow' : '' ?><?php echo!empty($_stepInfo['complete']) ? ' saved' : '' ?>">
+            <div class="step-title" style="width: 16% !important;">
+                <span class="number"><?php echo $i ?></span>
+                <h2><?php echo $_stepInfo['label'] ?></h2>
+                <a href="#"><?php echo $this->__('Edit') ?></a>
+            </div>
+        <div id="checkout-step-<?php echo $_stepId ?>" class="step a-item" style="display:none;">
+                <?php echo $this->getChildHtml($_stepId) ?>
+            </div>
+        </li>
+    <?php endforeach ?>
+</ol>
+<script type="text/javascript">
+//    debugger;
+    jQuery(document).ready(function () {
+        mngactiveheight();
+        jQuery('.opc button').on('click', function () {
+            mngactiveheight();
+        });
+
+        setInterval(mngactiveheight, 200);
+    });
+    function mngactiveheight() {
+
+        var activeht = jQuery('.opc .section.allow.active .step').height();
+
+        jQuery('.opc').css('height', activeht + 200);
+    }
+</script>
+
+
+<?php // echo $this->getActiveStep(); die("g"); ?>
+<script type="text/javascript">
+//alert("flkg");
+//<![CDATA[
+    var accordion = new Accordion('checkoutSteps', '.step-title', true);
+<?php if ($this->getActiveStep()) { ?>
+        accordion.openSection('opc-<?php echo $this->getActiveStep() ?>');
+<?php } ?>
+    var checkout = new Checkout(accordion, {
+        progress: '<?php echo $this->getUrl('checkout/onepage/progress') ?>',
+        review: '<?php echo $this->getUrl('checkout/onepage/review') ?>',
+        saveMethod: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>',
+        failure: '<?php echo $this->getUrl('checkout/cart') ?>'}
+    );
+    var active = "<?php echo $this->getActiveStep(); ?>";
+
+
+//document.getElementById('opc-shipping_method').style.display = 'none';
+
+
+//jQuery('#opc-shipping').show();
+
+//    document.getElementById('opc-shipping_method').style.display = 'none';
+
+//jQuery('input[name="billing[use_for_shipping]"]').parent().hide();
+    jQuery('input[name="billing[use_for_shipping]"]').change(function () {
+        var hideship = this.value;
+        if (hideship == 0)
+        {
+            document.getElementById('opc-shipping').style.display = '';
+        }
+        else {
+            document.getElementById('opc-shipping').style.display = 'none';
+        }
+
+    });
+    jQuery('.number').hide();
+    if (jQuery('input[name="shipping_method"]').length)         // use this if you are using class to check
+    {
+        shippingMethod.save();
+    }
+    else {
+
+        setTimeout(test, 20);
+    }
+
+    function test()
+    {
+
+        if (jQuery('input[name="shipping_method"]').length)         // use this if you are using class to check
+        {
+            if (checkout.loadWaiting != false)
+            {
+
+                setTimeout(test, 600);
+            }
+            else {
+                shippingMethod.save();
+            }
+
+        }
+        else {
+
+            setTimeout(test, 20);
+        }
+    }
+
+//jQuery('#checkoutSteps').on('click','button[onclick="billing.save()"]',function() {
+    jQuery('button[onclick="billing.save()"]').click(function () {
+
+
+        var radioValue = jQuery("#billing:use_for_shipping_no:checked").val();
+
+        if (!radioValue) {
+
+            if (jQuery('input[name="shipping_method"]').length)         // use this if you are using class to check
+            {
+
+                if (checkout.loadWaiting != false)
+                {
+
+                    setTimeout(test, 600);
+                }
+                else {
+                    shippingMethod.save();
+                }
+
+            }
+            else {
+
+                setTimeout(test, 20);
+            }
+
+        }
+
+    });
+    jQuery('button[onclick="shipping.save()"]').click(function () {
+
+        if (jQuery('input[name="shipping_method"]').length)         // use this if you are using class to check
+        {
+            // alert("fkj");
+            //console.log("test");
+            if (checkout.loadWaiting != false)
+            {
+                //alert("hyhyh");
+                //console.log("inside loadcc waiting");
+                setTimeout(test, 600);
+            }
+            else {
+                shippingMethod.save();
+            }
+
+        }
+        else {
+
+            setTimeout(test, 20);
+        }
+
+    });
+    var order_for = "<?php echo $order_for; ?>";
+
+    if (order_for == "pickup")
+    {
+        jQuery('input[name="billing[use_for_shipping]"]').parent().hide();
+        var vendor_address = "<?php echo $vendor_address; ?>";
+        jQuery('#billing-buttons-container').before(vendor_address);
+    }
+
+
+    /*document.getElementById('billing:use_for_shipping_yes').style.display = 'none';*/
+
+//jQuery('input[name="billing[use_for_shipping]"]').parent().hide();
+//document.getElementById('payment-tool-tip').style.display = '';
+
+
+    // billing.save();
+//document.getElementById('opc-shipping').style.display = 'none';
+//]]>
+
+</script>
+
+

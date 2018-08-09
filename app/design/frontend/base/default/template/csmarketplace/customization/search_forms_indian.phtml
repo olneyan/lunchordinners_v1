@@ -1,0 +1,342 @@
+<style>
+.textdisable{
+        -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+    }
+    .slider-serach-bar h1 {
+        color: #ffffff;
+        margin: 10px;
+        text-align: center;
+        font-size: 33px;
+        text-transform: none;
+    } 
+    .location{
+        float: left;
+        padding: 14px;
+        font-size: 18px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 165px;
+        width: 79%;
+    }
+    @media only screen and (max-width: 400px){
+    .headingtop {
+        margin-top: -229px !important ;
+        text-align: center;
+    }
+}   
+@media only screen and (max-width: 500px){
+    .headingtop {
+        margin-top: -223px !important ;
+        text-align: center;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 165px;
+        width: 78%;
+    }
+}
+@media only screen and (max-width: 581px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 165px;
+        width: 73%;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 64%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 66%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 69%;
+    }
+}
+@media only screen and (max-width: 460px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 62%;
+    }
+}
+@media only screen and (max-width: 430px){
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 62%;
+    }
+}
+    }
+}
+
+@media only screen and (max-width: 320px){
+.slider-serach-bar .input-box input {
+    border-radius: 0;
+    height: 47px;
+    padding-right: 0px;
+    width: 60%;
+}
+}
+@media only screen and (max-width: 420px) {
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 55px;
+        padding-right: 0px;
+        width: 61%;
+    }
+}
+@media only screen and (max-width: 393px) {
+    .location {
+        float: left;
+        padding: 14px;
+        font-size: 13px;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .slider-serach-bar .input-box input {
+        border-radius: 0;
+        height: 47px;
+        padding-right: 0px;
+        width: 65%;
+    }
+}
+
+@media only screen and (max-width: 320px){
+.slider-serach-bar .input-box input {
+    border-radius: 0;
+    height: 47px;
+    padding-right: 0px;
+    width: 60%;
+}
+}
+</style>
+<?php
+
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+$addressPlaceholder = Mage::getStoreConfig('lod_configs/address_search_bar/placeholder');
+Mage::getSingleton('core/session')->unsSearchaddress();
+if (strpos($currentUrl, 'vendor-shop') === false) {
+	?>
+	<h1><?php echo __('Indian Food Delivery')?></h1>
+	<form id="search_forms" action="<?php echo $this->getUrl('csmarketplace/vshops/index'); ?>" method="get">
+   
+	  <div class="input-box"  id=rests_suggets>
+      <b> <?php // echo $this->__('Enter your Address in the search bar');?></b>
+      <span id="locationbar" class="location textdisable"><i class="fa fa-location-arrow" aria-hidden="true"></i><span class="">Locate Me</span></span>
+        <input name="rest" id="rest_names1" type="search" value="<?php echo $getSession = Mage::getSingleton('core/session')->getSearchaddress(); ?>" class="search input-text required-entry" autocomplete="off" 
+         placeholder="<?php echo $this->quoteEscape($this->__($addressPlaceholder)) ?>" />
+        <button id="findfood" type="submit" title="<?php echo $this->quoteEscape($this->__('Lets Find Food')) ?>" class="button search-button"><span><span><?php echo $this->__('Lets Find Food') ?></span></span></button>
+    </div>
+        <script type="text/javascript">
+      //<![CDATA[
+        var dataForm = new VarienForm('search_form', true);
+     
+    //]]>
+        </script>
+      <!--  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCITgXxySbOP2A0OWtAZQ803TIGGgUpUEA" type="text/javascript"></script>
+        <script>
+        google.maps.event.addDomListener(window, 'load', initMap);
+        function initMap() {
+        	  var input = document.getElementById('rest_names1');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('findfood').click();
+            });
+        }
+            </script> -->
+    
+</form>
+	
+	<?php 
+}
+else{?>
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="input-box">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+        <input id="search" type="search" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text required-entry" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" placeholder="<?php echo $this->__('Search entire store here...') ?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+    </div>
+
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var searchForm = new Varien.searchForm('search_mini_form', 'search', '');
+        searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+    //]]>
+    </script>
+</form>
+<?php 
+	
+}
+
+?>
+
+
+<!--<script>
+  jQuery(document).ready(function() {
+    jQuery("#rest_names1").keypress(function () {
+     var Address = jQuery("#rest_names1").val(); 
+     jQuery.ajax({
+        url: "<?php //echo Mage::getUrl('applink/index/Addressserch/'); ?>",
+        type: "POST",
+        data: { "address": Address },
+        success: function(data) {
+            //alert(data);
+          //jQuery('').html(data);
+        }
+      });
+    });
+  });
+</script>   -->
+
+<script>
+var req = null;
+var index = 1;
+jQuery('input').keyup(function(e)
+{  
+	//var key = e.keyCode;
+ // if ( key != 40 && key != 38 )
+  //{
+//jQuery("#rest_names").keyup(function(){
+    window.index= 1;
+	var string = jQuery("#rest_names1").val();
+	if (req != null) req.abort();
+	if(string.length > 1){
+            
+		req = jQuery.ajax({
+			type: "POST",
+			url: "<?php echo Mage::getUrl('csmarketplace/search/suggestion'); ?>",
+			data: {name: string},
+			success: function(html){
+				if(html.length !=0)
+				{
+					jQuery(".rest_suggs").remove();
+					var newDiv = jQuery(document.createElement('div')).attr("class", "rest_suggs").attr("style", "border: 1px solid #bbafa0;");
+					newDiv.html(html);				
+					newDiv.appendTo("#rests_suggets");
+			    }
+				/* else{
+					   jQuery(".rest_suggs").remove();
+					} */
+				
+				
+			}
+		});
+	}else{
+		jQuery(".rest_suggs").remove();
+	}	
+ //});
+  //}
+});
+function pickval(id) {
+jQuery("#rest_names1").val(id);
+	jQuery(".rest_suggs").remove();
+	jQuery("#search_forms").submit();
+}	
+
+var listItems = jQuery('.sugg');
+
+jQuery('input').keydown(function(e)
+{
+    var key = e.keyCode;
+    var  selected = jQuery('.nav li.selected').text();
+   
+    var  current;
+
+    if ( key != 40 && key != 38 ) return;
+
+    jQuery('.nav li.selected').removeClass('selected');
+
+    if ( key == 40 ) // Down key
+    {
+    	var count = jQuery("#rests_suggets ul").children().length;
+    	
+    	if(index == count)
+    	{
+    		window.index= 0;
+        }
+        if ( ! selected.length ) {
+           
+            current = "ul.nav li:nth-child(1)";
+            //jQuery( "ul.nav li:nth-child(1)" ).css( "color", "red" );
+         //   console.log(current);
+         //   alert(current+"if");
+        }
+        else {
+           // alert(index);
+            window.index= index+1;
+            
+            current = "ul.nav li:nth-child("+index+")";
+           
+        }
+    }
+    else if ( key == 38 ) // Up key
+    {  
+        
+    	var count = jQuery("#rests_suggets ul").children().length;
+    	if(index != 1)
+    	{
+    		window.index = index-1;
+         }
+    	if(index == 1)
+    	{
+    		window.index = count;
+        }
+    	
+        if (!selected.length) {
+        	current = "ul.nav li:last-child()";
+        }
+        else {
+        	current = "ul.nav li:nth-child("+index+")";
+        }
+    }
+   //alert(jQuery(current).text()+"end");
+    jQuery(this).val( jQuery(current).addClass('selected').text());
+});
+
+
+    </script>

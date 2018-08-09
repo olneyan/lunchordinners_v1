@@ -1,0 +1,147 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+ 
+?>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ced/csmarketplace/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ced/csmarketplace/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ced/csmarketplace/vdebug.js"></script>
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>ced/csmarketplace/vdebug/html2canvas.js"></script>
+
+
+<link media="all" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/css/ced/csmarketplace/vdebug.css" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/css/ced/csmarketplace/jquery-ui.css" type="text/css" rel="stylesheet">
+<link media="all" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>frontend/base/default/css/ced/csmarketplace/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+
+<script type="text/javascript">
+var baseUrl = '<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ); ?>';
+</script>
+<div style="display:none" id="activity-loading-debug">
+<div></div>
+</div>
+
+<div class="debug_tools">
+	<div id="vdebug_tool"><a href="javascript:;" title="Debug Toolbar" onClick="showVdebugToolbar();">Debug Toolbar</a></div>
+</div>
+<?php /*debug toolbar extend*/ ?>
+<div id="vdebug_panel" style="display: none;">
+	<div id="djDebugToolbar" style="display: block;">
+		<ul id="djDebugPanelList">
+            <li><a title="Hide Toolbar" href="#" id="vdebug_hide_toolbar"  onClick="hideVdebugToolbar();"><i class="fa fa-times fa-fw"> </i>
+Hide >></a></li>
+            <li>
+				<a href="javascript:;" onClick="captureVScreen()"><i class="fa fa-camera fa-fw"></i> Capture Screen</a>
+            </li>
+			<li>
+				<a href="javascript:;" onClick="reportVBug()"><i class="fa fa-paper-plane-o fa-fw"></i> Report Bug</a>
+            </li>
+   		</ul>
+	</div>
+	
+	
+	
+</div>
+
+
+
+<?php /*debug toolbar */ ?>
+<div id="report_vbug_form" style="display:none;">
+	<div class="report_form">
+		<div class="col-main">
+<div class="page-title">
+    <h1>Report Bug</h1>
+</div>
+<form enctype="multipart/form-data" method="post" id="reportForm" action="<?php echo Mage::getUrl('csmarketplace/vdebug/sendreportBug') ?>">
+    <div class="fieldset">
+        <h2 class="legend">Contact Information</h2>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label class="required" for="name"><em>*</em>Name</label>
+                    <div class="input-box">
+                        <input type="text" class="input-text required-entry" value="" title="Name" id="name" name="name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="required" for="email"><em>*</em>Email</label>
+                    <div class="input-box">
+                        <input type="text" class="input-text required-entry validate-email" value="" title="Email" id="email" name="email">
+                    </div>
+                </div>
+            </li>
+            <li>
+				<div class="field">
+                <label for="telephone">Telephone</label>
+                <div class="input-box">
+                    <input type="text" class="input-text" value="" title="Telephone" id="telephone" name="telephone">
+                </div>
+				</div>
+				 <div class="field">
+                    <label class="required" for="email">Attach ScreenShot</label>
+                    <div class="input-box">
+						<div id="screen_capture" style="display:none;">
+                        <input type="checkbox" value="" title="Attachment" id="attachment" name="attachment">Attachment
+						<span class="attachment_1">
+							<a onclick="imagePreview('bugpicture_image'); return false;" href="javascript:;">
+							<img width="22" height="22" class="small-image-preview v-middle" 
+							id="bugpicture_image" src="">
+							</a>
+						</span>	
+						</div>
+						<div id="target_div"> </div>
+						<input type="button" class="btn btn-warning" value="Add More" onClick="addMoreScreenShot();" />
+                    </div>
+                </div>
+            </li>
+            <li class="wide">
+                <label class="required" for="comment"><em>*</em>Comment</label>
+                <div class="input-box">
+                    <textarea rows="3" cols="5" class="required-entry input-text" title="Comment" id="comment" name="comment"></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required">* Required Fields</p>
+        <input type="text" style="display:none !important;" value="" id="hideit" name="hideit">
+        <button class="button btn btn-warning" title="Submit" type="button" onClick="reportForm.submit();"><span><span>Submit</span></span></button>
+    </div>
+	<?php 
+	$module = Mage::app()->getRequest()->getModuleName();
+	$router = Mage::app()->getRequest()->getRouteName();		
+	$controller = Mage::app()->getRequest()->getControllerName();
+	$action = Mage::app()->getRequest()->getActionName();
+
+	?>
+	<input type="hidden" name="vdebugpage[module]" value="<?php echo $module ?>" />
+	<input type="hidden" name="vdebugpage[router]" value="<?php echo $router ?>" />
+	<input type="hidden" name="vdebugpage[controller]" value="<?php echo $controller ?>" />
+	<input type="hidden" name="vdebugpage[action]" value="<?php echo $action ?>" />
+	
+	
+</form>
+<script type="text/javascript">
+//&lt;![CDATA[
+    var reportForm = new VarienForm('reportForm', true);
+//]]&gt;
+</script>
+       </div>
+	
+	</div>
+</div>

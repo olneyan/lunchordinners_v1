@@ -1,0 +1,51 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php 
+
+$customerData = Mage::getSingleton('customer/session')->getCustomer();
+$vendor_id=$this->getVendor()->getId();
+$customer_id=$customerData->getId();
+$csmarket_vendor = Mage::getModel('csmarketplace/vendor')->load($vendor_id);
+$vendor=Mage::getModel('csvendorvacation/vacation')->getCollection()->addFieldToFilter('vendor_id',$vendor_id)->getFirstItem()->getData();
+if($vendor==Null){ 
+    /* Set a Default Value of vendor to Null  */
+	$vendor['status']="";
+	$vendor['vendormsg']="";
+	$vendor['status']="";
+	$vendor['date_from']="";
+	$vendor['date_to']="";
+	$vendor['show_hide']="";
+}
+if($vendor['status']=='0'){
+if($vendor['show_hide']=='1' || $vendor['show_hide']=='2'){
+?>
+	<div class="vacational_msg">
+	<?php echo $vendor['vendormsg']?>
+	</div>
+<?php 
+}
+if($vendor['show_hide']=='3'){   ?>  
+	<div class="admin_vacational_msg">
+	<span>Vendor <span class="vendor_shop"><?php echo $csmarket_vendor->getName();?></span> is On Vacation. You can buy their Products from their Shop <span class="company_name"><?php echo $csmarket_vendor->getShop_url();?></span>. But The Products Will Be Delivered</span>
+	<span>When he Returns From the Vacation</span>
+	</div>
+<?php 
+}
+}

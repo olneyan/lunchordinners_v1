@@ -1,0 +1,50 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+/**
+ * @var $this Mage_Tax_Block_Checkout_Grandtotal
+ * @see Mage_Tax_Block_Checkout_Grandtotal
+ */
+?>
+<?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
+<ul class="grandtotal_title">
+    <li style="<?php echo $this->getStyle() ?>" class="grand_title" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo $this->helper('tax')->__('Grand Total Excl. Tax')?></strong>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="grand_val">
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTax()) ?></strong>
+    </li>
+</ul>
+<?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
+<ul class="grandtotal_title">
+    <li style="<?php echo $this->getStyle() ?>" class="grand_title" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo $this->helper('tax')->__('Grand Total Incl. Tax')?></strong>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="grand_val">
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
+    </li>
+</ul>
+<?php else:?>
+<ul class="grandtotal_title">
+    <li style="<?php echo $this->getStyle() ?>" class="grand_title" colspan="<?php echo $this->getColspan(); ?>">
+        <strong><?php echo $this->getTotal()->getTitle() ?></strong>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="grand_val">
+        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
+    </li>
+</ul>
+<?php endif;?>

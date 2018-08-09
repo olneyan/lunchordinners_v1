@@ -1,0 +1,38 @@
+<?php
+require_once 'abstract.php';
+
+/**
+ * Magento Compiler Shell Script
+ *
+ * @category    Mage
+ * @package     Mage_Shell
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class DeleteCatalogCategories extends Mage_Shell_Abstract
+{
+    public function run() {
+        $categoryCollection = Mage::getResourceModel('catalog/category_collection');
+        foreach ($categoryCollection as $category) {
+		if ($category->getId() > 5) {
+	            $category->delete();
+		}
+        }
+    }
+    
+    /**
+     * Retrieve Usage Help Message
+     *
+     */
+    public function usageHelp()
+    {
+        return <<<USAGE
+Usage:  php -f delete-catalog-categories.php
+    help       This help
+        
+USAGE;
+    }
+
+}
+
+$obj = new DeleteCatalogCategories();
+$obj->run();

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<tabs>
+		<mobiconnect translate="label" module="mobiconnect">
+		    <label>CedCommerce</label>
+		    <sort_order>71</sort_order>
+		</mobiconnect>
+    </tabs>
+	<sections>
+		<mobiconnect translate="label" module="mobiconnect">
+		    <label>Mobiconnect</label>
+		    <tab>mobiconnect</tab>
+		    <frontend_type>text</frontend_type>
+		    <sort_order>299</sort_order>
+		    <show_in_default>1</show_in_default>
+		    <show_in_website>1</show_in_website>
+		    <show_in_store>1</show_in_store>
+			<groups>
+				<banners translate="label">
+				    <label>Banner Setting</label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>2</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+					<fields>
+					     <limit_product translate="label">
+							<label>Limit Product</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>15</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Limit number of products to show in new arrivals,most view and best selling</comment>
+						</limit_product>
+					</fields>
+					<fields>
+					     <banner_homepage translate="label">
+							<label>Show Banner On Home Page</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						
+						</banner_homepage>
+					</fields>
+					<fields>
+					     <new_arrival translate="label">
+							<label>Show New Arrival tab on Home Page</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</new_arrival>
+					</fields>
+					<fields>
+					     <most_view translate="label">
+							<label>Show Most View tab on Home Page</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</most_view>
+					</fields>
+					<fields>
+					     <best_seller translate="label">
+							<label>Show Best Selling product on Home Page</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>11</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</best_seller>
+					</fields>
+				</banners>
+			</groups>
+			<groups>
+				<general translate="label">
+				    <label>General</label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>1</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<enable translate="label">
+							<label>Enable / Disable</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable>
+					</fields>
+					 <fields>
+						<key translate="label">
+							<label>API Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</key>
+					</fields>
+					<fields>
+                        <support_template translate="label">
+                            <label>Mobiconnect Support Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </support_template>
+                    </fields>
+				</general>
+			</groups>
+		</mobiconnect>
+		<cedcore translate="label" module="mobiconnect">
+		   <label><![CDATA[License Info]]></label>
+		   <tab>mobiconnect</tab>
+		   <frontend_type>text</frontend_type>
+		   <sort_order>1</sort_order>
+		   <show_in_default>1</show_in_default>
+		   <show_in_website>1</show_in_website>
+		   <show_in_store>1</show_in_store>
+		   <groups>
+		   		<extensions translate="label">
+		            <label>Installed Extensions By CedCommerce</label>
+		            <frontend_type>text</frontend_type>
+		            <frontend_model>mobiconnect/extensions</frontend_model>
+		            <sort_order>2</sort_order>
+					<expanded>1</expanded>
+		            <show_in_default>1</show_in_default>
+		            <show_in_website>1</show_in_website>
+		            <show_in_store>1</show_in_store>
+		        </extensions>
+		        <extensions_groups>
+					<label><![CDATA[CedCommerce APP Store]]></label>
+					<frontend_type>text</frontend_type>
+					<sort_order>110</sort_order>
+					<expanded>1</expanded>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<extensions translate="label">
+						   	<label><![CDATA[
+						  		<style> #row_cedcore_extensions_groups_extensions td.scope-label {display: none;}</style>
+							  	<iframe src="http://cedcommerce.com/mobiappstore/" name="cedcommerce_store" id="cedcommerce_store" style="width:988px; height:1200px; border:0; margin:0; overflow:hidden; display: block;" marginheight="0" marginwidth="0" noscroll></iframe> ]]>
+						   </label>
+						   <frontend_type>label</frontend_type>
+						   <sort_order>2</sort_order>
+						   <show_in_default>1</show_in_default>
+						   <show_in_website>1</show_in_website>
+						   <show_in_store>1</show_in_store>
+					  	</extensions>
+					</fields>
+				</extensions_groups>
+   			</groups>
+ 		</cedcore>
+	</sections>
+</config>

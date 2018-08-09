@@ -1,0 +1,38 @@
+<?php
+require_once 'abstract.php';
+
+/**
+ * Magento Compiler Shell Script
+ *
+ * @category    Mage
+ * @package     Mage_Shell
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class DeleteCatalogProducts extends Mage_Shell_Abstract
+{
+    public function run() {
+        $collection = Mage::getResourceModel('catalog/product_collection');
+        foreach ($collection as $product) {
+		if ($product->getId() > 170) {
+	            $product->delete();
+		}
+        }
+    }
+    
+    /**
+     * Retrieve Usage Help Message
+     *
+     */
+    public function usageHelp()
+    {
+        return <<<USAGE
+Usage:  php -f delete-catalog-products.php
+    help       This help
+        
+USAGE;
+    }
+
+}
+
+$obj = new DeleteCatalogProducts();
+$obj->run();

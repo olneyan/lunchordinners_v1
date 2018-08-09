@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <sections>
+        <lod_configs translate="label" module="lod_configs">
+            <label><![CDATA[LOD Configs]]></label>
+            <tab>general</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>80</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <address_search_bar translate="label" module="lod_configs">
+                    <label>Address Search-bar Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>300</sort_order>
+                    <expanded>0</expanded>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <placeholder translate="label" module="lod_configs">
+                            <label>Placeholder</label>
+                            <comment>E.g. 123 Queen Street East, Toronto, ON</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>0</can_be_empty>
+                        </placeholder>
+                        <radius_unit translate="label" module="lod_configs">
+                            <label>Radius Unit</label>
+                            <comment>K for km and M for miles</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>0</can_be_empty>
+                        </radius_unit>
+                    </fields>	
+                </address_search_bar>
+            </groups>
+        </lod_configs>
+    </sections>
+</config>

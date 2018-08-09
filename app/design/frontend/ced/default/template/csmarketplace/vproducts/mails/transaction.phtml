@@ -1,0 +1,137 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+ $trans_id = $this->getTransaction()->getId();
+ $transaction = Mage::getModel('csmarketplace/vpayment')->load( $trans_id);
+ $vendor = $this->getVendor()->getData();
+ $store_name = Mage::getStoreConfig('general/store_information/name');
+ $logo_src = $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src'));
+ $store_telephone = Mage::getStoreConfig('general/store_information/phone');
+ $store_address = Mage::getStoreConfig('general/store_information/address');
+ $inoice_attr = Mage::getModel('csmarketplace/vendor_form')->getCollection()
+			->addFieldToFilter('use_in_admin_to_seller_invoice',array('eq' => 1))
+			->addFieldToFilter('store_id',array('eq' => 0));
+ $attribute = Mage::getModel('catalog/resource_eav_attribute');
+ $orderArray = json_decode($transaction->getTransCreditSummary(), true);
+ $count = 0;
+ $flag = 0;
+?>
+<table class="head-wrap" bgcolor="#f5f5f5">
+	<tr>
+		<td>
+		</td>
+		<td class="header container">
+			<div class="content">
+				<table bgcolor="#f5f5f5" class="">
+				<tr>
+					<td>
+						<img src="<?php echo $logo_src ?>" alt="logo"/>
+					</td>
+					<td align="right">
+						<?php if($store_name){ ?><h6 class="collapse"><?php echo $store_name ?>,</h6><?php } ?>
+						<?php if($store_telephone){ ?><h6 class="collapse"><?php echo $store_telephone ?>,</h6><?php } ?>
+						<?php if($store_address){ ?><h6 class="collapse"><?php echo $store_address ?></h6><?php } ?>
+					</td>
+				</tr>
+				</table>
+			</div>
+		</td>
+		<td>
+		</td>
+	</tr>
+</table>
+
+<table class="body-wrap">
+<tr>
+	<td>
+	</td>
+	<td class="header container">
+		<div class="content">
+			<table bgcolor="#ffffff" class="">
+			<tr>
+				<td>
+					<h6 class="collapse"><b>Invoice Date: </b><?php echo $transaction->getCreatedAt(); ?></h6>
+				</td>
+				<td align="right">
+					<h6 class="collapse"><b>Invoice #: </b><?php echo $transaction->getTransactionId(); ?></h6>
+				</td>
+			</tr>
+		<?php foreach($inoice_attr as $val){
+			$count++;	
+			
+			if($flag == 0){ ?>
+			<tr>
+			<?php } ?>	
+				<td <?php if($flag){ echo 'align="right"'; } ?> >
+					<?php $label = 	$attribute->loadByCode('csmarketplace_vendor', $val['attribute_code'])->getFrontendLabel(); ?>
+					<?php if($vendor[$val['attribute_code']]){ $flag = ($flag == 0)? 1 : 0; ?><h6 class="collapse"><b><?php echo $label; ?>: </b><?php echo $vendor[$val['attribute_code']]?></h6><?php } ?>
+				</td>
+			<?php if(!$flag || $count == count($inoice_attr)){ ?>
+			</tr>
+			<?php } ?>
+		<?php } ?>
+
+			</table>
+		</div>
+	</td>
+	<td>
+	</td>
+</tr>
+</table>
+<?php 
+	$arr = array();
+	foreach($orderArray['pricing_columns'] as $key){
+		$row_total = 0;
+		foreach($orderArray['values'] as $info){
+			$price_valu = isset($info[$key])?$info[$key]:0;
+			$row_total += $price_valu;
+		}
+		$arr[$key] = array('label'=> isset($orderArray['headers'][$key]) ? $orderArray['headers'][$key] : '' , 'value' => $row_total);
+	}
+ ?>
+<table class="containtable" bgcolor="FFFFFF" cellspacing="2" cellpadding="15" border="0" width="600" style="border:1px solid #E0E0E0; margin: auto;" summary="<?php echo $this->__('Trnascation Description') ?>">
+    <thead bgcolor="#F6F6F6">
+        <tr class="headings">
+            <th class="no-link"><?php echo Mage::helper("csmarketplace")->__('Items'); ?></th>
+            <th class="no-link"><?php echo Mage::helper("csmarketplace")->__('Amount'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($arr as $key => $value){ ?>
+        <tr>
+            <td align="center"><?php echo $value['label']; ?></td>
+            <td align="center"><?php echo isset($value['value']) ? $value['value'] : 0; ?></td>
+        </tr>
+    <?php } ?>    
+        <tr>
+			<td align="center">Service Tax ( <?php echo $orderArray['service_tax'] ?> %) </td>
+			<td align="center"><?php echo $orderArray['service_tax_amount'] ?></td>
+		</tr>
+	    <tr>
+			<td align="center">Adjustment Amount</td>
+			<td align="center"><?php echo $transaction->getBaseFee(); ?></td>
+		</tr>
+		<tr>
+			<td align="center">Total Amount</td>
+			<td align="center"><?php echo $transaction->getBaseNetAmount(); ?></td>
+		</tr>
+   	</tbody>
+</table>

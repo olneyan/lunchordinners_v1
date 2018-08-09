@@ -1,0 +1,82 @@
+
+#search_form .search-button::before{
+	background-image: url("icon_sprite.png");
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+    background-position: 4px -146px;
+    content: "";
+    height: 30px;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    position: absolute;
+    top: 50%;
+    width: 30px;
+}
+#search_form .search-button{
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: 0 none;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  text-indent: -9999px;
+  top: 0;
+  width: 40px;
+}
+
+#header-search > form#search_form input {
+  padding-right: 40px;
+  width: 100%;
+}
+#header-search > form#search_form button {
+  padding: 0;
+  position: absolute;
+  right: 0;
+}
+#header-search > form#search_form input{
+  width: 100%;
+}
+#rest_suggets.input-box{
+  position: relative;
+}
+.rest_sugg {
+  background: #fff none repeat scroll 0 0;
+  position: absolute;
+  width: 100%;
+  z-index: 999999999;
+}
+.rest_sugg > div {
+  cursor: pointer;
+  margin-bottom: 1px;
+  padding: 6px !important;
+}
+.rest_sugg > div:hover{
+  background-color: #F2F2F2;
+  opacity: 0.9;
+}
+
+
+.block-content .rating-box,
+.products-grid .rating-box {
+  background-image: url("gray-rating.png");
+  height: 13px;
+  padding: 0 !important;
+  width: 65px;
+}
+.block-content .rating-box .rating ,
+.products-grid .rating-box .rating{
+  background-image: url("dark-rating.png");
+  padding: 0 !important;
+}
+.products-grid .rating-box {
+  margin: 0 auto 7px;
+}
+
+
+
+.page-header-container .header-links .links li a {
+  border-left: 1px solid #c1c1c1;
+  border-right: 1px solid #c1c1c1;
+  font-size: 14px;
+  padding: 0 4px 0 4px;
+}

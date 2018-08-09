@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorReview
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<menu>
+		<csmarketplace module="csmarketplace" translate="title">
+			<children>
+				<vendorreview module="csvendorreview" translate="title">
+					<title>Vendor Review And Rating</title>
+					<sort_order>40</sort_order>
+					<children>
+						<review module="csvendorreview" translate="title">
+							<title>Manage Review</title>
+							<sort_order>10</sort_order>
+							<action>adminhtml/adminhtml_review/index</action>
+						</review>
+						<rating module="csvendorreview" translate="title">
+							<title>Manage Ratings</title>
+							<sort_order>20</sort_order>
+							<action>adminhtml/adminhtml_rating/index</action>
+						</rating>
+					</children>		
+				</vendorreview>				
+			</children>
+			<depends><config>ced_csmarketplace/general/activation</config></depends>
+		</csmarketplace>		
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all> 
+			<admin>
+				<children>
+					<csmarketplace module="csmarketplace" translate="title">
+						<children>
+							<vendorreview module="csvendorreview" translate="title">
+								<title>Vendor Review and Rating</title>
+								<sort_order>60</sort_order>
+								<children>
+									<review module="csvendorreview" translate="title">
+										<title>Manage Review</title>
+										<sort_order>10</sort_order>
+									</review>
+									<rating module="csvendorreview" translate="title">
+										<title>Manage Ratings</title>
+										<sort_order>20</sort_order>
+									</rating>
+								</children>		
+							</vendorreview>
+						</children>
+					</csmarketplace>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

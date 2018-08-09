@@ -1,0 +1,70 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsVendorPanel
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Ced_CsVendorPanel>
+            <version>0.0.1</version>
+			<parent_product_name>Marketplace Basic</parent_product_name>
+			<release_version>0.0.1</release_version>
+        </Ced_CsVendorPanel>
+    </modules>
+    <global>
+        <models>
+            <csvendorpanel>
+                <class>Ced_CsVendorPanel_Model</class>
+            </csvendorpanel>
+        </models>
+		 <events>
+            <ced_csmarketplace_predispatch_action>
+                <observers>
+                    <csvendorpanel>
+                        <class>csvendorpanel/observer</class>
+                        <method>preDispatch</method>
+                    </csvendorpanel>
+                </observers>
+            </ced_csmarketplace_predispatch_action>
+            <!-- <ced_csmarketplace_vendor_authenticate_after>
+                <observers>
+                    <csvendorpanel>
+                        <class>csvendorpanel/observer</class>
+                        <method>preDispatch</method>
+                    </csvendorpanel>
+                </observers>
+            </ced_csmarketplace_vendor_authenticate_after>
+			<controller_action_predispatch_customer>
+                <observers>
+                    <csvendorpanelcustomer1>
+                        <class>csvendorpanel/observer</class>
+                        <method>preDispatchCustomer</method>
+                    </csvendorpanelcustomer1>
+                </observers>
+            </controller_action_predispatch_customer> -->
+            <!-- <ced_csmarketplace_vendor_approval_after>
+                <observers>
+                    <csvendorpanelcustomer2>
+                        <class>csvendorpanel/observer</class>
+                        <method>vendorApprovalAfter</method>
+                    </csvendorpanelcustomer2>
+                </observers>
+            </ced_csmarketplace_vendor_approval_after> -->
+        </events>
+    </global>
+</config>

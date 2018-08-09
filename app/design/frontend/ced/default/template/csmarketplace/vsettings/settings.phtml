@@ -1,0 +1,44 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if($this->getVendorId()) { ?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="row">
+<div class="col-md-12" style="margin-top:10px;">
+	<div class="panel panel-default">
+		<div class="panel-heading col-md-12 uptransform" style="font-weight:bold;padding:4px 15px;font-size:17px;">
+		<div class="col-md-6 panel_product_heading" style="line-height:31px;font-size:17px;padding-left:0;">
+			<?php echo $this->__('Transaction')." ".$this->__('Settings') ?>
+		</div>
+		<div class="buttons-set col-md-6 buttons_scb" style="text-align:right;">				
+				<button class="button btn btn-success uptransform product-button" title="Save" type="submit" onClick="dataForm.submit();" id="save_butn"
+					style="float: none;">
+					<span><span><?php echo $this->__('Save') ?></span></span>
+				</button>
+		</div>
+		</div>
+		<div class="panel-body">
+		<div class="col-md-12">
+		<?php echo $this->getChildHtml('vsettings_payment_methods') ?>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<?php } ?>

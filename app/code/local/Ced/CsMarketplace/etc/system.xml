@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<tabs>
+        <cedcommerce>
+            <label><![CDATA[<div style="position: absolute; margin-left: -8px;"><img src="//cedcommerce.com/media/cedcore/cedcommerce-extensions.png" alt="CedCommerce Extensions" border="0" /></div>&nbsp;]]></label>
+            <sort_order>400</sort_order>
+        </cedcommerce>
+    </tabs>
+	<sections>
+		<cedcore translate="label" module="core">
+			<label><![CDATA[General]]></label>
+			<tab>cedcommerce</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>1</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			 <groups>
+				<extensions translate="label">
+                    <label>Installed Extensions By CedCommerce</label>
+                    <frontend_type>text</frontend_type>
+                    <frontend_model>csmarketplace/extensions</frontend_model>
+                    <sort_order>2</sort_order>
+					<expanded>1</expanded>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </extensions>
+				<feeds_group>
+					<label>Notifications</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>90</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<feeds translate="label">
+							<label>I'd like to be informed by CedCommerce about:</label>
+							<comment></comment>
+							<frontend_type>multiselect</frontend_type>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<source_model>csmarketplace/source_updates_type</source_model>
+						</feeds>	
+					</fields>	
+				</feeds_group>
+				<extensions_groups>
+					<label>CedCommerce Extensions Store</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>110</sort_order>
+					<expanded>1</expanded>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<extensions translate="label">
+							<label></label>
+							<frontend_type>text</frontend_type>
+							<frontend_model>csmarketplace/cedcommerce_store</frontend_model>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</extensions>
+					</fields>
+				</extensions_groups>
+			</groups>
+		</cedcore>
+		<ced_csmarketplace translate="label" module="csmarketplace">
+			<label>Vendor Configuration</label>
+			<tab>cedcommerce</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>100</sort_order>
+			<show_in_website>1</show_in_website>
+			<show_in_default>1</show_in_default>
+			<groups>
+				<general translate="label">
+					<label>General</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>2</sort_order>
+					<fields>
+						<activation translate="label">
+							<label>Enable Vendor System</label>
+							<frontend_type>select</frontend_type>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</activation>
+						<enable_registration translate="label">
+							<label>Enable Vendor Registration</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_csmarketplace/general/enable_registration</config_path>
+							<comment>If you don't want further vendor, then disable the vendor registration.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>2</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</enable_registration>
+						<request_active translate="label">
+							<label>Enable Payment Request System</label>
+							<frontend_type>select</frontend_type>
+							<comment>This setting will Enabled/Disabled Request Payments section from Vendor Panel area.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>3</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</request_active>
+						<shopurl_active>
+							<label>Enable Shop URL System</label>
+							<frontend_type>select</frontend_type>
+							<comment>This setting will Enabled/Disabled Shop URL section functionality from Vendor Panel area.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+						</shopurl_active>
+						<publicname_active>
+							<label>Enable Public Name System</label>
+							<frontend_type>select</frontend_type>
+							<comment>This setting will Enabled/Disabled Public Name section from Vendor Panel area.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>5</sort_order>
+							<show_in_default>1</show_in_default>
+						</publicname_active>
+						
+						<prefixmemberid_active translate="label">
+							<label>Enter Prefix For Member ID</label>
+							<frontend_type>text</frontend_type>
+							<comment>This setting will Prefix the Member ID.(E.g-CED100000)</comment>
+							<sort_order>6</sort_order>
+							<show_in_default>1</show_in_default>
+							<validate>validate-alpha</validate>
+						</prefixmemberid_active>
+						<rtl_active>
+							<label>Enable RTL Theme For Vendor Panel</label>
+							<frontend_type>select</frontend_type>
+							<comment>This setting will Enabled/Disabled RTL Theme from Vendor Panel area.</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>7</sort_order>
+							<show_in_default>1</show_in_default>
+						</rtl_active>
+					</fields>
+				</general> 
+				<vendor translate="label">
+					<label>Vendor Account Options</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>4</sort_order>
+					<fields>
+						<confirmation translate="label">
+							<label>Require Admin Approval</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_csmarketplace/general/confirmation</config_path>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</confirmation>
+						<group translate="label">
+							<label>Default Group</label>
+							<frontend_type>select</frontend_type>
+							<comment></comment>
+							<source_model>csmarketplace/system_config_source_group</source_model>
+							<sort_order>30</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</group>
+						<email_identity translate="label tooltip">
+                        	<label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model> 
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </email_identity>
+                        <account_confirmed_template translate="label tooltip">
+                            <label>Vendor approved notification email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <comment>This email will be sent after account Approval.</comment>
+                        </account_confirmed_template>
+                        <account_rejected_template translate="label tooltip">
+                            <label>Vendor rejected notification email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <comment>This email will be sent after account Disapproval.</comment>
+                        </account_rejected_template>
+                         <account_deleted_template translate="label tooltip">
+                            <label>Vendor deleted notification email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <comment>This email will be sent after account Deletion.</comment>
+                        </account_deleted_template>
+                        <shop_enabled_template translate="label tooltip">
+                            <label>Vendor Shop Enable notification email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                            <comment>This email will be sent after vendor shop will be enabled by admin.</comment>
+                        </shop_enabled_template>
+                        <shop_disabled_template translate="label tooltip">
+                            <label>Vendor Shop Disable notification email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                            <comment>This email will be sent after vendor shop will be disabled by admin.</comment>
+                        </shop_disabled_template>
+						<heading_design translate="label">
+							<label>Vendor Panel Design</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_vendor>1</show_in_vendor>
+						</heading_design>
+						<vendor_theme translate="label">
+                            <label>Vendor Panel Theme</label>
+                            <frontend_type>select</frontend_type>
+							<source_model>csmarketplace/system_config_source_theme_design</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                        </vendor_theme>
+						<vendor_logo_src translate="label comment">
+                            <label>Vendor Panel Logo Image Src</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+							<comment>To replace the current vendor panel logo image, upload vendor panel logo image into 'skin/frontend/ced/default/'.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                        </vendor_logo_src>
+                        <vendor_logo_alt translate="label">
+                            <label>Vendor Panel Logo Image Alt</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                        </vendor_logo_alt>
+						<vendor_footer_text translate="label">
+                            <label>Vendor Panel Footer Text</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                        </vendor_footer_text>
+						<theme_css translate="label comment">
+                            <label>Vendor Panel Custom CSS</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>150</sort_order>
+							<comment>This will be included before head closing tag in vendor panel HTML.</comment>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_vendor>1</show_in_vendor>
+                        </theme_css>
+					</fields>
+				</vendor>
+				<vproducts>
+					<label>Vendor Products</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>6</sort_order>
+					<fields>
+						<confirmation translate="label">
+							<label>Require Admin Approval</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/confirmation</config_path>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</confirmation>
+						<type translate="label">
+							<label>Allowed Product Type</label>
+							<frontend_type>multiselect</frontend_type>
+							<config_path>ced_vproducts/general/type</config_path>
+							<source_model>csmarketplace/system_config_source_vproducts_type</source_model>
+							<comment></comment>
+							<sort_order>20</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</type>
+						<limit translate="label">
+							<label>Vendor Products Limit</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vproducts/general/limit</config_path>
+							<comment></comment>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</limit>
+						<website translate="label">
+							<label>Allowed Websites</label>
+							<frontend_type>multiselect</frontend_type>
+							<config_path>ced_vproducts/general/website</config_path>
+							<!-- <frontend_model>csmarketplace/adminhtml_system_config_frontend_vproducts_website</frontend_model> -->
+							<backend_model>csmarketplace/system_config_backend_vproducts_website</backend_model>
+							<source_model>csmarketplace/system_config_source_vproducts_website</source_model>
+							<comment></comment>
+							<sort_order>36</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</website>
+						
+						<category_mode translate="label">
+							<label>Product Categories Display</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/category_mode</config_path>
+							<source_model>csmarketplace/system_config_source_vproducts_category</source_model>
+							<comment></comment>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</category_mode>
+						<category translate="label">
+							<label>Allowed Categories</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vproducts/general/category</config_path>
+							<frontend_model>csmarketplace/adminhtml_system_config_frontend_vproducts_category</frontend_model>
+							<backend_model>csmarketplace/system_config_backend_vproducts_category</backend_model>
+							<depends><category_mode>1</category_mode></depends>
+							<comment></comment>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</category>
+						<product_approved_template translate="label tooltip">
+                        	<label>Product approved notification email</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/product_approved_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>60</sort_order>
+                            <show_in_website>1</show_in_website>
+                            <show_in_default>1</show_in_default>
+                            <comment><![CDATA[This notification email will be sent when the product is reviewed and approved]]></comment>
+                        </product_approved_template>
+                         <product_rejected_template translate="label tooltip">
+                        	<label>Product rejected notification email</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/product_rejected_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                             <comment><![CDATA[This notification email will be sent when the product is reviewed and rejected]]></comment>
+                        </product_rejected_template>
+                         <product_deleted_template translate="label tooltip">
+                        	<label>Product deleted notification email</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/product_deleted_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                             <comment><![CDATA[This notification email will be sent when the product is reviewed and deleted]]></comment>
+                        </product_deleted_template>
+                        <email_identity translate="label">
+                        	<label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vproducts/general/email_identity</config_path>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model> 
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </email_identity>
+                          <dietary_info translate="label">
+                        	<label>Allergy and dietary information</label>
+                            <frontend_type>textarea</frontend_type>
+							<config_path>ced_vproducts/general/dietary_info</config_path>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </dietary_info>
+                        <distacematrix translate="label">
+							<label>Enter google Search API Key</label>
+							<frontend_type>text</frontend_type>
+							<comment></comment>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_vendor>1</show_in_vendor>
+						</distacematrix>
+                        
+					</fields>
+				</vproducts>
+				<vproducts_downloadable_config translate="label">
+					<label>Downloadable Product Configuration</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>8</sort_order>
+					<fields>
+						<sample_formats translate="label">
+							<label>Allowed Sample Formats</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vproducts/downloadable_config/sample_formats</config_path>
+							<comment>comma separated like jpg,jpeg,png,gif,pdf</comment>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</sample_formats>
+						<link_formats translate="label">
+							<label>Allowed Link Formats</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vproducts/downloadable_config/link_formats</config_path>
+							<comment>comma separated like zip,rar,pdf,doc</comment>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</link_formats>
+					</fields>
+				</vproducts_downloadable_config>
+				<vorders translate="label">
+					<label>Vendor Orders</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>10</sort_order>
+					<fields>
+<!-- 						<vorders_mode translate="label comments tooltip">
+							<label>Separate Orders</label>
+							<frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/vorders_mode</config_path>
+							<comment><![CDATA[This setting is not avaliable with Initial version.]]></comment>
+							<comment><![CDATA[This setting is not avaliable with Initial version.]]></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</vorders_mode> -->
+						<order_email_enable translate="label tooltip">
+                        	<label>Enable New Order Notification Email</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/order_email_enable</config_path>
+                            <source_model>adminhtml/system_config_source_yesno</source_model> 
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <comment><![CDATA[Enable notification email which is sent to vendor when new order is placed.]]></comment>
+                        </order_email_enable>
+                         <order_new_template translate="label tooltip">
+                        	<label>New Order Notification Template</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/order_new_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </order_new_template>
+                        <order_cancel_email_enable translate="label tooltip">
+                        	<label>Enable Cancel Order Notification Email</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/order_cancel_email_enable</config_path>
+                            <source_model>adminhtml/system_config_source_yesno</source_model> 
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <comment><![CDATA[Enable notification email which is sent to vendor when order will be cancelled.]]></comment>
+                        </order_cancel_email_enable>
+                         <order_cancel_template translate="label tooltip">
+                        	<label>Order Cancel Notification Template</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/order_cancel_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model> 
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </order_cancel_template>
+			<seller_transaction_template translate="label tooltip">
+                        	<label>Vendor Transaction Notification Template</label>
+                            <frontend_type>select</frontend_type>
+				<config_path>ced_vorders/general/seller_transaction_template</config_path>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </seller_transaction_template>
+                         <email_identity translate="label">
+                        	<label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+							<config_path>ced_vorders/general/email_identity</config_path>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model> 
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </email_identity>
+					</fields>
+				</vorders>
+				<vpayments translate="label">
+					<label>Vendor Payments</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>12</sort_order>
+					<fields>
+						<commission_mode translate="label">
+							<label>Calculate Commission Fee</label>
+							<frontend_type>select</frontend_type>
+							<backend_model>csmarketplace/system_config_backend_vpayments_commission_mode</backend_model>
+							<config_path>ced_vpayments/general/commission_mode</config_path>
+							<comment></comment>
+							<source_model>csmarketplace/system_config_source_rate</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</commission_mode>
+						<commission_fee1 translate="label">
+                            <label>Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee</config_path>
+                            <validate> validate-number validate-zero-or-greater</validate>
+                            <depends><commission_mode>fixed</commission_mode></depends>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </commission_fee1>
+                        <commission_fee2 translate="label">
+                            <label>Commission Fee</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>csmarketplace/system_config_backend_vpayments_commission_fee</backend_model>
+							<config_path>ced_vpayments/general/commission_fee</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                             <depends><commission_mode>percentage</commission_mode></depends>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </commission_fee2>
+                        <service_tax translate="label">
+                            <label>Service Tax</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>ced_vpayments/general/service_tax</config_path>
+                            <validate>validate-percents validate-zero-or-greater</validate>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </service_tax>
+					</fields>
+				</vpayments>
+				<vshops translate="label">
+					<label>Vendor Shop Pages (Frontend)</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>13</sort_order>
+					<fields>
+						<vshoppage translate="label">
+							<label>CsMarketplace Page</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</vshoppage>
+						<vshoppage_top_title translate="label">
+                            <label>CsMarketplace Link Title</label>
+                            <config_path>ced_vshops/general/vshoppage_top_title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_top_title>
+                        <vshoppage_top_enabled translate="label">
+                            <label>Enable CsMarketplace Link</label>
+                            <config_path>ced_vshops/general/vshoppage_top_enabled</config_path>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_top_enabled>
+                        <vshoppage_vendor_title translate="label">
+                            <label>Vendor Link Title</label>
+                            <config_path>ced_vshops/general/vshoppage_vendor_title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_vendor_title>
+                        <vshoppage_vendor_enabled translate="label">
+                            <label>Enable Vendor Link</label>
+                            <config_path>ced_vshops/general/vshoppage_vendor_enabled</config_path>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_vendor_enabled>
+						<vshoppage_title translate="label">
+                            <label>Heading/Title</label>
+                            <config_path>ced_vshops/general/vshoppage_title</config_path>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_title>
+						<vshoppage_banner translate="label">
+                            <label>Banner</label>
+							<frontend_type>image</frontend_type>
+							<config_path>ced_vshops/general/vshoppage_banner</config_path>
+							<backend_model>csmarketplace/system_config_backend_vshops_banner</backend_model>
+							<upload_dir config="system/filesystem/media" scope_info="1">ced/csmarketplace</upload_dir>
+							<base_url type="media" scope_info="1">ced/csmarketplace</base_url>
+							<sort_order>4</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+                        </vshoppage_banner>
+						<vshoppage_about translate="label">
+                            <label>Description</label>
+                            <config_path>ced_vshops/general/vshoppage_about</config_path>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_about>
+                        <vshoppage_banner_image_width translate="label">
+                            <label>Banner Image Width</label>
+                            <frontend_type>text</frontend_type>
+                            <config_path>ced_vshops/general/vshoppage_banner_image_width</config_path>
+                            <comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </vshoppage_banner_image_width>
+						<vshoppage_banner_image_height translate="label">
+							<label>Banner Image Height</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/vshoppage_banner_image_height</config_path>
+							<comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+							<sort_order>7</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</vshoppage_banner_image_height>
+						<grid translate="label">
+							<label>Shops Listing Grid View</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>8</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</grid>
+						<grid_image_width translate="label">
+                            <label>Image Width</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/grid_image_width</config_path>
+                            <comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </grid_image_width>
+						<grid_image_height translate="label">
+							<label>Image Height</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/grid_image_height</config_path>
+							<comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+							<sort_order>10</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</grid_image_height>
+                        <list translate="label">
+							<label>Shops Listing List View</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>11</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</list>
+						<list_image_width translate="label">
+                            <label>Image Width</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/list_image_width</config_path>
+                            <comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </list_image_width>
+						<list_image_height translate="label">
+							<label>Image Height</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/list_image_height</config_path>
+							<comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+							<sort_order>13</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</list_image_height>
+						<profile translate="label">
+							<label>Vendor Shop Page</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>14</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+						</profile>
+						<logo_image_width translate="label">
+                            <label>Logo Image Width</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/logo_image_width</config_path>
+                            <comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </logo_image_width>
+						<logo_image_height translate="label">
+							<label>Logo Image Height</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/logo_image_height</config_path>
+							<comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+							<sort_order>16</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</logo_image_height>
+						<banner_image_width translate="label">
+                            <label>Banner Image Width</label>
+                            <frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/banner_image_width</config_path>
+                            <comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </banner_image_width>
+						<banner_image_height translate="label">
+							<label>Banner Image Height</label>
+							<frontend_type>text</frontend_type>
+							<config_path>ced_vshops/general/banner_image_height</config_path>
+							<comment>[px]</comment>
+							<validate>validate-number validate-zero-or-greater</validate>
+							<sort_order>18</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</banner_image_height>
+						<vshoppage_vendor_placeholder translate="label">
+                            <label>Vendor Placeholder Image</label>
+							<frontend_type>image</frontend_type>
+							<config_path>ced_vshops/general/vshoppage_vendor_placeholder</config_path>
+							<backend_model>csmarketplace/system_config_backend_vshops_banner</backend_model>
+							<upload_dir config="system/filesystem/media" scope_info="1">ced/csmarketplace</upload_dir>
+							<base_url type="media" scope_info="1">ced/csmarketplace</base_url>
+							<sort_order>19</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+                        </vshoppage_vendor_placeholder>
+                        <vshoppage_banner_placeholder translate="label">
+                            <label>Banner Placeholder Image</label>
+							<frontend_type>image</frontend_type>
+							<config_path>ced_vshops/general/vshoppage_banner_placeholder</config_path>
+							<backend_model>csmarketplace/system_config_backend_vshops_banner</backend_model>
+							<upload_dir config="system/filesystem/media" scope_info="1">ced/csmarketplace</upload_dir>
+							<base_url type="media" scope_info="1">ced/csmarketplace</base_url>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+                        </vshoppage_banner_placeholder>
+					</fields>
+				</vshops>
+				<vseo translate="label">
+					<label>SEO Information (CsMarketplace Page)</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>14</sort_order>
+					<fields>
+						<meta_keywords translate="label">
+                            <label>Meta Keywords</label>
+                            <config_path>ced_vseo/general/meta_keywords</config_path>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </meta_keywords>
+						<meta_description translate="label">
+                            <label>Meta Description</label>
+                            <config_path>ced_vseo/general/meta_description</config_path>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </meta_description>
+                   	</fields>
+				</vseo>
+			</groups>
+		</ced_csmarketplace>
+	</sections>
+</config>

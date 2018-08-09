@@ -1,0 +1,359 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     VendorApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+
+
+<config>
+	<api>
+		<resources>
+			<vendor translate="title" module="vendorapi">
+				<model>vendorapi/vendor_api</model> <!-- our model -->
+				<title>Vendor Resource</title>
+				<acl>vendor/vendor_account</acl>
+				<methods>
+					<list translate="title" module="vendorapi">
+						<title>Retrive Vendors</title>
+						<method>items</method> <!-- we have another method name inside our resource -->
+						<acl>vendor/vendor_account/list</acl>
+					</list>
+					<create translate="title" module="vendorapi">
+						<title>Create Vendor</title>
+						<acl>vendor/vendor_account/create</acl>
+					</create>
+					<info translate="title" module="vendorapi">
+						<title>Retrieve Vendor data</title>
+						<acl>vendor/vendor_account/info</acl>
+					</info>
+					<update translate="title" module="vendorapi">
+						<title>Update Vendor data</title>
+						<acl>vendor/vendor_account/update</acl>
+					</update>
+					<delete>
+						<title>Delete Vendor</title>
+						<acl>vendor/vendor_account/delete</acl>
+					</delete>
+					<login translate="title" module="vendorapi">
+						<title>Vendor Login</title>
+						<acl>vendor/vendor_account/login</acl>
+					</login>
+					<logout translate="title" module="vendorapi">
+						<title>Vendor Logout</title>
+						<acl>vendor/vendor_account/logout</acl>
+					</logout>
+					<getVendorLinks translate="title" module="vendorapi">
+						<title>Get Vendor Links</title>
+						<acl>vendor/vendor_account/links</acl>
+					</getVendorLinks>
+				</methods>
+				<faults module="vendorapi">
+					<data_invalid> <!-- if we get invalid input data for customers -->
+						<code>100</code>
+						<!-- we cannot know all the errors that can appear, their details can 
+							be found in error message for call -->
+						<message>Invalid vendor data. Details in error message.</message>
+					</data_invalid>
+					<filters_invalid>
+						<code>101</code>
+						<message>Invalid filters specified. Details in error message.
+						</message>
+					</filters_invalid>
+					<not_exists>
+						<code>102</code>
+						<message>Vendor doesn't exist.</message>
+					</not_exists>
+					<not_deleted>
+						<code>103</code>
+						<message>Vendor was not deleted. Details in error message.</message>
+					</not_deleted>
+					<vendor_session_expired>
+                    	<code>104</code>
+                        <message>Vendor Session Expired.</message>
+                    </vendor_session_expired>
+				</faults>
+			</vendor>
+			<vendor_product translate="title" module="vendorapi">
+                <title>Vendor Product API</title>
+                <model>vendorapi/product_api</model>
+                <acl>vendor/vendor_product</acl>
+                <methods>
+                    <list translate="title" module="vendorapi">
+                        <title>Retrieve products list by filters</title>
+                        <method>items</method>
+                        <acl>vendor/vendor_product/list</acl>
+                    </list>
+                    <info translate="title" module="vendorapi">
+                        <title>Retrieve product</title>
+                        <acl>vendor/vendor_product/info</acl>
+                    </info>
+                    <create translate="title" module="vendorapi">
+                        <title>Retrieve product</title>
+                        <acl>vendor/vendor_product/create</acl>
+                    </create>
+                    <delete>
+						<title>Delete Product</title>
+						<acl>vendor/vendor_product/delete</acl>
+					</delete>
+					<update>
+						<title>Update Vendor Product</title>
+						<acl>vendor/vendor_product/update</acl>
+					</update>
+                </methods>
+                <faults module="vendorapi">
+                    <store_not_exists>
+                        <code>100</code>
+                        <message>Requested store view not found.</message>
+                    </store_not_exists>
+                    <product_not_exists>
+                        <code>101</code>
+                        <message>Product not exists.</message>
+                    </product_not_exists>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <not_deleted>
+                        <code>103</code>
+                        <message>Product not deleted. Details in error message.</message>
+                    </not_deleted>
+                    <product_type_not_exists>
+                        <code>104</code>
+                        <message>Product type is not in allowed types.</message>
+                    </product_type_not_exists>
+                    <product_attribute_set_not_exists>
+                        <code>105</code>
+                        <message>Product attribute set is not existed</message>
+                    </product_attribute_set_not_exists>
+                    <product_attribute_set_not_valid>
+                        <code>106</code>
+                        <message>Product attribute set is not belong catalog product entity type</message>
+                    </product_attribute_set_not_valid>
+                    <multi_update_not_match>
+                        <code>107</code>
+                        <message>Quantity of product IDs and product data should match. No changes made.</message>
+                    </multi_update_not_match>
+                    <partially_updated>
+                        <code>108</code>
+                        <message>There was an error during one or more products update. See error log for details.</message>
+                    </partially_updated>
+                    <vendor_session_expired>
+                    	<code>109</code>
+                        <message>Vendor Session Expired.</message>
+                    </vendor_session_expired>
+                </faults>
+            </vendor_product>
+            <vendor_order translate="title" module="vendorapi">
+                <model>vendorapi/order_api</model>
+                <title>Order API</title>
+                <acl>vendor/vendor_order</acl>
+                <methods>
+                    <list translate="title" module="vendorapi">
+                        <title>Retrieve list of orders by filters</title>
+                        <method>items</method>
+                        <acl>vendor/vendor_order/list</acl>
+                    </list>
+                    <info translate="title" module="sales">
+                        <title>Retrieve order information</title>
+                        <acl>vendor/vendor_order/info</acl>
+                    </info>
+                    <payments translate="title" module="vendorapi">
+						<title>Retrive Vendor Transactions</title>
+						<acl>vendor/vendor_order/payments</acl>
+					</payments>
+                </methods>
+                <faults module="sales">
+                    <not_exists>
+                        <code>100</code>
+                        <message>Requested order not exists.</message>
+                    </not_exists>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters given. Details in error message.</message>
+                    </filters_invalid>
+                    <data_invalid>
+                        <code>102</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <status_not_changed>
+                        <code>103</code>
+                        <message>Order status not changed. Details in error message.</message>
+                    </status_not_changed>
+                    <vendor_session_expired>
+                    	<code>104</code>
+                        <message>Vendor Session Expired.</message>
+                    </vendor_session_expired>
+                </faults>
+            </vendor_order>
+            <vendor_settings>
+            	<model>vendorapi/setting_api</model>
+                <title>Vendor Setting API</title>
+                <acl>vendor/vendor_settings</acl>
+                <methods>
+                    <save translate="title" module="vendorapi">
+                        <title>Save Vendor Settings</title>
+                        <acl>vendor/vendor_settings/savesetting</acl>
+                    </save>
+                </methods>
+                <faults module="sales">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <vendor_session_expired>
+                    	<code>101</code>
+                        <message>Vendor Session Expired.</message>
+                    </vendor_session_expired>
+                </faults>
+            </vendor_settings>
+            <vendor_reports>
+            	<model>vendorapi/report_api</model>
+                <title>Vendor Report API</title>
+                <acl>vendor/vendor_reports</acl>
+                <methods>
+                	<getProductReport translate="title" module="vendorapi">
+                		<title>get Vendor Products Report</title>
+                        <acl>vendor/vendor_reports/productreport</acl>
+                	</getProductReport>
+                    <getOrderReport translate="title" module="vendorapi">
+                        <title>get Vendor Orders Report</title>
+                        <acl>vendor/vendor_reports/orderreport</acl>
+                    </getOrderReport>
+                </methods>
+                <faults module="sales">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid data given. Details in error message.</message>
+                    </data_invalid>
+                    <vendor_session_expired>
+                    	<code>101</code>
+                        <message>Vendor Session Expired.</message>
+                    </vendor_session_expired>
+                </faults>
+            </vendor_reports>
+		</resources>
+		<resources_alias>
+			<vendor>vendor</vendor>
+			<vendor_product>vendor_product</vendor_product>
+			<vendor_order>vendor_order</vendor_order>
+			<vendor_setting>vendor_settings</vendor_setting>
+			<vendor_report>vendor_reports</vendor_report>
+		</resources_alias>
+		<v2>
+			<resources_function_prefix>
+				<vendor>vendor</vendor>
+				<vendor_product>vendorProduct</vendor_product>
+				<vendor_order>vendorOrder</vendor_order>
+				<vendor_setting>vendorSetting</vendor_setting>
+				<vendor_report>vendorReport</vendor_report>
+			</resources_function_prefix>
+		</v2>
+		<acl>
+			<resources>
+				<vendor translate="title" module="vendorapi">
+                    <title>Vendors</title>
+                    <vendor_account translate="title" module="vendorapi">
+                        <title>Vendor Management</title>
+                        <sort_order>1</sort_order>
+                        <list translate="title" module="vendorapi">
+							<title>View All</title>
+						</list>
+						<create translate="title" module="vendorapi">
+							<title>Create</title>
+						</create>
+						<info translate="title" module="vendorapi">
+							<title>Get Info</title>
+						</info>
+						<update translate="title" module="vendorapi">
+							<title>Update</title>
+						</update>
+						<delete translate="title" module="vendorapi">
+							<title>Delete</title>
+						</delete>
+						<login translate="title" module="vendorapi">
+							<title>Login</title>
+						</login>
+						<logout translate="title" module="vendorapi">
+							<title>Logout</title>
+						</logout>
+						<links translate="title" module="vendorapi">
+							<title>Get Vendor Links</title>
+						</links>
+                    </vendor_account>
+                    <vendor_product translate="title" module="vendorapi">
+                        <title>Vendor Product Management</title>
+                        <sort_order>2</sort_order>
+                        <create translate="title" module="vendorapi">
+                            <title>Create</title>
+                        </create>
+                        <update translate="title" module="vendorapi">
+                            <title>Update</title>
+                        </update>
+                        <delete translate="title" module="vendorapi">
+                            <title>Delete</title>
+                        </delete>
+                        <list translate="title" module="vendorapi">
+							<title>View All Products</title>
+						</list>
+						<info translate="title" module="vendorapi">
+							<title>Get Product Info</title>
+						</info>
+						<create translate="title" module="vendorapi">
+							<title>Create New Product</title>
+						</create>
+						<delete>
+							<title>Delete Product</title>
+						</delete>
+						<update>
+							<title>Update Vendor Product</title>
+						</update>
+                    </vendor_product>
+                    <vendor_order translate="title" module="vendorapi">
+						<title>Vendor Order Management</title>
+                        <sort_order>3</sort_order>
+                        <list translate="title" module="vendorapi">
+							<title>View All Orders</title>
+						</list>
+						<info translate="title" module="vendorapi">
+							<title>Get Order Info</title>
+						</info>
+						<payments translate="title" module="vendorapi">
+							<title>View All Vendor Transaction</title>
+						</payments>
+					</vendor_order>
+					<vendor_settings translate="title" module="vendorapi">
+						<title>Vendor Setting Management</title>
+                        <sort_order>4</sort_order>
+                        <savesetting translate="title" module="vendorapi">
+							<title>Save Vendor Settings</title>
+						</savesetting>
+					</vendor_settings>
+					<vendor_reports translate="title" module="vendorapi">
+						<title>Vendor Report Management</title>
+                        <sort_order>5</sort_order>
+                        <productreport translate="title" module="vendorapi">
+							<title>Get Vendor Product Report</title>
+						</productreport>
+						<orderreport translate="title" module="vendorapi">
+							<title>Get Vendor Order Report</title>
+						</orderreport>
+					</vendor_reports>
+                </vendor>
+			</resources>
+		</acl>
+	</api>
+</config>

@@ -1,0 +1,1096 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+Supported layout update handles (action):
+- csmarketplace_vendor_index
+
+Supported layout update handles (special):
+- default
+
+-->
+<layout version="0.1.0">
+
+    <customer_jquery_update_layout>
+        <reference name="head">
+            <!-- <action method="addJs" ifconfig="ced_csmarketplace/general/activation"><script>ced/csmarketplace/jquery-2.1.1.min.js</script></action> -->
+            <action method="addJs" ifconfig="ced_csmarketplace/general/activation">
+                <script>ced/csmarketplace/vendor.js</script>
+            </action>
+            <!-- <action method="addItem" ifconfig="ced_csmarketplace/general/activation"><type>skin_css</type><name>dist/css/signing.css</name></action> -->
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+    </customer_jquery_update_layout>
+	
+    <!-- Layout for customer login page -->
+    <csmarketplace_account_login translate="label">
+        <label>Vendor Account Login Form</label>
+        <update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="content">
+            <block type="customer/form_login" name="customer_form_login" template="customer/form/login.phtml" />
+        </reference>
+        <reference name="customer_form_login">
+            <action method="setTemplate">
+                <template>customer/form/login.phtml</template>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="csmarketplace">
+                <title>Vendor Login</title>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="csmarketplace">
+                <title>Vendor Login</title>
+            </action>
+        </reference>
+    </csmarketplace_account_login>
+	
+    <csmarketplace_account_logoutsuccess>
+        <update handle="customer_jquery_update_layout"/>
+        <reference name="content">
+            <block type="core/template" name="customer_logout" template="customer/logout.phtml"/>
+        </reference>
+        <reference name="customer_logout">
+            <action method="setTemplate">
+                <template>customer/logout.phtml</template>
+            </action>
+        </reference>
+    </csmarketplace_account_logoutsuccess>
+
+
+    <!--
+    Vendor Registration fields
+    -->
+    <csmarketplace_account_create translate="label">
+        <label>Vendor Account Registration Form</label>
+        <reference name="content">
+            <block type="core/template" name="activity" template="csmarketplace/vendor/activity.phtml"/>
+            <block type="customer/form_register" name="customer_form_register" template="customer/form/register.phtml">
+                <block type="csmarketplace/vendor_registration_becomevendor_form" name="csmarketplace.vendor.registration.becomevendor.form" as="vendorRegForm" template="csmarketplace/vendor/registration/becomevendor/form.phtml" />
+            </block>
+        </reference>
+        <update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="customer_form_register">
+            <action method="setTemplate">
+                <template>customer/form/register.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="csmarketplace">
+                <title>Vendor Account Registration Form</title>
+            </action>
+        </reference>
+    </csmarketplace_account_create>
+
+    <!-- forgot password -->
+
+    <csmarketplace_account_forgotpassword translate="label">
+        <label>Vendor Forgot Password Form</label>
+        <update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="csmarketplace">
+                <title>Password forgotten</title>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="csmarketplace">
+                <title>Password forgotten</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="customer/account_forgotpassword" name="forgotPassword" template="customer/form/forgotpassword.phtml" />
+        </reference>
+        <reference name="forgotPassword">
+            <action method="setTemplate">
+                <template>customer/form/forgotpassword.phtml</template>
+            </action>
+        </reference>
+    </csmarketplace_account_forgotpassword>
+
+    <csmarketplace_account_confirmation>
+        <update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="csmarketplace">
+                <title>Send confirmation link</title>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="setTitle" translate="title" module="csmarketplace">
+                <title>Send confirmation link</title>
+            </action>
+        </reference>
+        <reference name="accountConfirmation">
+            <action method="setTemplate">
+                <template>customer/form/confirmation.phtml</template>
+            </action>
+        </reference>
+    </csmarketplace_account_confirmation>
+    
+    <csmarketplace_vendor_approval>
+        <label>Vendor Account Login Form</label>
+        <update handle="customer_jquery_update_layout"/>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="csmarketplace">
+                <title>Vendor Approval</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="csmarketplace/vendor_approval" name="csmarketplace_vendor_approval" as="approval" template="csmarketplace/vendor/approval.phtml">
+                <block type="core/template" name="activity" template="csmarketplace/vendor/activity.phtml"/>
+                <block type="csmarketplace/vendor_registration_becomevendor_form" name="csmarketplace.vendor.after.registration.becomevendor.form" as="vendorAfterRegForm" template="csmarketplace/vendor/registration/becomevendor/form.phtml" />
+            </block>
+        </reference>
+    </csmarketplace_vendor_approval>
+	
+    <!--
+    Vendor account pages, rendered for all tabs in dashboard
+    -->
+
+    <csmarketplace_vendor translate="label">
+        <label>Vendor Dashboard (All Pages)</label>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="sale.reorder.sidebar"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="head">
+            <!-- <action method="addjs" ifconfig="ced_csmarketplace/general/activation"><script>ced/csmarketplace/jquery-2.1.1.min.js</script></action> -->
+            <!-- 			 <action method="addJs" ifconfig="ced_csmarketplace/general/activation"><script>ced/csmarketplace/noconflict.js</script></action>
+            -->			 
+            <action method="addJs" ifconfig="ced_csmarketplace/general/activation">
+                <script>ced/csmarketplace/vendor.js</script>
+            </action>
+            <!--<action method="addCss"><stylesheet>css/ced/csmarketplace/font-awesome/css/font-awesome.min.css</stylesheet></action> -->
+            <!--<action method="addCss"><stylesheet>css/ced/csmarketplace/vendor.css</stylesheet></action>-->
+        </reference>
+		
+        <reference name="content">
+            <block type="core/template" name="activity" template="csmarketplace/vendor/activity.phtml"/>
+            <block type="page/html_wrapper" name="vendor.dashboard.wrapper" translate="label">
+                <label>Vendor Dashboard Wrapper</label>
+                <action method="setElementClass">
+                    <value>vendor-dashboard</value>
+                </action>
+            </block>
+        </reference>
+
+        <reference name="left">
+            <block type="csmarketplace/vendor_navigation" name="csmarketplace_vendor_navigation" before="-" template="csmarketplace/vendor/navigation.phtml">
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor</name>
+                    <path>csmarketplace/vendor/index</path>
+                    <label>Dashboard</label>
+                    <font_awesome>fa fa-dashboard fa-fw</font_awesome>
+                    <sort_order>10</sort_order>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_profile</name>
+                    <path>csmarketplace/vendor/profileview/</path>
+                    <label>Vendor Profile</label>
+                    <font_awesome>fa fa-user fa-fw</font_awesome>
+                    <sort_order>20</sort_order>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_new_products</name>
+                    <path>csmarketplace/vproducts/new</path>
+                    <label>New Product</label>
+                    <font_awesome>fa fa-plus-square fa-fw</font_awesome>
+                    <sort_order>30</sort_order>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_products</name>
+                    <path>csmarketplace/vproducts/index</path>
+                    <label>Manage Products</label>
+                    <font_awesome>fa fa-folder fa-fw</font_awesome>
+                    <sort_order>40</sort_order>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_orders</name>
+                    <path>csmarketplace/vorders/index</path>
+                    <label>Orders</label>
+                    <font_awesome>fa fa-shopping-cart fa-fw</font_awesome>
+                    <sort_order>50</sort_order>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_commissions</name>
+                    <path>csmarketplace/vpayments/</path>
+                    <label>Transactions</label>
+                    <font_awesome>fa fa-money fa-fw</font_awesome>
+                    <sort_order>60</sort_order>
+                    <children>
+                        <vendor_commissions_req>
+                            <name>vendor_commissions_req</name>
+                            <path>csmarketplace/vpayments/request</path>
+                            <label>Request Payments</label>
+                            <font_awesome>fa fa-angle-double-right</font_awesome>
+                            <sort_order>10</sort_order>
+                            <config_path>ced_csmarketplace/general/request_active</config_path>
+                        </vendor_commissions_req>
+                        <vendor_commissions_index>
+                            <name>vendor_commissions_index</name>
+                            <path>csmarketplace/vpayments/index</path>
+                            <label>View Transactions</label>
+                            <font_awesome>fa fa-angle-double-right</font_awesome>
+                            <sort_order>20</sort_order>
+                        </vendor_commissions_index>
+                    </children>
+                </action>			
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_reports</name>
+                    <path>csmarketplace/vreports/</path>
+                    <label>Reports</label>
+                    <font_awesome>fa fa-bar-chart-o fa-fw</font_awesome>
+                    <sort_order>70</sort_order>
+                    <children>
+                        <order_reports>
+                            <name>order_reports</name>
+                            <path>csmarketplace/vreports/vorders</path>
+                            <label>Order Reports</label>
+                            <font_awesome>fa fa-angle-double-right</font_awesome>
+                            <sort_order>10</sort_order>
+                        </order_reports>
+                        <product_reports>
+                            <name>product_reports</name>
+                            <path>csmarketplace/vreports/vproducts</path>
+                            <label>Product Reports</label>
+                            <font_awesome>fa fa-angle-double-right</font_awesome>
+                            <sort_order>20</sort_order>
+                        </product_reports>
+                    </children>
+                </action>
+                <action method="addLink" translate="label" module="csmarketplace">
+                    <name>vendor_settings</name>
+                    <path>csmarketplace/vsettings</path>
+                    <label>Settings</label>
+                    <font_awesome>fa fa-cog fa-fw</font_awesome>
+                    <sort_order>80</sort_order>
+                    <children>
+                        <vendor_payment_settings>
+                            <name>vendor_payment_settings</name>
+                            <path>csmarketplace/vsettings/index</path>
+                            <label>Transaction Settings</label>
+                            <font_awesome>fa fa-money</font_awesome>
+                            <sort_order>10</sort_order>
+                        </vendor_payment_settings>
+                    </children>
+                </action>
+            </block>
+            <remove name="tags_popular"/>
+            <remove name="left.newsletter"/>
+            <remove name="left.permanent.callout"/>
+        </reference>
+    </csmarketplace_vendor>
+
+	
+    <!--
+    Vendor approval page layout
+    -->
+
+    <!-- <csmarketplace_vendor_approval>
+            <label>Dashboard</label>
+    <update handle="csmarketplace_vendor"/>
+    Ced_CsMarketplace
+            <reference name="left">
+                    <remove name="csmarketplace_vendor_navigation" />
+                    <block type="csmarketplace/vendor_navigation" name="csmarketplace_vendor_approval_navigation" before="-" template="csmarketplace/vendor/navigation.phtml">
+            <action method="addLink" translate="label" module="csmarketplace"><name>vendor</name><path>csmarketplace/vendor/approval/</path><label>Account Information</label><font_awesome>fa fa-user fa-fw</font_awesome></action>
+                    </block>
+            </reference>
+    <reference name="vendor.dashboard.wrapper">
+                    <block type="core/template" name="activity" template="csmarketplace/vendor/activity.phtml"/>
+                    <block type="csmarketplace/vendor_approval" name="csmarketplace_vendor_approval" as="approval" template="csmarketplace/vendor/approval.phtml">
+                            <block type="csmarketplace/vendor_registration_becomevendor_form" name="csmarketplace.vendor.after.registration.becomevendor.form" as="vendorAfterRegForm" template="csmarketplace/vendor/registration/becomevendor/form.phtml" />
+                    </block>
+            </reference>
+    </csmarketplace_vendor_approval> -->
+	
+	
+    <!--
+    Vendor home dashboard layout
+    -->
+
+    <csmarketplace_vendor_index translate="label">
+        <label>Dashboard</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="head">
+            <action method="addJs">
+                <script>ced/csmarketplace/flot/jquery.flot.js</script>
+            </action>
+            <action method="addJs">
+                <script>ced/csmarketplace/flot/jquery.flot.resize.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>ced/csmarketplace/jqvmap/jquery.vmap.js</script>
+            </action>
+            <action method="addJs">
+                <script>ced/csmarketplace/jqvmap/maps/jquery.vmap.world.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/jqvmap/jqvmap.css</stylesheet>
+            </action>
+			 
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vendor_dashboard" name="csmarketplace_vendor_dashboard" template="csmarketplace/vendor/dashboard.phtml">
+                <block type="csmarketplace/vendor_dashboard_info" name="csmarketplace_vendor_dashboard_info" as="info" template="csmarketplace/vendor/dashboard/info.phtml"/>
+                <block type="csmarketplace/vendor_dashboard_info" name="csmarketplace_vendor_dashboard_statistics" as="chart" template="csmarketplace/vendor/dashboard/chart.phtml"/>
+                <block type="csmarketplace/vendor_dashboard_info" name="csmarketplace_vendor_dashboard_statistics" as="map" template="csmarketplace/vendor/dashboard/map.phtml"/>
+                <block type="csmarketplace/vendor_dashboard_extrainfo" name="csmarketplace_vendor_dashboard_extrainfo" as="extrainfo" template="csmarketplace/vendor/dashboard/extrainfo.phtml"/>
+                <block type="csmarketplace/vendor_dashboard_info" name="csmarketplace_vendor_dashboard_products" as="products" template="csmarketplace/vendor/dashboard/products.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vendor_index>
+	
+    <!--
+    Vendor profile Edit page layout
+    -->
+    <csmarketplace_vendor_profile translate="label">
+        <label>Profile</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>ced/csmarketplace/nicEdit-latest.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>			 
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>			 
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>  
+        </reference>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="csmarketplace/vendor_profile_edit" name="vendor_profile_edit" template="csmarketplace/vendor/profile/edit.phtml"/>
+        </reference>
+    </csmarketplace_vendor_profile>
+	
+    <!--
+    Vendor profile View page layout
+    -->
+    <csmarketplace_vendor_profileview translate="label">
+        <label>Profile</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>			 
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>			 
+            <action method="addItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action> 
+        </reference>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            <block type="csmarketplace/vendor_profile_view" name="vendor_profile_view" template="csmarketplace/vendor/profile/view.phtml"/>
+        </reference>
+    </csmarketplace_vendor_profileview>
+   
+   
+    <!--
+    Vendor products list page layout
+    --> 
+    <csmarketplace_vproducts_index translate="label">
+        <label>Dashboard</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" before="csmarketplace_vendor_vproducts_list" name="vproducts_message" template="csmarketplace/vproducts/message.phtml"/>
+        </reference>
+        <reference name="vendor.dashboard.wrapper">       	
+            <block type="csmarketplace/vproducts" name="csmarketplace_vendor_vproducts_list"  as="product.list" template="csmarketplace/vproducts/list.phtml"/>
+        </reference>
+    </csmarketplace_vproducts_index>
+    
+    <!--
+    Vendor Products filter list page layout
+    --> 
+    <csmarketplace_vproducts_filter translate="label">
+    
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csmarketplace/vproducts" name="csmarketplace_vendor_vproducts_list" as="product.list" template="csmarketplace/vproducts/list.phtml"/>
+        </block>
+    </csmarketplace_vproducts_filter>
+
+    <!--
+    Vendor new  product page layout
+    --> 
+    <csmarketplace_vproducts_new translate="label">
+        <label>Dashboard</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>ced/csmarketplace/nicEdit-latest.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet>
+            </action>
+        </reference>
+    </csmarketplace_vproducts_new>
+	
+    <!--
+    Vendor product type page layout
+    --> 
+    <csmarketplace_vproducts_type translate="label">
+        <label>Simple Products</label>	
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vproducts" name="csmarketplace_vendor_products" translate="label" template="csmarketplace/vproducts/type.phtml">
+            </block>
+        </reference>
+    </csmarketplace_vproducts_type>
+    
+    <!--
+    Vendor simple product edit page layout
+    --> 
+    <csmarketplace_vproducts_simple translate="label">
+        <label>Simple Product</label>	
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vproducts_edit" name="csmarketplace_vendor_products" translate="label" template="csmarketplace/vproducts/edit.phtml">
+                <block type="csmarketplace/vproducts_edit_websites" name="csmarketplace_vendor_products_website" as="website"/>
+                <block type="core/template" name="csmarketplace_vendor_products_category" as="category" translate="label" template="csmarketplace/vproducts/edit/category.phtml"/>
+                <block type="core/template" name="csmarketplace_vendor_products_media" as="media" translate="label" template="csmarketplace/vproducts/edit/media.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vproducts_simple>
+    <!--
+    Vendor virtual product edit page layout
+    --> 
+    <csmarketplace_vproducts_virtual translate="label">
+        <label>Virtual Product</label>	
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vproducts_edit" name="csmarketplace_vendor_products" translate="label" template="csmarketplace/vproducts/edit.phtml">
+                <block type="csmarketplace/vproducts_edit_websites" name="csmarketplace_vendor_products_website" as="website" translate="label"/>
+                <block type="core/template" name="csmarketplace_vendor_products_category" as="category" translate="label" template="csmarketplace/vproducts/edit/category.phtml"/>
+                <block type="core/template" name="csmarketplace_vendor_products_media" as="media" translate="label" template="csmarketplace/vproducts/edit/media.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vproducts_virtual>
+    
+    <!--
+    Vendor downloadable product edit page layout
+    --> 
+    <csmarketplace_vproducts_downloadable translate="label">
+        <label>Downloadable Product</label>	
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vproducts_edit" name="csmarketplace_vendor_products" translate="label" template="csmarketplace/vproducts/edit.phtml">
+                <block type="csmarketplace/vproducts_edit_websites" name="csmarketplace_vendor_products_website" as="website" translate="label" />
+                <block type="core/template" name="csmarketplace_vendor_products_category" as="category" translate="label" template="csmarketplace/vproducts/edit/category.phtml"/>
+                <block type="core/template" name="csmarketplace_vendor_products_media" as="media" translate="label" template="csmarketplace/vproducts/edit/media.phtml"/>
+                <block type="core/template" name="csmarketplace_vendor_products_downloadable" as="downloadable" translate="label" template="csmarketplace/vproducts/edit/downloadable.phtml">
+                    <block type="csmarketplace/vproducts_edit_downloadable_sample" name="csmarketplace_vendor_products_downloadable_sample" as="sample" translate="label" template="csmarketplace/vproducts/edit/downloadable/sample.phtml"/>
+                    <block type="csmarketplace/vproducts_edit_downloadable_link" name="csmarketplace_vendor_products_downloadable_link" as="link" translate="label" template="csmarketplace/vproducts/edit/downloadable/link.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </csmarketplace_vproducts_downloadable>
+    
+    <!--
+    Vendor product edit page layout
+    --> 
+    <csmarketplace_vproducts_edit translate="label">
+        <label>Dashboard</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>ced/csmarketplace/nicEdit-latest.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/vproducts.css</stylesheet>
+            </action>
+        </reference>
+    </csmarketplace_vproducts_edit>
+  
+    <!--
+    Vendor Orders list page layout
+    --> 
+    <csmarketplace_vorders_index translate="label">
+        <label>Orders List</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <script>calendar/calendar.js</script>
+            </action>
+            <action method="addJs">
+                <script>calendar/calendar-setup.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vorders_list" name="csmarketplace_vendor_orders" template="csmarketplace/vorders/list.phtml"/>
+        </reference>
+    </csmarketplace_vorders_index>
+    
+    <!--
+    Vendor Orders filter list page layout
+    --> 
+    <csmarketplace_vorders_filter translate="label"> 
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csmarketplace/vorders_list" name="csmarketplace_vendor_orders" template="csmarketplace/vorders/list.phtml"/>
+        </block>
+    </csmarketplace_vorders_filter>
+    
+    <!--
+    Vendor Order View page layout
+    --> 
+    <csmarketplace_vorders_view translate="label">
+        <label>Vendor Order View</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vorders_view" name="vorders.view">
+                <block type="csmarketplace/vorders_view_info" as="info" name="vorders.view.info">
+                    <block type="csmarketplace/vorders_view_info_buttons" as="buttons" name="vorders.view.info.buttons" />
+                </block>
+                <block type="adminhtml/sales_order_view_items" name="order_items" template="csmarketplace/vorders/view/items.phtml">
+                    <action method="addItemRender">
+                        <type>default</type>
+                        <block>adminhtml/sales_order_view_items_renderer_default</block>
+                        <template>csmarketplace/vorders/view/items/renderer/default.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>qty</column>
+                        <block>adminhtml/sales_items_column_qty</block>
+                        <template>csmarketplace/vorders/view/items/column/qty.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>name</column>
+                        <block>adminhtml/sales_items_column_name</block>
+                        <template>csmarketplace/vorders/view/items/column/name.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>name</column>
+                        <block>adminhtml/sales_items_column_name_grouped</block>
+                        <template>csmarketplace/vorders/view/items/column/name.phtml</template>
+                        <type>grouped</type>
+                    </action>
+                    <action method="addItemRender">
+                        <type>downloadable</type>
+                        <block>adminhtml/sales_order_view_items_renderer_default</block>
+                        <template>csmarketplace/vorders/view/items/renderer/dwldble.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>downloadable</column>
+                        <block>downloadable/adminhtml_sales_items_column_downloadable_name</block>
+                        <template>csmarketplace/vorders/view/items/column/dwldble.phtml</template>
+                    </action>
+                    <block type="csmarketplace/vorders_view_totals" name="order_totals" template="csmarketplace/vorders/view/totals.phtml">
+                        <block type="csmarketplace/vorders_view_totals_tax" name="tax" template="csmarketplace/vorders/view/totals/tax.phtml" />
+                    </block>
+                    <block type="csmarketplace/vorders_view_totals" name="earn" template="csmarketplace/vorders/view/totals/earn.phtml" />
+                </block>
+            </block>
+        </reference>
+        <reference name="vorders.view.info">
+            <action method="addLink" translate="label" module="sales">
+                <name>view</name>
+                <path></path>
+                <label>Order Information</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>invoice</name>
+                <path>*/*/invoice</path>
+                <label>Invoices</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>shipment</name>
+                <path>*/*/shipment</path>
+                <label>Shipments</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>creditmemo</name>
+                <path>*/*/creditmemo</path>
+                <label>Refunds</label>
+            </action>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+    </csmarketplace_vorders_view>
+    
+    <!--
+    Vendor Order Print page layout
+    --> 
+    <csmarketplace_vorders_print translate="label">
+        <label>Sales Order Print View</label>
+        <reference name="content">
+            <block type="core/template" name="sales.order.print" template="csmarketplace/vorders/print.phtml">
+                <block type="csmarketplace/vorders_view_info" as="info" name="vorders.view.info">
+                    <block type="csmarketplace/vorders_view_info_buttons" as="buttons" name="vorders.view.info.buttons" />
+                </block>
+                <block type="adminhtml/sales_order_view_items" name="order_items" template="csmarketplace/vorders/view/items.phtml">
+                    <action method="addItemRender">
+                        <type>default</type>
+                        <block>adminhtml/sales_order_view_items_renderer_default</block>
+                        <template>csmarketplace/vorders/view/items/renderer/default.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>qty</column>
+                        <block>adminhtml/sales_items_column_qty</block>
+                        <template>csmarketplace/vorders/view/items/column/qty.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>name</column>
+                        <block>adminhtml/sales_items_column_name</block>
+                        <template>csmarketplace/vorders/view/items/column/name.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>name</column>
+                        <block>adminhtml/sales_items_column_name_grouped</block>
+                        <template>csmarketplace/vorders/view/items/column/name.phtml</template>
+                        <type>grouped</type>
+                    </action>
+                    <action method="addItemRender">
+                        <type>downloadable</type>
+                        <block>adminhtml/sales_order_view_items_renderer_default</block>
+                        <template>csmarketplace/vorders/view/items/renderer/dwldble.phtml</template>
+                    </action>
+                    <action method="addColumnRender">
+                        <column>downloadable</column>
+                        <block>downloadable/adminhtml_sales_items_column_downloadable_name</block>
+                        <template>csmarketplace/vorders/view/items/column/dwldble.phtml</template>
+                    </action>
+                    <block type="csmarketplace/vorders_view_totals" name="order_totals" template="csmarketplace/vorders/view/totals.phtml">
+                        <block type="csmarketplace/vorders_view_totals_tax" name="tax" template="csmarketplace/vorders/view/totals/tax.phtml" />
+                    </block>
+                    <block type="csmarketplace/vorders_view_totals" name="earn" template="csmarketplace/vorders/view/totals/earn.phtml" />
+                </block>
+            </block>
+        </reference>
+        <reference name="vorders.view.info">
+            <action method="addLink" translate="label" module="sales">
+                <name>view</name>
+                <path></path>
+                <label>Order Information</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>invoice</name>
+                <path>*/*/invoice</path>
+                <label>Invoices</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>shipment</name>
+                <path>*/*/shipment</path>
+                <label>Shipments</label>
+            </action>
+            <action method="addLink" translate="label" module="sales">
+                <name>creditmemo</name>
+                <path>*/*/creditmemo</path>
+                <label>Refunds</label>
+            </action>
+        </reference>
+        <block type="core/text_list" name="additional.product.info" translate="label">
+            <label>Additional Product Info</label>
+        </block>
+    </csmarketplace_vorders_print>
+	
+    <!--
+    Vendor payments list page layout
+    --> 
+    <csmarketplace_vpayments_request translate="label">
+        <label>Request Payments</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="head">
+            <action method="addJs">
+                <script>calendar/calendar.js</script>
+            </action>
+            <action method="addJs">
+                <script>calendar/calendar-setup.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vpayments_stats_request" name="csmarketplace_vendor_payments_stats_request" template="csmarketplace/vpayments/stats/request.phtml"/>
+            <block type="csmarketplace/vpayments_list_request" name="csmarketplace_vendor_payments_request" template="csmarketplace/vpayments/list/request.phtml"/>
+        </reference>
+    </csmarketplace_vpayments_request>
+	
+    <!--
+    Vendor payments filter list page layout
+    --> 
+    <csmarketplace_vpayments_requestpost translate="label">
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csmarketplace/vpayments_stats_request" name="csmarketplace_vendor_payments_stats_request" template="csmarketplace/vpayments/stats/request.phtml"/>
+            <block type="csmarketplace/vpayments_list_request" name="csmarketplace_vendor_payments_request" template="csmarketplace/vpayments/list/request.phtml"/>
+        </block>
+    </csmarketplace_vpayments_requestpost>
+    <!--
+    Vendor payments filter list page layout
+    --> 
+    <csmarketplace_vpayments_requestfilter translate="label">
+        <update handle="csmarketplace_vpayments_requestpost" />
+    </csmarketplace_vpayments_requestfilter>
+	
+    <!--
+    Vendor payments list page layout
+    --> 
+    <csmarketplace_vpayments_index translate="label">
+        <label>Commisions List</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="head">
+            <action method="addJs">
+                <script>calendar/calendar.js</script>
+            </action>
+            <action method="addJs">
+                <script>calendar/calendar-setup.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vpayments_stats" name="csmarketplace_vendor_payments_stats" template="csmarketplace/vpayments/stats.phtml"/>
+            <block type="csmarketplace/vpayments_list" name="csmarketplace_vendor_payments" template="csmarketplace/vpayments/list.phtml"/>
+        </reference>
+    </csmarketplace_vpayments_index>
+	
+	
+	
+    <!--
+    Vendor payments filter list page layout
+    --> 
+    <csmarketplace_vpayments_filter translate="label">
+    
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="csmarketplace/vpayments_stats" name="csmarketplace_vendor_payments_stats" template="csmarketplace/vpayments/stats.phtml"/>
+            <block type="csmarketplace/vpayments_list" name="csmarketplace_vendor_payments" template="csmarketplace/vpayments/list.phtml"/>
+        </block>
+    </csmarketplace_vpayments_filter>
+	
+	
+	
+    <!--
+    Vendor Payment View page layout
+    --> 
+    <csmarketplace_vpayments_view translate="label">
+        <label>Payment Details</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vpayments_view" name="csmarketplace_vendor_payment_view" translate="label" template="csmarketplace/vpayments/view.phtml">
+            </block>
+        </reference>
+    </csmarketplace_vpayments_view>	
+	
+    <!--
+            Vendor Setting page layout
+    --> 
+
+    <csmarketplace_vsettings_index translate="label">
+        <label>Profile</label>
+        <update handle="csmarketplace_vendor"/>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="csmarketplace/vsettings_payment" name="vsettings.payment" template="csmarketplace/vsettings/settings.phtml">
+                <block type="csmarketplace/vsettings_payment_methods" name="vsettings.method" as="vsettings_payment_methods" template="csmarketplace/vsettings/payment/methods.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vsettings_index>
+    
+    <!--
+    Vendor Order Reports list page layout
+    --> 
+    <csmarketplace_vreports_vorders translate="label">
+        <label>Reports</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="head">
+            <action method="addJs">
+                <script>calendar/calendar.js</script>
+            </action>
+            <action method="addJs">
+                <script>calendar/calendar-setup.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="core/template" name="csmarketplace_vendor_vorders_reports_view" as="vorders_reports_view" template="csmarketplace/vreports/vorders/view.phtml">
+                <block type="core/template" name="csmarketplace_vendor_vorders_reports_filter" as="vorders_reports_filter" template="csmarketplace/vreports/vorders/filter.phtml"/>
+                <block type="csmarketplace/vreports_vorders_list" name="csmarketplace_vendor_vorders_reports_list" as="vorders_reports_list" template="csmarketplace/vreports/vorders/list.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vreports_vorders>
+    
+    <!--
+    Vendor Product Reports list  page layout
+    --> 
+    <csmarketplace_vreports_vproducts translate="label">
+        <label>Reports</label>
+        <update handle="csmarketplace_vendor"/>
+        <reference name="head">
+            <action method="addJs">
+                <script>calendar/calendar.js</script>
+            </action>
+            <action method="addJs">
+                <script>calendar/calendar-setup.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
+
+        </reference>
+        <!-- Ced_CsMarketplace -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="vendor.dashboard.wrapper">
+            <block type="core/template" name="csmarketplace_vendor_vproducts_reports_view" as="vproducts_reports_view" template="csmarketplace/vreports/vproducts/view.phtml">
+                <block type="core/template" name="csmarketplace_vendor_vproducts_reports_filter" as="vproducts_reports_filter" template="csmarketplace/vreports/vproducts/filter.phtml"/>
+                <block type="csmarketplace/vreports_vproducts_list" name="csmarketplace_vendor_vproducts_reports_list" as="vproducts_reports_list" template="csmarketplace/vreports//vproducts/list.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vreports_vproducts>
+    
+    <!--
+    Vendor Product Reports filter list page layout
+    --> 
+    <csmarketplace_vreports_filtervproducts translate="label">
+    
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="core/template" name="csmarketplace_vendor_vproducts_reports_view" as="vproducts_reports_view" template="csmarketplace/vreports/vproducts/view.phtml">
+                <block type="core/template" name="csmarketplace_vendor_vproducts_reports_filter" as="vproducts_reports_filter" template="csmarketplace/vreports/vproducts/filter.phtml"/>
+                <block type="csmarketplace/vreports_vproducts_list" name="csmarketplace_vendor_vproducts_reports_list" as="vproducts_reports_list" template="csmarketplace/vreports//vproducts/list.phtml"/>
+            </block>
+        </block>
+    </csmarketplace_vreports_filtervproducts>
+    
+    <!--
+    Vendor Order Reports filter list page layout
+    --> 
+    <csmarketplace_vreports_filtervorders translate="label">
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="core/template" name="csmarketplace_vendor_vorders_reports_view" as="vorders_reports_view" template="csmarketplace/vreports/vorders/view.phtml">
+                <block type="core/template" name="csmarketplace_vendor_vorders_reports_filter" as="vorders_reports_filter" template="csmarketplace/vreports/vorders/filter.phtml"/>
+                <block type="csmarketplace/vreports_vorders_list" name="csmarketplace_vendor_vorders_reports_list" as="vorders_reports_list" template="csmarketplace/vreports/vorders/list.phtml"/>
+            </block>          
+        </block>
+    </csmarketplace_vreports_filtervorders>
+    
+    
+    <!--
+    Vendor Sales Email Item layout
+    --> 
+    <vendor_sales_email_order_items>
+        <!-- <update handle="sales_email_order_items" /> -->
+        <block type="sales/order_email_items" name="items" template="csmarketplace/vorders/mail/items.phtml">
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_email_items_order_default</block>
+                <template>csmarketplace/vorders/mail/items/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_email_items_order_grouped</block>
+                <template>csmarketplace/vorders/mail/items/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>downloadable</type>
+                <block>downloadable/sales_order_email_items_order_downloadable</block>
+                <template>csmarketplace/vorders/mail/items/dwlable.phtml</template>
+            </action>
+            <block type="csmarketplace/vorders_view_totals" name="vendor_order_totals" template="csmarketplace/vorders/mail/totals.phtml">
+                <action method="setLabelProperties">
+                    <value>colspan="3" align="right" style="padding:3px 9px"</value>
+                </action>
+                <action method="setValueProperties">
+                    <value>align="right" style="padding:3px 9px"</value>
+                </action>
+                <block type="csmarketplace/vorders_view_totals_tax" name="tax" template="csmarketplace/vorders/mail/totals/tax.phtml" />
+            </block>
+            <block type="csmarketplace/vorders_view_totals" name="earn" template="csmarketplace/vorders/mail/totals/earn.phtml" />
+        </block>
+    </vendor_sales_email_order_items>
+    
+    <!--
+    Vendor Description on Order View
+    --> 
+    <sales_order_view translate="label">
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>default</type>
+                <block>sales/order_item_renderer_default</block>
+                <template>csmarketplace/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>grouped</type>
+                <block>sales/order_item_renderer_grouped</block>
+                <template>csmarketplace/sales/order/items/renderer/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+                <type>downloadable</type>
+                <block>downloadable/sales_order_item_renderer_downloadable</block>
+                <template>csmarketplace/sales/order/items/renderer/dwldble.phtml</template>
+            </action>
+        </reference>
+    </sales_order_view>
+	
+	
+	
+    <!--
+    Vendor Debug page layout
+    --> 
+    <csmarketplace_vdebug_index translate="label">
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/vendorpanel.phtml</template>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="csmarketplace/vdebug_index" name="activity" template="csmarketplace/vdebug/index.phtml"/>
+        </reference>
+    </csmarketplace_vdebug_index>
+	
+</layout>

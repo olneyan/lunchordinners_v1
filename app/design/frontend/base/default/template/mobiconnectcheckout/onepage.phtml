@@ -1,0 +1,318 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+
+<?php 
+
+$parameters = $this->getRequest()->getParams();
+$extraData = $parameters['extradata'];
+
+
+$extraData = urldecode($extraData);
+$extraData = json_decode($extraData,true);
+
+$VendorId =$extraData['vendor_id'];
+$order_for = $extraData['order_for'];
+$vendor_address ='';
+if($order_for == 'pickup')
+{
+	$vendor_address = Mage::getModel('csmarketplace/vendor')->load($VendorId)->getAddress();
+	$vendor_address = $this->__('Pickup at Store Address').' : '.$vendor_address;
+	
+	
+	//print_r(Mage::getModel('csmarketplace/vendor')->load(''));
+}
+
+?>
+<?php 
+
+ /************tabs color **************************/
+
+ $tab_color1=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/active_header_tab');
+ $tab_color2=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/remaining_header_tab');
+ $tab_color3=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/completed_header_tab');
+
+ $text_color1=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/active_header_text');
+ $text_color2=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/remaining_header_text');
+ $text_color3=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/completed_header_text');
+
+
+ $newaddress_button_text_color=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/newaddress_button_text');
+ $continue_button_text_color=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/continue_button_text');
+
+ $newaddress_button_color=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/newaddress_button_color');
+ $continue_button_color=Mage::getStoreConfig('mobiconnectcheckout/mobicheckout_theme/continue_button_color');
+?>
+<style type="text/css">
+
+.mobicheckout li.active.allow .step-title,.mobicheckout li.active.allow .step-title:hover{
+  background: <?php echo '#'.$tab_color1; ?> none repeat scroll 0 0 !important;
+  border-color: <?php echo '#'.$tab_color1; ?> !important;
+}
+.mobicheckout li.allow .step-title,.mobicheckout li.allow .step-title:hover{
+  background: <?php echo '#'.$tab_color3; ?> none repeat scroll 0 0 !important;
+  border-color: <?php echo '#'.$tab_color3; ?> !important;
+}
+.mobicheckout .step-title, .mobicheckout .step-title:hover {
+  background: <?php echo '#'.$tab_color2; ?> none repeat scroll 0 0 !important;
+  border-color: <?php echo '#'.$tab_color2; ?> !important;
+  border-radius: 2px;
+}
+.opc .section.allow .step-title .number {
+    color: <?php echo '#'.$text_color3; ?> !important;
+}
+.mobicheckout li.allow .step-title h2 {
+    color: <?php echo '#'.$text_color3; ?> !important;
+}
+.mobicheckout li.allow.active .step-title span.number {
+    color: <?php echo '#'.$text_color1; ?> !important;
+}
+.mobicheckout li.allow.active .step-title h2 {
+    color: <?php echo '#'.$text_color1; ?> !important;
+}
+.mobicheckout li .step-title span.number {
+    color: <?php echo '#'.$text_color2; ?> !important;
+}
+.mobicheckout li .step-title h2 {
+    color: <?php echo '#'.$text_color2; ?> !important;
+}
+
+.new-address {
+    background: <?php echo '#'.$newaddress_button_color; ?> none repeat scroll 0 0;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 1px #c2c2c2;
+    font-family: robotobold;
+    margin: 0 auto;
+    padding: 8px 15px;
+    text-align: center;
+    width: 50%;
+}
+.mobicheckout button.button {
+    background: <?php echo '#'.$continue_button_color; ?> none repeat scroll 0 0 !important;
+    border-radius: 4px;
+    margin: 0 !important;
+}
+
+.opc .buttons-set button.button {
+    color: <?php echo '#'.$continue_button_text_color; ?>;
+    float: left;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.new-address label {
+    color: <?php echo '#'.$newaddress_button_text_color; ?>;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+</style>
+<?php /* Extensions placeholder */ ?>
+<?php 
+ if($this->getRequest()->getParam('method')=='guest'): ?>
+<input style="display:none;" type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
+<input type="hidden" name="cart_id" value="<?php echo $this->getRequest()->getParam('cart_id'); ?>" />
+<button type="button" style="display:none;" class="button"  id="guest_user" onclick="checkout.setMethod();"><span><span><?php echo ($this->getQuote()->isAllowedGuestCheckout() ? $this->__('Continue') : '') ?></button>    
+<script type="text/javascript">
+//<![CDATA[
+   window.onload = function() {
+    document.getElementById("login:guest").checked = true;
+    document.getElementById("guest_user").click();
+};
+//]]>
+</script>
+<?php else: ?>
+<input type="hidden" value="checkout" name="context">
+<input style="display:none;" type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER): ?> checked="checked"<?php endif; ?> class="radio" />
+<input type="hidden" name="cart_id" value="<?php echo $this->getRequest()->getParam('cart_id'); ?>" />
+<button type="button" style="display:none;" class="button"  id="register_user" onclick="checkout.setMethod();"><span><span><?php echo $this->__('Continue'); ?></button>    
+<script type="text/javascript">
+//<![CDATA[
+   window.onload = function() {
+    document.getElementById("login:register").checked = true;
+    document.getElementById("register_user").click();
+};
+//]]>
+</script>
+<?php endif; ?>
+
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/mobiconnectcheckout/opcheckout.js') ?>"></script>
+<ol class="opc mobicheckout" id="checkoutSteps">
+<?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
+<?php if (!$this->getChild($_stepId) || !$this->getChild($_stepId)->isShow()): continue; endif; $i++ ?>
+    <li id="opc-<?php echo $_stepId ?>" class="section<?php echo !empty($_stepInfo['allow'])?' allow':'' ?><?php echo !empty($_stepInfo['complete'])?' saved':'' ?>">
+        <div class="step-title">
+            <span class="number"><?php echo $i ?></span>
+            <h2><?php if($i == 1){echo "Billing Information" ;}else{echo $_stepInfo['label'];} ?></h2>
+            <a href="#"><?php echo $this->__('Edit') ?></a>
+        </div>
+        <div id="checkout-step-<?php echo $_stepId ?>" class="step a-item" style="display:none;">
+            <?php echo $this->getChildHtml($_stepId) ?>
+        </div>
+    </li>
+<?php endforeach ?>
+</ol>
+<script type="text/javascript">
+//<![CDATA[
+        
+    var accordion = new Accordion('checkoutSteps', '.step-title', true);
+    <?php if($this->getActiveStep()): ?>
+    
+    accordion.openSection('opc-<?php echo $this->getActiveStep() ?>');
+    <?php endif ?>
+    var checkout = new Checkout(accordion,{
+        progress: '<?php echo $this->getUrl('mobiconnectcheckout/onepage/progress') ?>',
+        review: '<?php echo $this->getUrl('mobiconnectcheckout/onepage/review') ?>',
+        saveMethod: '<?php echo $this->getUrl('mobiconnectcheckout/onepage/saveMethod') ?>',
+        failure: '<?php echo $this->getUrl('mobiconnectcheckout/cart') ?>'}
+    );
+
+
+
+  document.getElementById('opc-shipping_method').style.display = 'none';
+
+  jQuery('input[name="billing[use_for_shipping]"]').change(function() {
+  var hideship = this.value;
+  if(hideship == 0)
+  {
+  	document.getElementById('opc-shipping').style.display = '';
+  }
+  else{
+  	document.getElementById('opc-shipping').style.display = 'none';
+  }
+  	
+  });
+  jQuery('.number').hide();
+  if( jQuery('input[name="shipping_method"]').length )         // use this if you are using class to check
+  {
+  	shippingMethod.save();
+  }
+  else{
+
+  	setTimeout(test,20);
+  }
+
+  function test()
+  {
+  	
+  	if(jQuery('input[name="shipping_method"]').length )         // use this if you are using class to check
+  	{
+  		if (checkout.loadWaiting!=false)
+  	 	{
+  	 	
+  	 	setTimeout(test,600);
+  	 	}
+  		else{
+  			   shippingMethod.save();
+  			}
+  	
+  	}
+  	else{
+  		
+  		setTimeout(test,20);
+  	}
+  }
+
+  
+   jQuery('button[onclick="billing.save()"]').click(function() {
+
+
+  	 var radioValue = jQuery("#billing:use_for_shipping_no:checked").val();
+
+  	    if(!radioValue){
+  	    
+   if( jQuery('input[name="shipping_method"]').length )         // use this if you are using class to check
+  	 {
+  		
+  		if (checkout.loadWaiting!=false)
+  	 	{
+  	 	
+  	 	setTimeout(test,600);
+  	 	}
+  		else{
+  			   shippingMethod.save();
+  			}
+  	 	
+  	 }
+  	 else{
+
+  	 	setTimeout(test,20);
+  	 }
+
+  }
+  	
+      }); 
+   jQuery('button[onclick="shipping.save()"]').click(function() {
+  	 
+  	 if( jQuery('input[name="shipping_method"]').length )         // use this if you are using class to check
+  	 {
+  		
+  		if (checkout.loadWaiting!=false)
+  	 	{
+  	 
+  	 	setTimeout(test,600);
+  	 	}
+  		else{
+  			   shippingMethod.save();
+  			}
+  	 	
+  	 }
+  	 else{
+
+  	 	setTimeout(test,20);
+  	 }
+
+      }); 
+   var order_for = "<?php echo $order_for;?>";
+
+   if(order_for == "pickup")
+   {
+   	jQuery('input[name="billing[use_for_shipping]"]').parent().hide();
+   	var vendor_address = "<?php echo $vendor_address;?>";
+   	jQuery('#billing-buttons-container').before(vendor_address);
+   }
+//]]>
+</script>
+
+<script type="text/javascript">
+    jQuery(window).on('load', function(){
+       // mngactiveheight();
+        setInterval(function(){ 
+          mngactiveheight();
+        }, 300);
+
+        var activeht = jQuery('.opc .section.active .step.a-item').height();
+        jQuery('.opc').css('height',activeht + 200);
+        jQuery('.opc button').on('click', function(){
+            mngactiveheight();
+            //scrtp();
+        });
+    });
+    function mngactiveheight() {
+        
+        var activeht = jQuery('.opc .section.active .step.a-item').height();
+        jQuery('.opc').css('height',activeht + 200);
+    }
+    function scrtp(){
+        jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    }
+</script>

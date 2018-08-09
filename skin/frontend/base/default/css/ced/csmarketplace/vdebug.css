@@ -1,0 +1,261 @@
+/**
+ * CedCommerce
+ *  
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+/*.debug_tools #debug_handler {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #111;
+    opacity: 0.75;
+    position: fixed;
+    right: 0;
+    top: 30px;
+    z-index: 100000000;
+}*/
+#vdebug_tool{
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #111;
+    opacity: 0.75;
+    position: fixed;
+    right: 0;
+    top: 47px;
+    z-index: 100000000;
+}
+
+#vdebug_tool a{
+    background-image: url("../../../images/ced/csmarketplace/debugger-32.png");
+	height:32px;
+    border-color: #7F0C3E -moz-use-text-color #7F0C3E #7F0C3E;
+    border-right: medium none;
+    border-style: solid none solid solid;
+    border-width: 4px medium 4px 4px;
+    color: #fff;
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    opacity: 0.5;
+    text-align: center;
+    text-decoration: none;
+    text-indent: -999999px;
+    width: 30px;
+}
+
+#vdebug_tool a:hover{
+	background-color:#111;
+	padding-right:4px;
+	border-top-color:#FFE761;
+	border-left-color:#FFE761;
+	border-bottom-color:#FFE761;
+	opacity:1.0;
+}
+
+#vdebug_panel{
+  background: none repeat scroll 0 0 #111;
+    opacity: 0.9;
+    position: fixed;
+    right: 0;
+    top: 30px;
+    width: 160px;
+    z-index: 100000000;
+}	
+
+#vdebug_panel ul li a{
+  color: #fff;
+    display: block;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+    padding: 10px 10px 5px 5px;
+    text-decoration: none;
+	text-align:left;
+}
+
+
+#vdebug_panel ul li a:hover {
+	color:#111;
+	background-color:#ffc;
+}	
+
+/* Popup design */
+.page-title {
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 25px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.col-main .fieldset {
+    background: none repeat scroll 0 0 #fbfaf6;
+    border: 1px solid #bbafa0;
+    padding: 22px 25px 12px 33px;
+}
+.fieldset .legend {
+    background: none repeat scroll 0 0 #f9f3e3;
+    border: 1px solid #f19900;
+    color: #e76200;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: -33px 0 0 -10px;
+    padding: 0 8px;
+    position: relative;
+}
+
+ul, ol {
+    list-style: outside none none;
+}
+.clearer::after, .header-container::after, .header-container .top-container::after, .header::after, .header .quick-access::after, #nav::after, .main::after, .footer::after, .footer-container .bottom-container::after, .col-main::after, .col2-set::after, .col3-set::after, .col3-layout .product-options-bottom .price-box::after, .col4-set::after, .search-autocomplete li::after, .block .block-content::after, .block .actions::after, .block li.item::after, .block-poll li::after, .block-layered-nav .currently li::after, .page-title::after, .products-grid::after, .products-list li.item::after, .box-account .box-head::after, .dashboard .box .box-title::after, .box-reviews li.item::after, .box-tags li.item::after, .pager::after, .sorter::after, .ratings::after, .add-to-box::after, .add-to-cart::after, .product-essential::after, .product-collateral::after, .product-view .product-img-box .more-views ul::after, .product-view .box-tags .form-add::after, .product-view .product-shop .short-description::after, .product-view .box-description::after, .product-options .options-list li::after, .product-options-bottom::after, .product-review::after, .cart::after, .cart-collaterals::after, .cart .crosssell li.item::after, .opc .step-title::after, .checkout-progress::after, .multiple-checkout .place-order::after, .group-select li::after, .form-list li::after, .form-list .field::after, .buttons-set::after, .page-print .print-head::after, .advanced-search-summary::after, .gift-messages-form .item::after, .send-friend .form-list li p::after {
+    clear: both;
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+.form-list .field {
+    float: left;
+    width: 275px;
+}
+.form-list li {
+    margin: 0 0 8px;
+}
+.form-list label.required {
+}
+.form-list label {
+    color: #666 !important;
+    float: left;
+    font-weight: bold;
+    position: relative;
+    z-index: 0;
+}
+
+.form-list label.required em {
+    color: #eb340a;
+    float: right;
+    font-style: normal;
+    position: absolute;
+    right: -8px;
+    top: 0;
+}
+.form-list .input-box {
+    clear: both;
+    display: block;
+    width: 260px;
+}
+.form-list input.input-text {
+    width: 254px;
+}
+.form-list li.wide .input-box {
+    width: 535px;
+}
+.form-list .input-box {
+    clear: both;
+    display: block;
+    width: 260px;
+}
+
+.form-list li.wide textarea {
+    width: 529px;
+}
+.report_form .buttons-set {
+    border-top: 1px solid #e4e4e4;
+    clear: both;
+    margin: 4em 0 0;
+    padding: 8px 0 0;
+    text-align: right;
+}
+
+.buttons-set p.required {
+    margin: 0 0 10px;
+}
+p.required {
+    color: #eb340a;
+    font-size: 11px;
+    text-align: right;
+}
+
+.buttons-set button.button {
+    float: right;
+    margin-left: 5px;
+}
+
+#activity-loading-debug {
+    background-position: 0 -108px;
+    cursor: pointer;
+    left: 50%;
+    margin-left: -22px;
+    margin-top: -22px;
+    opacity: 0.8;
+    position: fixed;
+    top: 50%;
+    z-index: 8060;
+}
+
+#activity-loading-debug div {
+    background: url("fancybox_loading.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
+    height: 44px;
+    width: 44px;
+}
+
+
+
+
+/*   sanjeev mishra*/
+
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable{
+    width: 53%!important;
+    left: 23%!important;
+}
+.report_form .col-main{
+    width: 100%;
+}
+.form-list .fields{
+    display: inline-block!important;
+}
+.form-list > li {
+    display: inline-block;
+    width: 100%;
+}
+.input-box{
+    float: none;
+    width: 100% !important;
+}
+.required-entry.input-text{
+    width: 100%!important;
+}
+
+.form-list input.input-text {
+    width: 100%;
+}
+.field {
+    float: left !important;
+    margin-right: 30px;
+    width: 45% !important;
+}
+.input-box .btn.btn-warning {
+    float: left;
+}
+@media(max-width: 1300px){
+    .field{
+        width: 100%!important;
+    }
+}
+@media(max-width: 400px){
+   .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-draggable.ui-resizable{
+    width: 73%!important;
+    left: 12%!important;
+} 
+}

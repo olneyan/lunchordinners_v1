@@ -1,0 +1,132 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+$helper = Mage::helper ( 'csmarketplace' );
+$params = Mage::getSingleton('core/session')->getData('vproducts_reports_filter');
+?>
+ <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="" method="post" id="report-form-validate">
+	<div class="col-md-12">
+		<h4 class="legend"><?php echo $helper->__('Filter Report') ?></h4>		
+			<div class="form-group col-md-6">
+				<label class="required"><em>*</em><?php echo $helper->__('Start date') ?>:</label>
+				<div class="input-box">
+					<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" style="padding:7px;float:left" class="v-middle" id="from_date_cal" />
+					<input type="text" class="required-entry input-text validate-date form-control" style="width:110px" name="from"
+						id="from" value="<?php echo isset($params['from']) && ($params['from']!="")?$params['from']:""; ?>"/>
+					
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+			<label class="required"><em>*</em><?php echo $helper->__('End date') ?>:</label>
+				<div class="input-box">
+				<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" style="padding:7px;float:left" class="v-middle" id="to_date_cal" />
+					<input type="text" class="required-entry input-text validate-date form-control" style="width:110px" name="to"
+						id="to" value="<?php echo isset($params['to']) && ($params['to']!="")?$params['to']:""; ?>"/>
+					
+				</div>
+			</div>
+	</div>
+	<div class="col-md-12" style="margin-bottom:5px;">
+		<div class="col-md-6" style="margin-left:0;padding-left:0;margin-bottom:5px;padding-right:0;">
+			<button class="button btn btn-warning uptransform" title="<?php echo $helper->__('Export') ?>" onClick="window.location='<?php echo $this->getUrl('*/*/exportVproductsCsv',array('_nosid'=>true,'_secure'=>true))?>'" id="export_btn"
+				style="float: none;display:none">
+			<span><span><?php echo $helper->__('Export') ?></span></span>
+			</button>
+		</div>
+		<div class="col-md-6"  id="filter_butn6" style="margin-left:0;margin-bottom:5px;padding-right:0;text-align:right;display:none;">
+			<button style="float: none;" class="button btn btn-info uptransform" title="<?php echo $helper->__('Show Report') ?>" onClick="filterVproductsReports(0);" id="filter_butn">
+				<span><span><?php echo $helper->__('Show Report') ?></span></span>
+			</button>
+		</div>
+		<div class="col-md-12"  id="filter_butn12" style="margin-left:0;margin-bottom:5px;padding-right:0;text-align:right;">
+			<button style="float: none;" class="button btn btn-info uptransform" title="<?php echo $helper->__('Show Report') ?>" onClick="filterVproductsReports(0);" id="filter_butn">
+				<span><span><?php echo $helper->__('Show Report') ?></span></span>
+			</button>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('report-form-validate', true);
+    setTimeout(function(){
+    	Calendar.setup({
+    	    inputField : 'from',
+    	    ifFormat : '%m/%e/%y',
+    	    button : 'from_date_cal',
+    	    align : 'Bl',
+    	    singleClick : true
+    	});
+
+    	Calendar.setup({
+    	    inputField : 'to',
+    	    ifFormat : '%m/%e/%y',
+    	    button : 'to_date_cal',
+    	    align : 'Bl',
+    	    singleClick : true
+    	});
+    	}, 500);
+//]]>
+    function filterVproductsReports(reset){
+    	if(reset==2){
+        	reset=0;
+        	jced('#activity-loading').show();
+    	}
+    	else{
+    		if(!dataForm.validator.validate())
+           	 	return;
+    	 	jced('#activity-loading').show();
+    	}
+    	var params ;
+    	params = jced("#report-form-validate").serialize();
+    	new Ajax.Request("<?php 
+    	$urlParams['_nosid'] = true;
+    	if(Mage::app()->getStore()->isCurrentlySecure()){
+    		$urlParams['_secure'] = true;
+    	}
+    	echo $this->getUrl('csmarketplace/vreports/filtervproducts',$urlParams) ?>", {
+           method: 'Post',
+           parameters:params,
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+
+           }
+       });
+    }
+    jced(document).ready(function(){
+    	  jced("#report-form-validate").submit(function() {
+    				return false;
+    			});
+    	});   
+</script>
+    		<style>
+   label.required em, span.required em {
+    display: none;
+}
+label.required::after, span.required::after {
+    color: red;
+    content: " *";
+    font-family: "Helvetica Neue",Verdana,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+</style>

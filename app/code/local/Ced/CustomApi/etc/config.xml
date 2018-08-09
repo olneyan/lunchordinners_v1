@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced;
+ * @package     Ced_AdvFlatRate 
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com> 
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+	<modules>
+		<Ced_CustomApi>
+			<version>0.0.1</version>  
+            <author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_CustomApi>
+	</modules>
+	  <frontend>
+        <routers>
+            <customapi>
+                <use>standard</use>
+                <args>
+                    <module>Ced_CustomApi</module>
+                    <frontName>customapi</frontName>
+                </args>
+            </customapi>
+        </routers>
+   </frontend>
+	<global>
+		<blocks>
+            <customapi>
+                <class>Ced_CustomApi_Block</class>
+            </customapi>
+        </blocks>
+		<helpers>
+		  <customapi>
+		    <class>Ced_CustomApi_Helper</class>
+		  </customapi>
+		</helpers>
+		<models>
+		   <customapi>
+                <class>Ced_CustomApi_Model</class>
+           </customapi>
+           	<vendorapi>
+				<rewrite>
+					<vendor_api>Ced_CustomApi_Model_Vendor_Api</vendor_api>
+					<product_api>Ced_CustomApi_Model_Product_Api</product_api>
+				</rewrite>
+			</vendorapi>
+			<mobiconnect>
+			    <rewrite>
+					<checkoutmobi>Ced_CustomApi_Model_Checkoutmobi</checkoutmobi>
+		        </rewrite>
+			</mobiconnect>
+   		</models>
+  	</global>
+ 
+</config>

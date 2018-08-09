@@ -1,0 +1,123 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php
+	$pendingAmount = $this->getPendingAmount();
+	$earnedAmount = $this->getEarnedAmount();
+	$ordersPlaced = $this->getOrdersPlaced();
+	$productsSold = $this->getProductsSold();
+?>
+<?php $helper=Mage::helper('csmarketplace');?>
+
+<!-- Total Pending Amount --> 
+<div class="col-lg-3 col-md-6">
+	<div class="panel panel-red">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-3">
+					<i class="fa fa-credit-card fa-4x"></i>
+				</div>
+				<div class="col-xs-9 text-right">
+					<div class="huge"><?php echo $pendingAmount['total']; ?></div>
+					<div class="info-heading"><?php echo $helper->__('Total Pending Amount'); ?>!</div>
+				</div>
+			</div>
+		</div>
+		<a href="<?php echo $pendingAmount['action']; ?>">
+			<div class="panel-footer">
+				<span class="pull-left"><?php echo $helper->__('See more...') ?></span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<!-- Total Earned Amount -->
+<div class="col-lg-3 col-md-6">
+	<div class="panel panel-green">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-3">
+					<i class="fa fa-money fa-4x"></i>
+				</div>
+				<div class="col-xs-9 text-right">
+					<div class="huge"><?php echo $earnedAmount['total']; ?></div>
+					<div class="info-heading"><?php echo $helper->__('Total Earned Amount'); ?>!</div>
+				</div>
+			</div>
+		</div>
+		<a href="<?php echo $earnedAmount['action']; ?>">
+			<div class="panel-footer">
+				<span class="pull-left"><?php echo $helper->__('See more...') ?></span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<!-- Total Orders Placed -->	
+<div class="col-lg-3 col-md-6">
+	<div class="panel panel-yellow">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-3">
+					<i class="fa fa-shopping-cart fa-4x"></i>
+				</div>
+				<div class="col-xs-9 text-right">
+					<div class="huge"><?php echo $ordersPlaced['total']; ?></div>
+					<div class="info-heading"><?php echo $helper->__('Total Orders Placed'); ?>!</div>
+				</div>
+			</div>
+		</div>
+		<a href="<?php echo $ordersPlaced['action']; ?>">
+			<div class="panel-footer">
+				<span class="pull-left"><?php echo $helper->__('See more...') ?></span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>    
+
+<!-- Total Products Sold -->
+<div class="col-lg-3 col-md-6">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-3">
+					<i class="fa fa-bar-chart-o fa-4x"></i>
+				</div>
+				<div class="col-xs-9 text-right">
+					<div class="huge"><?php echo $productsSold['total']; ?></div>
+					<div class="info-heading"><?php echo $helper->__('Total Products Sold') ?>!</div>
+				</div>
+			</div>
+		</div>
+		<a href="<?php echo $productsSold['action']; ?>">
+			<div class="panel-footer">
+				<span class="pull-left"><?php echo $helper->__('See more...') ?></span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>

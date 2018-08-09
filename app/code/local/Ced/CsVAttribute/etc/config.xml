@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVAttribute
+  * @author   CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsVAttribute>
+			<version>0.0.2</version>
+			<release_version>0.0.5</release_version>
+			<parent_product_name>CedCommerce MarketPlace</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsVAttribute>
+	</modules>
+	<frontend>
+		<routers>
+			<csvattribute>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsVAttribute</module>
+					<frontName>csvattribute</frontName>
+				</args>
+			</csvattribute>
+		</routers>
+		<layout>
+			<updates>
+				<csvattribute>
+					<file>ced/csvattribute/csvattribute.xml</file>
+				</csvattribute>
+			</updates>
+		</layout>
+	</frontend>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<csvattribute after="Mage_Adminhtml">Ced_CsVAttribute</csvattribute>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<layout>
+			<updates>
+				<csvattribute>
+					<file>ced/csvattribute.xml</file>
+				</csvattribute>
+			</updates>
+		</layout>
+	</adminhtml>
+	<global>
+		<blocks>
+			<csvattribute>
+				<class>Ced_CsVAttribute_Block</class>
+			</csvattribute>
+		</blocks>
+		<models>
+	<!--<sales>
+                <rewrite>
+                    <order_pdf_invoice>Ced_CsVAttribute_Model_Order_Pdf_Invoice</order_pdf_invoice>
+                </rewrite>
+            </sales>-->
+<csorder>
+                <rewrite>
+                    <sales_order_pdf_invoice>Ced_CsVAttribute_Model_Sales_Order_Pdf_Invoice</sales_order_pdf_invoice>
+                </rewrite>
+            </csorder>
+	<csmarketplace>
+		<rewrite>
+                    <vendor_attribute>Ced_CsVAttribute_Model_Vendor_Attribute</vendor_attribute>
+                </rewrite>
+	   </csmarketplace>
+            <csvattribute>
+                <class>Ced_CsVAttribute_Model</class>
+				<resourceModel>csvattribute_resource</resourceModel>
+            </csvattribute>
+	<csvattribute_resource>
+		<class>Ced_CsMarketplace_Model_Resource</class>
+<!-- 		                <entities>
+		                    <vendor_form>
+		                    	<table>ced_csmarketplace_vendor_form_attribute</table>
+		                    </vendor_form>
+			</entities> -->
+	</csvattribute_resource>
+       </models>
+	   <resources>
+            <csvattribute_setup>
+                <setup>
+                    <module>Ced_CsVAttribute</module>
+                <!--     <class>Ced_CsMarketplace_Model_Mysql4_Setup</class> -->
+                </setup>
+            </csvattribute_setup>
+        </resources>
+       <events>
+			<ced_csmarketplace_vendor_edit_attributes_load_after>
+                <observers>
+                    <filter_vendor_edit_attributes>
+                        <type>model</type>
+                        <class>csvattribute/observer</class>
+                        <method>vendorEditAttributesLoadAfter</method>
+                    </filter_vendor_edit_attributes>
+                </observers>
+           	</ced_csmarketplace_vendor_edit_attributes_load_after>
+     		<ced_csmarketplace_vendor_group_wise_attributes_load_after>
+                <observers>
+                    <filter_vendor_view_attributes>
+                        <type>model</type>
+                        <class>csvattribute/observer</class>
+                        <method>vendorGroupWiseAttributesLoadAfter</method>
+                    </filter_vendor_view_attributes>
+                </observers>
+           </ced_csmarketplace_vendor_group_wise_attributes_load_after>
+     </events>
+	</global>
+	<default>
+		<ced_csvattribute>
+			<general>
+				<activation>1</activation>
+			</general>
+			<vattribute>
+				<allowed_image_type>jpg,jpeg,gif,png</allowed_image_type>
+				<allowed_file_type>pdf,zip,docx,doc,csv,xls,odt,xml,txt</allowed_file_type>
+			</vattribute>
+		</ced_csvattribute>
+		<general>
+            <validator_data>
+                <input_types>
+					<image>image</image>
+                    <multiimage>multiimage</multiimage>
+					<file>file</file>
+					<multifile>multifile</multifile>
+                </input_types>
+            </validator_data>
+        </general>
+	</default>
+</config>

@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_CsMarketplace
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+	<modules>
+		<Ced_CsMarketplace>
+			<version>0.0.29</version>
+			<parent_product_name>Marketplace Basic</parent_product_name>
+			<!-- <release_version>0.1.40</release_version> -->
+			<author>CedCommerce Core Team (coreteam@cedcommerce.com)</author>
+		</Ced_CsMarketplace>
+	</modules>
+	<frontend>
+		<secure_url>
+            <csmarketplace>/lodmarketplace/</csmarketplace>
+        </secure_url>
+		<routers>
+			<csmarketplace>
+				<use>standard</use>
+				<args>
+					<module>Ced_CsMarketplace</module>
+					<frontName>lodmarketplace</frontName>
+				</args>
+			</csmarketplace>
+			
+		</routers>
+		<layout>
+			<updates>
+				<ced_vendor>
+					<file>ced/csmarketplace/vendor.xml</file>
+				</ced_vendor>
+				<csmarketplace>
+					<file>ced/csmarketplace/csmarketplace.xml</file>
+				</csmarketplace>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<csmarketplace>
+					<files>
+						<default>Ced_CsMarketplace.csv</default>
+					</files>
+				</csmarketplace>
+			</modules>
+		</translate>
+		<events>
+			<core_block_abstract_to_html_before> 
+			    <observers>
+			      <core_block_abstract_to_html_before_handler> 
+			        <type>singleton</type> 
+			        <class>csmarketplace/observer</class> 
+			        <method>AddClass</method> 
+			      </core_block_abstract_to_html_before_handler>
+			    </observers>
+			</core_block_abstract_to_html_before>
+			<controller_action_predispatch_checkout_cart_add>
+                <observers>
+                    <ced_csmarketplace_cart_add>
+                        <class>csmarketplace/observer</class>
+                        <method>CartAdd</method>
+                    </ced_csmarketplace_cart_add>
+                </observers>
+            </controller_action_predispatch_checkout_cart_add> 
+		</events>
+	</frontend>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<csmarketplace after="Mage_Adminhtml">Ced_CsMarketplace</csmarketplace>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<adminhtml>
+		<translate>
+			<modules>
+				<csmarketplace>
+					<files>
+						<default>Ced_CsMarketplace.csv</default>
+					</files>
+				</csmarketplace>
+			</modules>
+		</translate>
+		<layout>
+			<updates>
+				<csmarketplace>
+					<file>ced/csmarketplace.xml</file>
+				</csmarketplace>
+			</updates>
+		</layout>
+		<events>
+			<catalog_product_save_after>
+                <observers>
+                   <Ced_CsMarketplace_Catalog_Product_Save_Before>
+                 	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>saveVproductData</method>
+                   </Ced_CsMarketplace_Catalog_Product_Save_Before>
+               </observers>
+            </catalog_product_save_after>
+           <!--  <catalog_product_save_after>
+                <observers>
+                   <Ced_CsMarketplace_Catalog_Product_Save_After>
+                 	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>CreateVproductData</method>
+                   </Ced_CsMarketplace_Catalog_Product_Save_After>
+               </observers>
+            </catalog_product_save_after> -->
+            <controller_action_predispatch>
+                <observers>
+                    <csmarketplace_feed_start>
+                        <class>csmarketplace/observer</class>
+                        <method>preDispatch</method>
+                    </csmarketplace_feed_start>
+                </observers>
+            </controller_action_predispatch>
+			<!-- <controller_action_layout_load_before>
+				<observers>
+                    <layout_load_before_cedcommerce>
+                        <class>csmarketplace/observer</class>
+                        <method>beforeLoadLayout</method>
+                    </layout_load_before_cedcommerce>
+                </observers>
+			</controller_action_layout_load_before> -->
+			<core_config_data_save_before>
+				<observers>
+					<Ced_CsMarketplace_Core_Config_Disable__Before>
+                        <type>singleton</type>
+                        <class>csmarketplace/observer</class>
+                        <method>coreConfigDisableshopAfter</method>
+                    </Ced_CsMarketplace_Core_Config_Disable__Before>
+				</observers>
+			</core_config_data_save_before>
+		</events>
+	</adminhtml>
+	<global>
+		<rewrite>
+			<cedcommerce_fancy_url>
+				<from><![CDATA[/cedcommerce\/main\/(.*)/i]]></from>
+				<to><![CDATA[lodmarketplace/main/$1]]></to>
+				<complete>1</complete>
+			</cedcommerce_fancy_url>
+			<csmarketplace_rewrite_shop_url>
+				<from><![CDATA[/\/restaurant\/(.*)/i]]></from>
+				<to><![CDATA[lodmarketplace/vshops/view/shop_url/$1/]]></to>
+				<complete>1</complete>
+			</csmarketplace_rewrite_shop_url>
+			
+            <ced_csmarketplace_checkout_onepage>
+                <from><![CDATA[#^/checkout/onepage/#]]></from>
+                <to>/lodmarketplace/checkout_onepage/</to>
+            </ced_csmarketplace_checkout_onepage>
+        
+        </rewrite>
+		<helpers>
+			<csmarketplace>
+				<class>Ced_CsMarketplace_Helper</class>
+			</csmarketplace>
+		</helpers>
+		<blocks>
+			 <!-- <checkout>
+                <rewrite>
+                    <onepage>Ced_CsMarketplace_Block_Onepage</onepage>
+                </rewrite>
+            </checkout>   --> 
+			<csmarketplace>
+				<class>Ced_CsMarketplace_Block</class>
+			</csmarketplace>
+
+			<adminhtml>
+				<rewrite>
+				  <catalog_product_created>Ced_CsMarketplace_Block_Adminhtml_Catalog_Product_Created</catalog_product_created>
+				</rewrite>
+			</adminhtml>
+		</blocks>
+		<models>
+			<catalog>
+				<rewrite>
+					<category>Ced_CsMarketplace_Model_Vproducts_Category</category>
+					<layer>Ced_CsMarketplace_Model_Vshop_Layer</layer>
+				</rewrite>
+			</catalog>
+			<core>
+				<rewrite>
+					<layout>Ced_CsMarketplace_Model_Layout</layout>
+					<design_package>Ced_CsMarketplace_Model_Design_Package</design_package>
+					<store>Ced_CsMarketplace_Model_Core_Store</store>
+				</rewrite>
+			</core>
+			<adminhtml>
+				<rewrite>
+					<config_data>Ced_CsMarketplace_Model_Adminhtml_Config_Data</config_data>
+				</rewrite>
+			</adminhtml>
+            <csmarketplace>
+                <class>Ced_CsMarketplace_Model</class>
+                 <resourceModel>csmarketplace_mysql4</resourceModel>
+            </csmarketplace>
+            <csmarketplace_mysql4>
+                <class>Ced_CsMarketplace_Model_Mysql4</class>
+                <entities>
+                    <vendor>
+                        <table>ced_csmarketplace_vendor</table>
+                    </vendor>
+					<vendor_form>
+						<table>ced_csmarketplace_vendor_form_attribute</table>
+					</vendor_form>
+                    <address>
+                        <table>ced_csmarketplace_vendor_address</table>
+                    </address>
+					<vproducts>
+                        <table>ced_csmarketplace_vendor_products</table>
+                    </vproducts>
+                    <vproducts_status>
+                        <table>ced_csmarketplace_vendor_products_status</table>
+                    </vproducts_status>
+					<vorders>
+                        <table>ced_csmarketplace_vendor_sales_order</table>
+                    </vorders>
+					<vpayment>
+                        <table>ced_csmarketplace_vendor_payments</table>
+                    </vpayment>
+					<vpayment_requested>
+                        <table>ced_csmarketplace_vendor_payments_requested</table>
+                    </vpayment_requested>
+					<vsettings>
+                        <table>ced_csmarketplace_vendor_settings</table>
+                    </vsettings>
+                    <vshop>
+                        <table>ced_csmarketplace_vendor_shop</table>
+                    </vshop>
+                </entities>
+            </csmarketplace_mysql4>
+        </models>
+        <resources>
+            <csmarketplace_setup>
+                <setup>
+                    <module>Ced_CsMarketplace</module>
+                    <class>Ced_CsMarketplace_Model_Mysql4_Setup</class>
+                </setup>
+            </csmarketplace_setup>
+        </resources>
+		<events>
+			<transaction_amountdescription_edit_prepare_blocks>
+			  <observers>
+			       <Ced_Csmarketplace_Transaction_Amountdescription_Edit_Prepare_Blocks>
+			          <type>singleton</type>
+			          <class>csmarketplace/observer</class>
+			          <method>transactionAmountBlocks</method>
+			       </Ced_Csmarketplace_Transaction_Amountdescription_Edit_Prepare_Blocks>
+			   </observers>
+		    </transaction_amountdescription_edit_prepare_blocks>
+		    <transaction_amountdescription_edit_render_before>
+			  <observers>
+			       <Ced_Csmarketplace_Transaction_Edit_Render_Before>
+			          <type>singleton</type>
+			          <class>csmarketplace/observer</class>
+			          <method>transactionRender</method>
+			       </Ced_Csmarketplace_Transaction_Edit_Render_Before>
+			   </observers>
+		    </transaction_amountdescription_edit_render_before>
+			<controller_action_postdispatch_adminhtml_catalog_product_massDelete>
+				<observers>
+                   <Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_MassDelete>
+                   	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>deleteMassVproductData</method>
+                   </Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_MassDelete>
+               </observers>
+			</controller_action_postdispatch_adminhtml_catalog_product_massDelete>
+			<controller_action_postdispatch_adminhtml_catalog_product_delete>
+				<observers>
+                   <Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_Delete>
+                   	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>deleteVproductData</method>
+                   </Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_Delete>
+               </observers>
+			</controller_action_postdispatch_adminhtml_catalog_product_delete>
+			<controller_action_postdispatch_adminhtml_catalog_product_massStatus>
+				 <observers>
+                   <Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_MassStatus>
+                 	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>saveStatusChange</method>
+                   </Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_MassStatus>
+               </observers>
+			</controller_action_postdispatch_adminhtml_catalog_product_massStatus>
+			<controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save>
+				<observers>
+                   <Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_Action_Attribute_Save>
+                 	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>saveVproductAttributesData</method>
+                   </Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Catalog_Product_Action_Attribute_Save>
+               </observers>
+			</controller_action_postdispatch_adminhtml_catalog_product_action_attribute_save>
+			 <controller_action_postdispatch_adminhtml_customer_delete>
+			    <observers>
+					<Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Customer_Delete>
+						<class>csmarketplace/observer</class>
+						<method>deleteVendor</method>
+					</Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Customer_Delete>
+			    </observers>
+			 </controller_action_postdispatch_adminhtml_customer_delete>
+			 <controller_action_postdispatch_adminhtml_customer_massDelete>
+			    <observers>
+					<Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Customer_MassDelete>
+						<class>csmarketplace/observer</class>
+						<method>massDeleteVendor</method>
+					</Ced_CsMarketplace_Controller_Action_Postdispatch_Adminhtml_Customer_MassDelete>
+			    </observers>
+			 </controller_action_postdispatch_adminhtml_customer_massDelete> 
+			<customer_register_success>
+				<observers>
+                   <Ced_CsMarketplace_Customer_Register_Success>
+                        <type>singleton</type>
+						<class>csmarketplace/observer</class>
+						<method>VendorRegistration</method>
+                   </Ced_CsMarketplace_Customer_Register_Success>
+               </observers>
+			</customer_register_success>
+			<sales_quote_item_set_product>
+                <observers>
+                    <Ced_CsMarketplace_Sales_Quote_Item_Set_Product>
+                      <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>salesQuoteItemSetVendorId</method>
+                   </Ced_CsMarketplace_Sales_Quote_Item_Set_Product>
+                </observers>
+            </sales_quote_item_set_product>
+			<sales_order_save_after>
+                <observers>
+                    <Ced_CsMarketplace_Sales_Convert_Quote_To_Order>
+                      <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>setVendorSalesOrder</method>
+                   </Ced_CsMarketplace_Sales_Convert_Quote_To_Order>
+                </observers>
+            </sales_order_save_after>
+            <!-- <checkout_submit_all_after>
+    			<observers>
+                    <Ced_CsMarketplace_Checkout_Submit_All_After>
+                        <type>singleton</type>
+                        <class>csmarketplace/observer</class>
+                        <method>checkoutSubmitAllAfter</method>
+                    </Ced_CsMarketplace_Checkout_Submit_All_After>
+                </observers>
+    		</checkout_submit_all_after> -->
+			<order_cancel_after>
+				<observers>
+                    <Ced_CsMarketplace_Order_Cancel_After>
+                        <type>singleton</type>
+                        <class>csmarketplace/observer</class>
+                        <method>orderCancelAfter</method>
+                    </Ced_CsMarketplace_Order_Cancel_After>
+                </observers>
+			</order_cancel_after>
+			<customer_logout>
+          <observers>
+            <Ced_CsMarketplace_customer_logout>
+                <type>singleton</type>
+                <class>csmarketplace/observer</class>
+                <method>CustomerLogout</method>
+            </Ced_CsMarketplace_customer_logout>
+        </observers>
+    </customer_logout>
+    <sales_quote_merge_before>
+       <observers> 
+            <Ced_CsMarketplace_clearoldcartproducts_observer>
+                <type>singleton</type> 
+                <class>csmarketplace/observer</class>
+                <method>loadCustomerQuote</method>
+            </Ced_CsMarketplace_clearoldcartproducts_observer> 
+        </observers> 
+    </sales_quote_merge_before> 
+			<sales_order_save_after>
+				<observers>
+                    <Ced_CsMarketplace_Order_Creditmemo_Refund>
+                        <type>singleton</type>
+                        <class>csmarketplace/observer</class>
+                        <method>orderCreditmemoRefund</method>
+                    </Ced_CsMarketplace_Order_Creditmemo_Refund>
+                </observers>
+			</sales_order_save_after>
+			<!-- <core_config_data_save_before>
+				<observers>
+                    <Ced_CsMarketplace_Core_Config_Data_Save_Before>
+                        <type>model</type>
+                        <class>csmarketplace/observer</class>
+                        <method>coreConfigSaveAfter</method>
+                    </Ced_CsMarketplace_Core_Config_Data_Save_Before>
+                </observers>
+			</core_config_data_save_before> -->
+			<sales_order_invoice_save_after>
+				<observers>
+                   <Ced_CsMarketplace_Sales_Order_Invoice_Save_After>
+                   	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>changeOrderPaymentState</method>
+                   </Ced_CsMarketplace_Sales_Order_Invoice_Save_After>
+               </observers>
+			</sales_order_invoice_save_after>
+			<customer_save_before>
+				<observers>
+                   <Ced_CsMarketplace_Customer_Save_Before>
+                   	  <type>singleton</type>
+                      <class>csmarketplace/observer</class>
+                      <method>setVendorEmail</method>
+                   </Ced_CsMarketplace_Customer_Save_Before>
+               </observers>
+			</customer_save_before>
+		</events>
+		
+		<fieldsets>
+            <sales_convert_quote_item>
+                <vendor_id>
+                    <to_order_item>*</to_order_item>
+                </vendor_id>
+            </sales_convert_quote_item>
+            <sales_convert_order_item>
+                <vendor_id>
+                    <to_quote_item>*</to_quote_item>
+					<to_invoice_item>*</to_invoice_item>
+                    <to_shipment_item>*</to_shipment_item>
+                    <to_cm_item>*</to_cm_item>
+                </vendor_id>
+            </sales_convert_order_item>
+        </fieldsets>
+    	<template>
+            <email>
+                <ced_csmarketplace_vendor_account_confirmed_template translate="label" module="csmarketplace">
+                    <label>Vendor account confirmed</label>
+                    <file>ced_csmarketplace/account_confirmed.html</file>
+                    <type>html</type>
+                </ced_csmarketplace_vendor_account_confirmed_template>
+                <ced_csmarketplace_vendor_account_rejected_template translate="label" module="csmarketplace">
+                    <label>Vendor account rejected</label>
+                    <file>ced_csmarketplace/account_rejected.html</file>
+                    <type>html</type>
+                </ced_csmarketplace_vendor_account_rejected_template>
+                <ced_csmarketplace_vendor_shop_enabled_template translate="label" module="csmarketplace">
+                    <label>Vendor shop enabled</label>
+                    <file>ced_csmarketplace/shop_enabled.html</file>
+                    <type>html</type>
+                </ced_csmarketplace_vendor_shop_enabled_template>
+                <ced_csmarketplace_vendor_shop_disabled_template translate="label" module="csmarketplace">
+                    <label>Vendor shop disabled</label>
+                    <file>ced_csmarketplace/shop_disabled.html</file>
+                    <type>html</type>
+                </ced_csmarketplace_vendor_shop_disabled_template>
+                <ced_csmarketplace_vendor_account_deleted_template translate="label" module="csmarketplace">
+                    <label>Vendor account deleted</label>
+                    <file>ced_csmarketplace/account_deleted.html</file>
+                    <type>html</type>
+                </ced_csmarketplace_vendor_account_deleted_template>
+                <ced_vproducts_general_product_approved_template translate="label" module="csmarketplace">
+                    <label>Vendor - Product approved notification</label>
+                    <file>ced_csmarketplace/product_approved.html</file>
+                    <type>html</type>
+                </ced_vproducts_general_product_approved_template>
+                <ced_vproducts_general_product_rejected_template translate="label" module="csmarketplace">
+                    <label>Vendor - Product rejected notification</label>
+                    <file>ced_csmarketplace/product_rejected.html</file>
+                    <type>html</type>
+                </ced_vproducts_general_product_rejected_template>
+                <ced_vproducts_general_product_deleted_template translate="label" module="csmarketplace">
+                    <label>Vendor - Product deleted notification</label>
+                    <file>ced_csmarketplace/product_deleted.html</file>
+                    <type>html</type>
+                </ced_vproducts_general_product_deleted_template>
+                <ced_vorders_general_order_new_template translate="label" module="csmarketplace">
+                    <label>Vendor - New Order</label>
+                    <file>ced_csmarketplace/order_new.html</file>
+                    <type>html</type>
+                </ced_vorders_general_order_new_template>
+                <ced_vorders_general_order_cancel_template translate="label" module="csmarketplace">
+                    <label>Vendor - Cancel Order</label>
+                    <file>ced_csmarketplace/order_cancel.html</file>
+                    <type>html</type>
+                </ced_vorders_general_order_cancel_template>
+				<ced_vdebug_report translate="label" module="csmarketplace">
+                    <label>Vendor - Debug Report</label>
+                    <file>ced_csmarketplace/vdebug_report.html</file>
+                    <type>html</type>
+                </ced_vdebug_report>
+				<ced_vorders_general_seller_transaction_template translate="label" module="csmarketplace">
+                    <label>Vendor - Transaction</label>
+                    <file>ced_csmarketplace/seller_transaction.html</file>
+                    <type>html</type>
+                </ced_vorders_general_seller_transaction_template>
+            </email>
+        </template>
+		<ced_csmarketplace>
+			<vendor>
+				<groups>
+					<general>
+						<model>csmarketplace/vendor_group_general</model>
+					</general>
+				</groups>
+				<rates>
+					<percentage>
+						<model>csmarketplace/vendor_rate_percentage</model>
+					</percentage>
+					<fixed>
+						<model>csmarketplace/vendor_rate_fixed</model>
+					</fixed>
+				</rates>
+				<payment_methods>
+					<cheque>*</cheque>
+					<paypal>*</paypal>
+					<banktransfer>*</banktransfer>
+				</payment_methods>
+			</vendor>
+			<vproducts>
+				<types>
+					<simple>*</simple>
+					<downloadable>*</downloadable>
+					<virtual>*</virtual>
+				</types>
+			</vproducts>
+		</ced_csmarketplace>
+	</global>
+	<default>
+		<!-- <cedcore>
+			<extensions_groups>
+				<extensions><![CDATA[<a class="button" href="http://cedcommerce.com/store/" id="cedcore_extensions_groups_extensions" style="text-decoration: none; " title="Checkout CedCommerce Website">Checkout CedCommerce Website</a><style>#cedcore_extensions_groups_extensions td.scope-label {display: none;}</style>]]></extensions>
+			</extensions_groups>
+		</cedcore> -->
+		<!-- <style>
+		#cedcore_extensions_groups_extensions td.scope-label {display: none;}
+		</style> -->
+		<ced_csmarketplace>
+			<general>
+				<activation>1</activation>
+				<request_active>1</request_active>
+				<enable_registration>1</enable_registration>
+				<confirmation>1</confirmation>
+				<vendor_groups_active>0</vendor_groups_active>
+				<use_in_vendorpanel>0</use_in_vendorpanel>
+				<shopurl_active>1</shopurl_active>
+				<publicname_active>1</publicname_active>
+				<prefixmemberid_active>CED</prefixmemberid_active>
+				<rtl_active>0</rtl_active>
+			</general>
+			<vendor>
+				<group>general</group>
+				<status>new</status>
+				<email_identity>general</email_identity>
+				<account_confirmed_template>ced_csmarketplace_vendor_account_confirmed_template</account_confirmed_template>
+				<account_rejected_template>ced_csmarketplace_vendor_account_rejected_template</account_rejected_template>
+				<account_deleted_template>ced_csmarketplace_vendor_account_deleted_template</account_deleted_template>
+				<shop_enabled_template>ced_csmarketplace_vendor_shop_enabled_template</shop_enabled_template>
+				<shop_disabled_template>ced_csmarketplace_vendor_shop_disabled_template</shop_disabled_template>
+				<vendor_theme>ced/default</vendor_theme>
+				<vendor_logo_src>images/logo.gif</vendor_logo_src>
+				<vendor_logo_alt>Vendor Panel</vendor_logo_alt>
+				<vendor_footer_text><![CDATA[&copy; 2016 <strong>CedCommerce</strong>. All Rights Reserved.]]></vendor_footer_text>
+				<theme_css></theme_css>
+			</vendor>
+		</ced_csmarketplace>
+		<ced_vproducts>
+			<general>
+				<activation>1</activation>
+				<confirmation>1</confirmation>
+				<type>simple,downloadable,virtual</type>
+				<website>0</website>
+				<limit>100</limit>
+				<category_mode>0</category_mode>
+				<email_identity>general</email_identity>
+				<product_approved_template>ced_vproducts_general_product_approved_template</product_approved_template>
+				<product_rejected_template>ced_vproducts_general_product_rejected_template</product_rejected_template>
+				<product_deleted_template>ced_vproducts_general_product_deleted_template</product_deleted_template>
+			</general>
+			<downloadable_config>
+				<link_formats>zip,rar,pdf,doc</link_formats>
+				<sample_formats>jpg,jpeg,png,gif,pdf,rar</sample_formats>
+			</downloadable_config>
+		</ced_vproducts>
+		<ced_vorders>
+			<general>
+				<!-- <vorders_mode>0</vorders_mode> -->
+				<order_email_enable>1</order_email_enable>
+				<order_cancel_email_enable>1</order_cancel_email_enable>
+				<email_identity>general</email_identity>
+				<order_new_template>ced_vorders_general_order_new_template</order_new_template>
+				<order_cancel_template>ced_vorders_general_order_cancel_template</order_cancel_template>
+			<seller_transaction_template>ced_vorders_general_seller_transaction_template</seller_transaction_template>				
+			</general>
+		</ced_vorders>
+		<ced_vpayments>
+			<general>
+				<online>0</online>
+				<payment_approval>0</payment_approval>
+				<commission_mode>percentage</commission_mode>
+				<commission_fee>10</commission_fee>
+				<service_tax>0</service_tax>
+			</general>
+		</ced_vpayments>
+		<ced_vshops>
+			<general>
+				<logo_image_width>175</logo_image_width>
+				<logo_image_height>150</logo_image_height>
+				<banner_image_width>668</banner_image_width>
+				<banner_image_height>150</banner_image_height>
+				<grid_image_width>135</grid_image_width>
+				<grid_image_height>135</grid_image_height>
+				<list_image_width>135</list_image_width>
+				<list_image_height>135</list_image_height>
+				<vshoppage_about>CEDCOMMERCE is a leading solution provider for web based applications. The Company has been promoted by highly experienced professionals dedicated to provide high quality IT solutions. We provide values to the product with applied quality process. We define, design and deliver IT solutions to our clients which help them to become front runner up in there domain. With CEDCOMMERCE, clients are assured of a transparent business partner, world-class processes, speed of execution and the power to stretch their IT budget by leveraging the global delivery model that CEDCOMMERCE pioneered.
+Our services includes a range of preliminary to enterprise level solutions. CEDCOMMERCE provides consultancy, design, development, maintenance and customization for your existing business applications. </vshoppage_about>
+				<vshoppage_banner></vshoppage_banner>
+				<vshoppage_vendor_placeholder></vshoppage_vendor_placeholder>
+				<vshoppage_banner_placeholder></vshoppage_banner_placeholder>
+				<vshoppage_title>CsMarketplace</vshoppage_title>
+				<vshoppage_top_title>CsMarketplace</vshoppage_top_title>
+				<vshoppage_top_enabled>1</vshoppage_top_enabled>
+				<vshoppage_vendor_title>I am a Vendor</vshoppage_vendor_title>
+				<vshoppage_vendor_enabled>1</vshoppage_vendor_enabled>
+				<vshoppage_banner_image_width>800</vshoppage_banner_image_width>
+				<vshoppage_banner_image_height>200</vshoppage_banner_image_height>
+			</general>
+		</ced_vshops>
+		<ced_vlogs>
+			<general>
+				<process_file>vendor_process.log</process_file>
+				<exception_file>vendor_exception.log</exception_file>
+			</general>
+		</ced_vlogs>
+		<system>
+            <csmarketplace>
+                <feed_url>cedcommerce.com/licensing/log/post</feed_url>
+                <set_feed_url>cedcommerce.com/licensing/log/setpost</set_feed_url>
+                <popup_url>widgets.magentocommerce.com/notificationPopup</popup_url>
+                <severity_icons_url>widgets.magentocommerce.com/%s/%s.gif</severity_icons_url>
+                <frequency>72</frequency>
+                <last_update>0</last_update>
+            </csmarketplace>
+			<license>
+				<use_https>0</use_https>
+				<license_url>adminhtml/adminhtml_license/index/</license_url>
+				<activate_url>cedcommerce.com/licensing/validate/</activate_url>
+			</license>
+        </system>
+		<cedcore>
+			<feeds_group>
+				<feeds>INFO,PROMO,UPDATE_RELEASE,NEW_RELEASE,INSTALLED_UPDATE</feeds>
+			</feeds_group>
+		</cedcore>
+		<ced_vseo>
+			<general>
+				<marketplace_url_suffix>.html</marketplace_url_suffix>
+				<marketplace_url_key>restaurant</marketplace_url_key>
+			</general>
+		</ced_vseo>
+	</default>
+</config>

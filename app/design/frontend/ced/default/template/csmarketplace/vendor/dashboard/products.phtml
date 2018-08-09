@@ -1,0 +1,158 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+	$helper=Mage::helper('csmarketplace'); 
+	$vendorProducts = $this->getLayout()->getBlockSingleton('csmarketplace/vendor_dashboard_info')->getVendorProductsData();
+?>
+	<!-- /.panel -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<i class="fa fa-bar-chart-o fa-fw"></i> <?php echo $helper->__('Products Status'); ?>
+		</div>
+		<div class="panel-body">
+			<div id="morris-donut-chart"></div>
+			<a href="<?php echo $this->getUrl('*/vproducts/',array('_secure'=>true)); ?>" class="btn btn-default btn-block"><?php echo $helper->__('View Details'); ?></a>
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+<script type="text/javascript"><!--
+
+jced(function() {
+
+    /* Morris.Area({
+        element: 'morris-area-chart',
+        data: [{
+            period: '2010 Q1',
+            iphone: 2666,
+            ipad: null,
+            itouch: 2647
+        }, {
+            period: '2010 Q2',
+            iphone: 2778,
+            ipad: 2294,
+            itouch: 2441
+        }, {
+            period: '2010 Q3',
+            iphone: 4912,
+            ipad: 1969,
+            itouch: 2501
+        }, {
+            period: '2010 Q4',
+            iphone: 3767,
+            ipad: 3597,
+            itouch: 5689
+        }, {
+            period: '2011 Q1',
+            iphone: 6810,
+            ipad: 1914,
+            itouch: 2293
+        }, {
+            period: '2011 Q2',
+            iphone: 5670,
+            ipad: 4293,
+            itouch: 1881
+        }, {
+            period: '2011 Q3',
+            iphone: 4820,
+            ipad: 3795,
+            itouch: 1588
+        }, {
+            period: '2011 Q4',
+            iphone: 15073,
+            ipad: 5967,
+            itouch: 5175
+        }, {
+            period: '2012 Q1',
+            iphone: 10687,
+            ipad: 4460,
+            itouch: 2028
+        }, {
+            period: '2012 Q2',
+            iphone: 8432,
+            ipad: 5713,
+            itouch: 1791
+        }],
+        xkey: 'period',
+        ykeys: ['iphone', 'ipad', 'itouch'],
+        labels: ['iPhone', 'iPad', 'iPod Touch'],
+        pointSize: 2,
+        hideHover: 'auto',
+        resize: true
+    });
+ */
+    Morris.Donut({
+        element: 'morris-donut-chart',
+        data: [{
+            label: "<?php echo $helper->__('Pending Products') ?>",
+            value: <?php echo $vendorProducts['total'][0]; ?>
+        }, {
+            label: "<?php echo $helper->__('Approved Products') ?>",
+            value: <?php echo $vendorProducts['total'][1]; ?>
+        }, {
+            label: "<?php echo $helper->__('Disapproved Products') ?>",
+            value: <?php echo  $vendorProducts['total'][2]; ?>
+        }],
+        resize: true,
+        colors: ["#348FE2", "#00ACAC", "#D9534F"]
+    });
+ /*
+    Morris.Bar({
+        element: 'morris-bar-chart',
+        data: [{
+            y: '2006',
+            a: 100,
+            b: 90
+        }, {
+            y: '2007',
+            a: 75,
+            b: 65
+        }, {
+            y: '2008',
+            a: 50,
+            b: 40
+        }, {
+            y: '2009',
+            a: 75,
+            b: 65
+        }, {
+            y: '2010',
+            a: 50,
+            b: 40
+        }, {
+            y: '2011',
+            a: 75,
+            b: 65
+        }, {
+            y: '2012',
+            a: 100,
+            b: 90
+        }],
+        xkey: 'y',
+        ykeys: ['a', 'b'],
+        labels: ['Series A', 'Series B'],
+        hideHover: 'auto',
+        resize: true
+    });
+ */
+});
+//--></script> 
+    

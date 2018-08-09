@@ -1,0 +1,1288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     VendorApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+
+
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+	name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+	<types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+			<!-- Vendor Account Schema Start -->
+			<complexType name="vendorLoginResp">
+				<all>
+					<element name="validated" type="xsd:string" minOccurs="0" />
+					<element name="vendor_id" type="xsd:string" minOccurs="0" />
+					<element name="vendor_session_id" type="xsd:string" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="vendorEntityToCreate">
+				<all>
+					<element name="customer_id" type="xsd:int" minOccurs="0" />
+					<element name="email" type="xsd:string" minOccurs="0" />
+					<element name="firstname" type="xsd:string" minOccurs="0" />
+					<element name="lastname" type="xsd:string" minOccurs="0" />
+					<element name="middlename" type="xsd:string" minOccurs="0" />
+					<element name="password" type="xsd:string" minOccurs="0" />
+					<element name="website_id" type="xsd:int" minOccurs="0" />
+					<element name="store_id" type="xsd:int" minOccurs="0" />
+					<element name="group_id" type="xsd:int" minOccurs="0" />
+					<element name="prefix" type="xsd:string" minOccurs="0" />
+					<element name="suffix" type="xsd:string" minOccurs="0" />
+					<element name="dob" type="xsd:string" minOccurs="0" />
+					<element name="taxvat" type="xsd:string" minOccurs="0" />
+					<element name="gender" type="xsd:int" minOccurs="0" />
+					<!-- <element name="public_name" type="xsd:string" minOccurs="0" />
+					<element name="shop_url" type="xsd:string" minOccurs="0" /> -->
+					<element name="vendor" type="typens:associativeArray" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="vendorEntity">
+				<all>
+					<element name="customer_id" type="xsd:int" minOccurs="0" />
+					<element name="created_at" type="xsd:string" minOccurs="0" />
+					<element name="updated_at" type="xsd:string" minOccurs="0" />
+					<!-- <element name="increment_id" type="xsd:string" minOccurs="0" /> -->
+					<element name="store_id" type="xsd:int" minOccurs="0" />
+					<element name="website_id" type="xsd:int" minOccurs="0" />
+					<element name="created_in" type="xsd:string" minOccurs="0" />
+					<element name="email" type="xsd:string" minOccurs="0" />
+					<element name="firstname" type="xsd:string" minOccurs="0" />
+					<element name="middlename" type="xsd:string" minOccurs="0" />
+					<element name="lastname" type="xsd:string" minOccurs="0" />
+					<element name="group_id" type="xsd:int" minOccurs="0" />
+					<element name="prefix" type="xsd:string" minOccurs="0" />
+					<element name="suffix" type="xsd:string" minOccurs="0" />
+					<element name="dob" type="xsd:string" minOccurs="0" />
+					<element name="taxvat" type="xsd:string" minOccurs="0" />
+					<element name="confirmation" type="xsd:boolean" minOccurs="0" />
+					<element name="password_hash" type="xsd:string" minOccurs="0" />
+					<element name="entity_id" type="xsd:int" minOccurs="0" />
+					<element name="public_name" type="xsd:string" minOccurs="0" />
+					<element name="shop_url" type="xsd:string" minOccurs="0" />
+					<element name="status" type="xsd:string" minOccurs="0" />
+					<element name="group" type="xsd:string" minOccurs="0" />
+					<element name="name" type="xsd:string" minOccurs="0" />
+					<element name="contact_number" type="xsd:string" minOccurs="0" />
+					<element name="is_active" type="xsd:string" minOccurs="0" />
+					<element name="vendor" type="typens:associativeArray" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="vendorEntityArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorEntity[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="vendorLinks">
+				<all>
+					<element name="name" type="xsd:string" minOccurs="0" />
+					<element name="path" type="xsd:string" minOccurs="0" />
+					<element name="label" type="xsd:string" minOccurs="0" />
+					<element name="font_awesome" type="xsd:string" minOccurs="0" />
+					<element name="sort_order" type="xsd:string" minOccurs="0" />
+					<element name="url" type="xsd:string" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="vendorLinksArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorLinks[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="vendorLinksEntity">
+				<all>
+					<element name="name" type="xsd:string" minOccurs="0" />
+					<element name="path" type="xsd:string" minOccurs="0" />
+					<element name="label" type="xsd:string" minOccurs="0" />
+					<element name="font_awesome" type="xsd:string" minOccurs="0" />
+					<element name="sort_order" type="xsd:string" minOccurs="0" />
+					<element name="url" type="xsd:string" minOccurs="0" />
+					<element name="children" type="typens:vendorLinksArray" minOccurs="0" />
+				</all>
+			</complexType>
+			<complexType name="vendorLinksEntityArray">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorLinksEntity[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<!-- Vendor Account Schema End -->
+			
+			<!-- Vendor Product Schema Start -->
+			<complexType name="vendorProductEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorProductEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="vendorProductAdditionalAttributesEntity">
+                <all>
+                    <element name="multi_data" type="typens:associativeMultiArray" minOccurs="0" />
+                    <element name="single_data" type="typens:associativeArray" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorProductEntity">
+                <all>
+                    <element name="entity_id" type="xsd:string"/>
+                    <element name="sku" type="xsd:string"/>
+                    <!-- <element name="name" type="xsd:string"/> -->
+                    <element name="attribute_set_id" type="xsd:string"/>
+                    <element name="type_id" type="xsd:string"/>
+                    <!-- <element name="category_ids" type="typens:ArrayOfString"/>
+                    <element name="website_ids" type="typens:ArrayOfString"/> -->
+                    <element name="check_status" type="xsd:string"/>
+                </all>
+            </complexType>
+            <complexType name="vendorProductRequestAttributes">
+                <all>
+                    <element name="attributes" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="additional_attributes" type="typens:ArrayOfString" minOccurs="0"/>
+                </all>
+            </complexType>
+            <complexType name="vendorProductReturnEntity">
+                <all>
+                    <element name="product_id" type="xsd:string" minOccurs="0"/>
+                    <element name="sku" type="xsd:string" minOccurs="0"/>
+                    <element name="set" type="xsd:string" minOccurs="0"/>
+                    <element name="type" type="xsd:string" minOccurs="0"/>
+                    <element name="categories" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="websites" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="created_at" type="xsd:string" minOccurs="0"/>
+                    <element name="updated_at" type="xsd:string" minOccurs="0"/>
+                    <element name="type_id" type="xsd:string" minOccurs="0"/>
+                    <element name="name" type="xsd:string" minOccurs="0"/>
+                    <element name="description" type="xsd:string" minOccurs="0"/>
+                    <element name="short_description" type="xsd:string" minOccurs="0"/>
+                    <element name="weight" type="xsd:string" minOccurs="0"/>
+                    <element name="status" type="xsd:string" minOccurs="0"/>
+                    <element name="url_key" type="xsd:string" minOccurs="0"/>
+                    <element name="url_path" type="xsd:string" minOccurs="0"/>
+                    <element name="visibility" type="xsd:string" minOccurs="0"/>
+                    <element name="category_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="website_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="has_options" type="xsd:string" minOccurs="0"/>
+                    <element name="gift_message_available" type="xsd:string" minOccurs="0"/>
+                    <element name="price" type="xsd:string" minOccurs="0"/>
+                    <element name="special_price" type="xsd:string" minOccurs="0"/>
+                    <element name="special_from_date" type="xsd:string" minOccurs="0"/>
+                    <element name="special_to_date" type="xsd:string" minOccurs="0"/>
+                    <element name="tax_class_id" type="xsd:string" minOccurs="0"/>
+                    <element name="tier_price" type="typens:catalogProductTierPriceEntityArray" minOccurs="0"/>
+                    <element name="meta_title" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_keyword" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_description" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_design" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+                    <element name="options_container" type="xsd:string" minOccurs="0"/>
+                    <element name="additional_attributes" type="typens:associativeArray" minOccurs="0"/>
+                </all>
+            </complexType>
+            <complexType name="vendorProductCreateEntity">
+                <all>
+                    <element name="categories" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="websites" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="name" type="xsd:string" minOccurs="0"/>
+                    <element name="description" type="xsd:string" minOccurs="0"/>
+                    <element name="short_description" type="xsd:string" minOccurs="0"/>
+                    <element name="weight" type="xsd:string" minOccurs="0"/>
+                    <element name="status" type="xsd:string" minOccurs="0"/>
+                    <element name="url_key" type="xsd:string" minOccurs="0"/>
+                    <element name="url_path" type="xsd:string" minOccurs="0"/>
+                    <element name="visibility" type="xsd:string" minOccurs="0"/>
+                    <element name="category_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="website_ids" type="typens:ArrayOfString" minOccurs="0"/>
+                    <element name="has_options" type="xsd:string" minOccurs="0"/>
+                    <element name="gift_message_available" type="xsd:string" minOccurs="0"/>
+                    <element name="price" type="xsd:string" minOccurs="0"/>
+                    <element name="special_price" type="xsd:string" minOccurs="0"/>
+                    <element name="special_from_date" type="xsd:string" minOccurs="0"/>
+                    <element name="special_to_date" type="xsd:string" minOccurs="0"/>
+                    <element name="tax_class_id" type="xsd:string" minOccurs="0"/>
+                    <element name="tier_price" type="typens:vendorProductTierPriceEntityArray" minOccurs="0"/>
+                    <element name="meta_title" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_keyword" type="xsd:string" minOccurs="0"/>
+                    <element name="meta_description" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_design" type="xsd:string" minOccurs="0"/>
+                    <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
+                    <element name="options_container" type="xsd:string" minOccurs="0"/>
+                    <element name="additional_attributes" type="typens:vendorProductAdditionalAttributesEntity" minOccurs="0"/>
+                </all>
+            </complexType>
+            <complexType name="vendorProductCreateEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorProductCreateEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="vendorProductTierPriceEntity">
+                <all>
+                    <element name="customer_group_id" type="xsd:string" minOccurs="0"/>
+                    <element name="website" type="xsd:string" minOccurs="0"/>
+                    <element name="qty" type="xsd:int" minOccurs="0"/>
+                    <element name="price" type="xsd:double" minOccurs="0"/>
+                </all>
+            </complexType>
+            <complexType name="vendorProductTierPriceEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorProductTierPriceEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+			<!-- Vendor Product Schema End -->
+			
+			<!-- Vendor Order Schema Start -->
+			<complexType name="vendorOrderEntity">
+                <all>
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="parent_id" type="xsd:string" minOccurs="0" />
+                    <element name="store_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="is_active" type="xsd:string" minOccurs="0" />
+                    <element name="customer_id" type="xsd:string" minOccurs="0" />
+                    <element name="tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal" type="xsd:string" minOccurs="0" />
+                    <element name="grand_total" type="xsd:string" minOccurs="0" />
+                    <element name="total_paid" type="xsd:string" minOccurs="0" />
+                    <element name="total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="total_qty_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="total_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="total_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="total_online_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="total_offline_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal" type="xsd:string" minOccurs="0" />
+                    <element name="base_grand_total" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_paid" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_qty_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_online_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_offline_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="billing_address_id" type="xsd:string" minOccurs="0" />
+                    <element name="billing_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="billing_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_address_id" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="billing_name" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_name" type="xsd:string" minOccurs="0" />
+                    <element name="store_to_base_rate" type="xsd:string" minOccurs="0" />
+                    <element name="store_to_order_rate" type="xsd:string" minOccurs="0" />
+                    <element name="base_to_global_rate" type="xsd:string" minOccurs="0" />
+                    <element name="base_to_order_rate" type="xsd:string" minOccurs="0" />
+                    <element name="weight" type="xsd:string" minOccurs="0" />
+                    <element name="store_name" type="xsd:string" minOccurs="0" />
+                    <element name="remote_ip" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="state" type="xsd:string" minOccurs="0" />
+                    <element name="applied_rule_ids" type="xsd:string" minOccurs="0" />
+                    <element name="global_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="base_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="store_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="order_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_method" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_description" type="xsd:string" minOccurs="0" />
+                    <element name="customer_email" type="xsd:string" minOccurs="0" />
+                    <element name="customer_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="customer_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="quote_id" type="xsd:string" minOccurs="0" />
+                    <element name="is_virtual" type="xsd:string" minOccurs="0" />
+                    <element name="customer_group_id" type="xsd:string" minOccurs="0" />
+                    <element name="customer_note_notify" type="xsd:string" minOccurs="0" />
+                    <element name="customer_is_guest" type="xsd:string" minOccurs="0" />
+                    <element name="email_sent" type="xsd:string" minOccurs="0" />
+                    <element name="order_id" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message_id" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_address" type="typens:vendorOrderAddressEntity" minOccurs="0" />
+                    <element name="billing_address" type="typens:vendorOrderAddressEntity" minOccurs="0" />
+                    <element name="items" type="typens:vendorOrderItemEntityArray" minOccurs="0" />
+                    <element name="payment" type="typens:vendorOrderPaymentEntity" minOccurs="0" />
+                    <element name="status_history" type="typens:vendorOrderStatusHistoryEntityArray" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderListEntity">
+                <all>
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="store_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="customer_id" type="xsd:string" minOccurs="0" />
+                    <element name="tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal" type="xsd:string" minOccurs="0" />
+                    <element name="grand_total" type="xsd:string" minOccurs="0" />
+                    <element name="total_paid" type="xsd:string" minOccurs="0" />
+                    <element name="total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="total_qty_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="total_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="total_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="total_online_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="total_offline_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal" type="xsd:string" minOccurs="0" />
+                    <element name="base_grand_total" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_paid" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_qty_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_online_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_offline_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="billing_address_id" type="xsd:string" minOccurs="0" />
+                    <element name="billing_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="billing_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_address_id" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="billing_name" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_name" type="xsd:string" minOccurs="0" />
+                    <element name="store_to_base_rate" type="xsd:string" minOccurs="0" />
+                    <element name="store_to_order_rate" type="xsd:string" minOccurs="0" />
+                    <element name="base_to_global_rate" type="xsd:string" minOccurs="0" />
+                    <element name="base_to_order_rate" type="xsd:string" minOccurs="0" />
+                    <element name="weight" type="xsd:string" minOccurs="0" />
+                    <element name="store_name" type="xsd:string" minOccurs="0" />
+                    <element name="remote_ip" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="state" type="xsd:string" minOccurs="0" />
+                    <element name="applied_rule_ids" type="xsd:string" minOccurs="0" />
+                    <element name="global_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="base_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="store_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="order_currency_code" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_method" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_description" type="xsd:string" minOccurs="0" />
+                    <element name="customer_email" type="xsd:string" minOccurs="0" />
+                    <element name="customer_firstname" type="xsd:string" minOccurs="0" />
+                    <element name="customer_lastname" type="xsd:string" minOccurs="0" />
+                    <element name="quote_id" type="xsd:string" minOccurs="0" />
+                    <element name="is_virtual" type="xsd:string" minOccurs="0" />
+                    <element name="customer_group_id" type="xsd:string" minOccurs="0" />
+                    <element name="customer_note_notify" type="xsd:string" minOccurs="0" />
+                    <element name="customer_is_guest" type="xsd:string" minOccurs="0" />
+                    <element name="email_sent" type="xsd:string" minOccurs="0" />
+                    <element name="order_id" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message_id" type="xsd:string" minOccurs="0" />
+                    <element name="coupon_code" type="xsd:string" minOccurs="0" />
+                    <element name="protect_code" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_invoiced_cost" type="xsd:string" minOccurs="0" />
+                    <element name="discount_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="discount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="discount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="tax_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="can_ship_partially" type="xsd:string" minOccurs="0" />
+                    <element name="can_ship_partially_item" type="xsd:string" minOccurs="0" />
+                    <element name="edit_increment" type="xsd:string" minOccurs="0" />
+                    <element name="forced_do_shipment_with_invoice" type="xsd:string" minOccurs="0" />
+                    <element name="payment_authorization_expiration" type="xsd:string" minOccurs="0" />
+                    <element name="paypal_ipn_customer_notified" type="xsd:string" minOccurs="0" />
+                    <element name="quote_address_id" type="xsd:string" minOccurs="0" />
+                    <element name="adjustment_negative" type="xsd:string" minOccurs="0" />
+                    <element name="adjustment_positive" type="xsd:string" minOccurs="0" />
+                    <element name="base_adjustment_negative" type="xsd:string" minOccurs="0" />
+                    <element name="base_adjustment_positive" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_subtotal_incl_tax" type="xsd:string" minOccurs="0" />
+                    <element name="base_total_due" type="xsd:string" minOccurs="0" />
+                    <element name="payment_authorization_amount" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="subtotal_incl_tax" type="xsd:string" minOccurs="0" />
+                    <element name="total_due" type="xsd:string" minOccurs="0" />
+                    <element name="customer_dob" type="xsd:string" minOccurs="0" />
+                    <element name="customer_middlename" type="xsd:string" minOccurs="0" />
+                    <element name="customer_prefix" type="xsd:string" minOccurs="0" />
+                    <element name="customer_suffix" type="xsd:string" minOccurs="0" />
+                    <element name="customer_taxvat" type="xsd:string" minOccurs="0" />
+                    <element name="discount_description" type="xsd:string" minOccurs="0" />
+                    <element name="ext_customer_id" type="xsd:string" minOccurs="0" />
+                    <element name="ext_order_id" type="xsd:string" minOccurs="0" />
+                    <element name="hold_before_state" type="xsd:string" minOccurs="0" />
+                    <element name="hold_before_status" type="xsd:string" minOccurs="0" />
+                    <element name="original_increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="relation_child_id" type="xsd:string" minOccurs="0" />
+                    <element name="relation_child_real_id" type="xsd:string" minOccurs="0" />
+                    <element name="relation_parent_id" type="xsd:string" minOccurs="0" />
+                    <element name="relation_parent_real_id" type="xsd:string" minOccurs="0" />
+                    <element name="x_forwarded_for" type="xsd:string" minOccurs="0" />
+                    <element name="customer_note" type="xsd:string" minOccurs="0" />
+                    <element name="total_item_count" type="xsd:string" minOccurs="0" />
+                    <element name="customer_gender" type="xsd:string" minOccurs="0" />
+                    <element name="hidden_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_hidden_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_hidden_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_hidden_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="hidden_tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_hidden_tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="hidden_tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_hidden_tax_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_incl_tax" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_incl_tax" type="xsd:string" minOccurs="0" />
+                    <element name="base_customer_balance_amount" type="xsd:string" minOccurs="0" />
+                    <element name="customer_balance_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_customer_balance_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="customer_balance_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_customer_balance_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="customer_balance_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_customer_balance_total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="customer_balance_total_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="gift_cards" type="xsd:string" minOccurs="0" />
+                    <element name="base_gift_cards_amount" type="xsd:string" minOccurs="0" />
+                    <element name="gift_cards_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_gift_cards_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="gift_cards_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_gift_cards_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="gift_cards_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance" type="xsd:string" minOccurs="0" />
+                    <element name="base_reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_reward_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="reward_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_reward_currency_amount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_currency_amount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance_to_refund" type="xsd:string" minOccurs="0" />
+                    <element name="reward_salesrule_points" type="xsd:string" minOccurs="0" />
+                    <element name="firstname" type="xsd:string" minOccurs="0" />
+                    <element name="lastname" type="xsd:string" minOccurs="0" />
+                    <element name="telephone" type="xsd:string" minOccurs="0" />
+                    <element name="postcode" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderListEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorOrderListEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="vendorOrderAddressEntity">
+                <all>
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="parent_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="is_active" type="xsd:string" minOccurs="0" />
+                    <element name="address_type" type="xsd:string" minOccurs="0" />
+                    <element name="firstname" type="xsd:string" minOccurs="0" />
+                    <element name="lastname" type="xsd:string" minOccurs="0" />
+                    <element name="company" type="xsd:string" minOccurs="0" />
+                    <element name="street" type="xsd:string" minOccurs="0" />
+                    <element name="city" type="xsd:string" minOccurs="0" />
+                    <element name="region" type="xsd:string" minOccurs="0" />
+                    <element name="postcode" type="xsd:string" minOccurs="0" />
+                    <element name="country_id" type="xsd:string" minOccurs="0" />
+                    <element name="telephone" type="xsd:string" minOccurs="0" />
+                    <element name="fax" type="xsd:string" minOccurs="0" />
+                    <element name="region_id" type="xsd:string" minOccurs="0" />
+                    <element name="address_id" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderItemEntity">
+                <all>
+                    <element name="item_id" type="xsd:string" minOccurs="0" />
+                    <element name="order_id" type="xsd:string" minOccurs="0" />
+                    <element name="quote_item_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="product_id" type="xsd:string" minOccurs="0" />
+                    <element name="product_type" type="xsd:string" minOccurs="0" />
+                    <element name="product_options" type="xsd:string" minOccurs="0" />
+                    <element name="weight" type="xsd:string" minOccurs="0" />
+                    <element name="is_virtual" type="xsd:string" minOccurs="0" />
+                    <element name="sku" type="xsd:string" minOccurs="0" />
+                    <element name="name" type="xsd:string" minOccurs="0" />
+                    <element name="applied_rule_ids" type="xsd:string" minOccurs="0" />
+                    <element name="free_shipping" type="xsd:string" minOccurs="0" />
+                    <element name="is_qty_decimal" type="xsd:string" minOccurs="0" />
+                    <element name="no_discount" type="xsd:string" minOccurs="0" />
+                    <element name="qty_canceled" type="xsd:string" minOccurs="0" />
+                    <element name="qty_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="qty_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="qty_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="qty_shipped" type="xsd:string" minOccurs="0" />
+                    <element name="cost" type="xsd:string" minOccurs="0" />
+                    <element name="price" type="xsd:string" minOccurs="0" />
+                    <element name="base_price" type="xsd:string" minOccurs="0" />
+                    <element name="original_price" type="xsd:string" minOccurs="0" />
+                    <element name="base_original_price" type="xsd:string" minOccurs="0" />
+                    <element name="tax_percent" type="xsd:string" minOccurs="0" />
+                    <element name="tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_amount" type="xsd:string" minOccurs="0" />
+                    <element name="tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="discount_percent" type="xsd:string" minOccurs="0" />
+                    <element name="discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_amount" type="xsd:string" minOccurs="0" />
+                    <element name="discount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_discount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="amount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="base_amount_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="row_total" type="xsd:string" minOccurs="0" />
+                    <element name="base_row_total" type="xsd:string" minOccurs="0" />
+                    <element name="row_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_row_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="row_weight" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message_id" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message" type="xsd:string" minOccurs="0" />
+                    <element name="gift_message_available" type="xsd:string" minOccurs="0" />
+                    <element name="base_tax_before_discount" type="xsd:string" minOccurs="0" />
+                    <element name="tax_before_discount" type="xsd:string" minOccurs="0" />
+                    <element name="weee_tax_applied" type="xsd:string" minOccurs="0" />
+                    <element name="weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
+                    <element name="weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_applied_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_applied_row_amount" type="xsd:string" minOccurs="0" />
+                    <element name="weee_tax_disposition" type="xsd:string" minOccurs="0" />
+                    <element name="weee_tax_row_disposition" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_disposition" type="xsd:string" minOccurs="0" />
+                    <element name="base_weee_tax_row_disposition" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderItemEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorOrderItemEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="orderItemIdQty">
+                <all>
+                    <element name="order_item_id" type="xsd:int" />
+                    <element name="qty" type="xsd:double" />
+                </all>
+            </complexType>
+            <complexType name="orderItemIdQtyArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:orderItemIdQty[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="vendorOrderPaymentEntity">
+                <all>
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="parent_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="is_active" type="xsd:string" minOccurs="0" />
+                    <element name="amount_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_amount_ordered" type="xsd:string" minOccurs="0" />
+                    <element name="base_shipping_amount" type="xsd:string" minOccurs="0" />
+                    <element name="method" type="xsd:string" minOccurs="0" />
+                    <element name="po_number" type="xsd:string" minOccurs="0" />
+                    <element name="cc_type" type="xsd:string" minOccurs="0" />
+                    <element name="cc_number_enc" type="xsd:string" minOccurs="0" />
+                    <element name="cc_last4" type="xsd:string" minOccurs="0" />
+                    <element name="cc_owner" type="xsd:string" minOccurs="0" />
+                    <element name="cc_exp_month" type="xsd:string" minOccurs="0" />
+                    <element name="cc_exp_year" type="xsd:string" minOccurs="0" />
+                    <element name="cc_ss_start_month" type="xsd:string" minOccurs="0" />
+                    <element name="cc_ss_start_year" type="xsd:string" minOccurs="0" />
+                    <element name="payment_id" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderStatusHistoryEntity">
+                <all>
+                    <element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="parent_id" type="xsd:string" minOccurs="0" />
+                    <element name="created_at" type="xsd:string" minOccurs="0" />
+                    <element name="updated_at" type="xsd:string" minOccurs="0" />
+                    <element name="is_active" type="xsd:string" minOccurs="0" />
+                    <element name="is_customer_notified" type="xsd:string" minOccurs="0" />
+                    <element name="status" type="xsd:string" minOccurs="0" />
+                    <element name="comment" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="vendorOrderStatusHistoryEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorOrderStatusHistoryEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+			<!-- Vendor Order Schema End -->
+			
+			<!-- Vendor Transaction Schema Start -->
+			<complexType name="vendorTransactionData">
+	        	<all>
+	                    <element name="id" type="xsd:string" minOccurs="0" />
+	                    <element name="entity_id" type="xsd:string" minOccurs="0" />
+	                    <element name="name" type="xsd:string" minOccurs="0" />
+	                    <element name="vendor_id" type="xsd:string" minOccurs="0" />
+	                    <element name="transaction_id" type="xsd:string" minOccurs="0" />
+	                    <element name="amount_desc" type="xsd:string" minOccurs="0" />
+	                    <element name="amount" type="xsd:string" minOccurs="0" />
+	                    <element name="base_amount" type="xsd:string" minOccurs="0" />
+	                    <element name="currency" type="xsd:string" minOccurs="0" />
+	                    <element name="fee" type="xsd:string" minOccurs="0" />
+	                    <element name="base_fee" type="xsd:string" minOccurs="0" />
+	                    <element name="net_amount" type="xsd:string" minOccurs="0" />
+	                    <element name="base_net_amount" type="xsd:string" minOccurs="0" />
+	                    <element name="balance" type="xsd:string" minOccurs="0" />
+	                    <element name="base_balance" type="xsd:string" minOccurs="0" />
+	                    <element name="tax" type="xsd:string" minOccurs="0" />
+	                    <element name="base_tax" type="xsd:string" minOccurs="0" />
+	                    <element name="notes" type="xsd:string" minOccurs="0" />
+	                    <element name="transaction_type" type="xsd:string" minOccurs="0" />
+	                    <element name="payment_method" type="xsd:string" minOccurs="0" />
+	                    <element name="payment_code" type="xsd:string" minOccurs="0" />
+	                    <element name="payment_detail" type="xsd:string" minOccurs="0" />
+	                    <element name="status" type="xsd:string" minOccurs="0" />
+	                    <element name="payment_date" type="xsd:string" minOccurs="0" />
+	                    <element name="created_at" type="xsd:string" minOccurs="0" />
+	                    <element name="base_currency" type="xsd:string" minOccurs="0" />
+	                    <element name="base_to_global_rate" type="xsd:string" minOccurs="0" />
+	                    <element name="item_wise_amount_desc" type="xsd:string" minOccurs="0" />
+	                    <element name="total_shipping_amount" type="xsd:string" minOccurs="0" />
+	        	</all>
+            </complexType>
+            <complexType name="vendorTransactionDataArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorTransactionData[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+			<!-- Vendor Transaction Schema End -->
+			
+			<!-- Vendor Settings Schema Start -->
+			<!-- <complexType name="vendorGroupsData">
+	        	<all>
+	        		<element name="section" type="xsd:string" minOccurs="0" />
+					<element name="groups" type="typens:associativeMultiArray" minOccurs="0" />
+					<element name="groups" type="xsd:anyType" minOccurs="0" />
+	        	</all>
+            </complexType> -->
+            <!-- <complexType name="vendorGroupsDataArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorGroupsData[]" />
+                    </restriction>
+                </complexContent>
+            </complexType> -->
+			<!-- Vendor Settings Schema End -->
+			
+			<!-- Vendor Report Schema Start -->
+			<complexType name="vendorProductReport">
+	        	<all>
+					<element name="ordered_qty" type="xsd:float" minOccurs="0" />
+					<element name="order_item_name" type="xsd:string" minOccurs="0" />
+					<element name="order_item_total_sales" type="xsd:float" minOccurs="0" />
+					<element name="sku" type="xsd:string" minOccurs="0" />
+					<element name="entity_id" type="xsd:int" minOccurs="0" />
+					<element name="type_id" type="xsd:string" minOccurs="0" />
+	        	</all>
+            </complexType>
+             <complexType name="vendorProductReportArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorProductReport[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="vendorOrderReport">
+	        	<all>
+					<element name="period" type="xsd:string" minOccurs="0" />
+					<element name="order_count" type="xsd:int" minOccurs="0" />
+					<element name="product_qty" type="xsd:float" minOccurs="0" />
+					<element name="order_total" type="xsd:float" minOccurs="0" />
+					<element name="commission_fee" type="xsd:float" minOccurs="0" />
+					<element name="net_earned" type="xsd:float" minOccurs="0" />
+	        	</all>
+            </complexType>
+             <complexType name="vendorOrderReportArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:vendorOrderReport[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+			<!-- Vendor Report Schema End -->
+		</schema>
+	</types>
+	
+	<!-- Vendor Account Start -->
+	<message name="vendorLoginRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="websiteId" type="xsd:string" />
+		<part name="userName" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="vendorLoginResponse">
+		<part name="customerSession" type="typens:vendorLoginResp" />
+	</message>
+	<message name="vendorLogoutRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorSessionId" type="xsd:string" />
+		<part name="vendorId" type="xsd:string" />
+	</message>
+	<message name="vendorLogoutResponse">
+		<part name="customerSession" type="xsd:string" />
+	</message>
+	<message name="vendorListRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="filters" type="typens:filters" />
+	</message>
+	<message name="vendorListResponse">
+		<part name="storeView" type="typens:vendorEntityArray" />
+	</message>
+	<message name="vendorCreateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorData" type="typens:vendorEntityToCreate" />
+	</message>
+	<message name="vendorCreateResponse">
+		<part name="result" type="xsd:string" />
+	</message>
+	<message name="vendorInfoRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorId" type="xsd:int" />
+		<part name="attributes" type="typens:ArrayOfString" />
+	</message>
+	<message name="vendorInfoResponse">
+		<part name="vendorInfo" type="typens:vendorEntity" />
+	</message>
+	<message name="vendorUpdateRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorId" type="xsd:int" />
+		<part name="vendorSessionId" type="xsd:string" />
+		<part name="vendorData" type="typens:vendorEntityToCreate" />
+	</message>
+	<message name="vendorUpdateResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="vendorDeleteRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorId" type="xsd:int" />
+	</message>
+	<message name="vendorDeleteResponse">
+		<part name="result" type="xsd:boolean" />
+	</message>
+	<message name="vendorGetVendorLinksRequest">
+		<part name="sessionId" type="xsd:string" />
+		<part name="vendorId" type="xsd:int" />
+		<part name="vendorSessionId" type="xsd:string" />
+	</message>
+	<message name="vendorGetVendorLinksResponse">
+		<part name="data" type="typens:vendorLinksEntityArray" />
+	</message>
+	<!-- Vendor Account End -->
+	
+	<!-- Vendor Product Start -->
+	<message name="vendorProductListRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters"/>
+        <part name="storeView" type="xsd:string"/>
+    </message>
+    <message name="vendorProductListResponse">
+        <part name="storeView" type="typens:vendorProductEntityArray"/>
+    </message>
+    <message name="vendorProductInfoRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="productId" type="xsd:string"/>
+        <part name="storeView" type="xsd:string"/>
+        <part name="attributes" type="typens:vendorProductRequestAttributes"/>
+        <part name="identifierType" type="xsd:string"/>
+    </message>
+    <message name="vendorProductInfoResponse">
+        <part name="info" type="typens:vendorProductReturnEntity"/>
+    </message>
+    <message name="vendorProductCreateRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="type" type="xsd:string"/>
+        <part name="set" type="xsd:string"/>
+        <part name="sku" type="xsd:string"/>
+        <part name="productData" type="typens:vendorProductCreateEntity"/>
+        <part name="storeView" type="xsd:string"/>
+    </message>
+    <message name="vendorProductCreateResponse">
+        <part name="result" type="xsd:int"/>
+    </message>
+    <message name="vendorProductUpdateRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="product" type="xsd:string"/>
+        <part name="productData" type="typens:vendorProductCreateEntity"/>
+        <part name="storeView" type="xsd:string"/>
+        <part name="identifierType" type="xsd:string"/>
+    </message>
+    <message name="vendorProductUpdateResponse">
+        <part name="result" type="xsd:boolean"/>
+    </message>
+    <message name="vendorProductDeleteRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="productId" type="xsd:string"/>
+        <part name="identifierType" type="xsd:string"/>
+    </message>
+    <message name="vendorProductDeleteResponse">
+        <part name="result" type="xsd:int"/>
+    </message>
+	<!-- Vendor Product End -->
+
+	<!-- Vendor Order Start -->
+	<message name="vendorOrderListRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="filters" type="typens:filters" />
+    </message>
+    <message name="vendorOrderListResponse">
+        <part name="result" type="typens:vendorOrderListEntityArray" />
+    </message>
+    <message name="vendorOrderInfoRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="orderIncrementId" type="xsd:string" />
+    </message>
+    <message name="vendorOrderInfoResponse">
+        <part name="result" type="typens:vendorOrderEntity" />
+    </message>
+    <message name="vendorOrderPaymentsRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+    </message>
+    <message name="vendorOrderPaymentsResponse">
+        <part name="result" type="typens:vendorTransactionDataArray" />
+    </message>
+	<!-- Vendor Order End -->
+	
+	<!-- Vendor Setting Start -->
+	<message name="vendorSettingSaveRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="section" type="xsd:string" />
+        <part name="groups" type="xsd:anyType" />
+    </message>
+    <message name="vendorSettingSaveResponse">
+        <part name="result" type="xsd:int" />
+    </message>
+	<!-- Vendor Setting End -->
+	
+	<!-- Vendor Reports Start -->
+	<message name="vendorReportGetProductReportRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="from" type="xsd:string" />
+        <part name="to" type="xsd:string" />
+    </message>
+    <message name="vendorReportGetProductReportResponse">
+        <part name="result" type="typens:vendorProductReportArray" />
+    </message>
+    <message name="vendorReportGetOrderReportRequest">
+        <part name="sessionId" type="xsd:string" />
+        <part name="vendorId" type="xsd:int"/>
+        <part name="vendorSessionId" type="xsd:string" />
+        <part name="period" type="xsd:string" />
+        <part name="from" type="xsd:string" />
+        <part name="to" type="xsd:string" />
+        <part name="payment_state" type="xsd:string" />
+    </message>
+    <message name="vendorReportGetOrderReportResponse">
+        <part name="result" type="typens:vendorOrderReportArray" />
+    </message>
+	<!-- Vendor Reports End -->
+	
+	<portType name="{{var wsdl.handler}}PortType">
+		<!-- Vendor Account Operation Start -->
+		<operation name="vendorLogin">
+			<documentation>Vendor Login</documentation>
+			<input message="typens:vendorLoginRequest" />
+			<output message="typens:vendorLoginResponse" />
+		</operation>
+		<operation name="vendorLogout">
+			<documentation>Vendor Logout</documentation>
+			<input message="typens:vendorLogoutRequest" />
+			<output message="typens:vendorLogoutResponse" />
+		</operation>
+		<operation name="vendorList">
+			<documentation>Retrieve vendors</documentation>
+			<input message="typens:vendorListRequest" />
+			<output message="typens:vendorListResponse" />
+		</operation>
+		<operation name="vendorCreate">
+			<documentation>Create vendor</documentation>
+			<input message="typens:vendorCreateRequest" />
+			<output message="typens:vendorCreateResponse" />
+		</operation>
+		<operation name="vendorInfo">
+			<documentation>Retrieve vendor data</documentation>
+			<input message="typens:vendorInfoRequest" />
+			<output message="typens:vendorInfoResponse" />
+		</operation>
+		<operation name="vendorUpdate">
+			<documentation>Update vendor data</documentation>
+			<input message="typens:vendorUpdateRequest" />
+			<output message="typens:vendorUpdateResponse" />
+		</operation>
+		<operation name="vendorDelete">
+			<documentation>Delete vendor</documentation>
+			<input message="typens:vendorDeleteRequest" />
+			<output message="typens:vendorDeleteResponse" />
+		</operation>
+		<operation name="vendorGetVendorLinks">
+			<documentation>Get Vendor Links</documentation>
+			<input message="typens:vendorGetVendorLinksRequest" />
+			<output message="typens:vendorGetVendorLinksResponse" />
+		</operation>
+		<!-- Vendor Account Operation End -->
+		
+		<!-- Vendor Product Operation Start -->
+		<operation name="vendorProductList">
+            <documentation>Retrieve products list by filters</documentation>
+            <input message="typens:vendorProductListRequest"/>
+            <output message="typens:vendorProductListResponse"/>
+        </operation>
+        <operation name="vendorProductInfo">
+            <documentation>Retrieve product</documentation>
+            <input message="typens:vendorProductInfoRequest"/>
+            <output message="typens:vendorProductInfoResponse"/>
+        </operation>
+        <operation name="vendorProductCreate">
+            <documentation>Create New Vendor Product</documentation>
+            <input message="typens:vendorProductCreateRequest"/>
+            <output message="typens:vendorProductCreateResponse"/>
+        </operation>
+        <operation name="vendorProductUpdate">
+            <documentation>Update Vendor Product</documentation>
+            <input message="typens:vendorProductUpdateRequest"/>
+            <output message="typens:vendorProductUpdateResponse"/>
+        </operation>
+        <operation name="vendorProductDelete">
+            <documentation>Delete Vendor Product</documentation>
+            <input message="typens:vendorProductDeleteRequest"/>
+            <output message="typens:vendorProductDeleteResponse"/>
+        </operation>
+		<!-- Vendor Product Operation End -->
+		
+		<!-- Vendor Order Operation Start -->
+		<operation name="vendorOrderList">
+            <documentation>Retrieve list of orders by filters</documentation>
+            <input message="typens:vendorOrderListRequest" />
+            <output message="typens:vendorOrderListResponse" />
+        </operation>
+        <operation name="vendorOrderInfo">
+            <documentation>Retrieve order information</documentation>
+            <input message="typens:vendorOrderInfoRequest" />
+            <output message="typens:vendorOrderInfoResponse" />
+        </operation>
+        <operation name="vendorOrderPayments">
+            <documentation>Retrieve order information</documentation>
+            <input message="typens:vendorOrderPaymentsRequest" />
+            <output message="typens:vendorOrderPaymentsResponse" />
+        </operation>
+		<!-- Vendor Order Operation End -->
+		
+		<!-- Vendor Settings Operation Start -->
+		<operation name="vendorSettingSave">
+            <documentation>Save Vendor Setting</documentation>
+            <input message="typens:vendorSettingSaveRequest" />
+            <output message="typens:vendorSettingSaveResponse" />
+        </operation>
+		<!-- Vendor Settings Operation End -->
+		
+		<!-- Vendor Reports Operation Start -->
+		<operation name="vendorReportGetProductReport">
+            <documentation>Retrieve Vendor Product report</documentation>
+            <input message="typens:vendorReportGetProductReportRequest" />
+            <output message="typens:vendorReportGetProductReportResponse" />
+        </operation>
+        <operation name="vendorReportGetOrderReport">
+            <documentation>Retrieve Vendor Order report</documentation>
+            <input message="typens:vendorReportGetOrderReportRequest" />
+            <output message="typens:vendorReportGetOrderReportResponse" />
+        </operation>
+		<!-- Vendor Reports Operation End -->
+	</portType>
+	
+	<binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<!-- Vendor Account Operation Binding Start -->
+		<operation name="vendorLogin">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorLogout">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorList">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorCreate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorInfo">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorUpdate">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorDelete">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="vendorGetVendorLinks">
+			<soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+			<input>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+					encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<!-- Vendor Account Operation Binding End -->
+		
+		<!-- Vendor Product Operation Binding Start -->
+		<operation name="vendorProductList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="vendorProductInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="vendorProductCreate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="vendorProductUpdate">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="vendorProductDelete">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded"
+                           encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+		<!-- Vendor Product Operation Binding End -->
+		
+		<!-- Vendor Order Operation Binding Start -->
+		<operation name="vendorOrderList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="vendorOrderInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="vendorOrderPayments">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+		<!-- Vendor Order Operation Binding End -->
+		
+		<!-- Vendor Settings Operation Binding Start -->
+		<operation name="vendorSettingSave">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+		<!-- Vendor Settings Operation Binding End -->
+		
+		<!-- Vendor Report Operation Binding Start -->
+		<operation name="vendorReportGetProductReport">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="vendorReportGetOrderReport">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+		<!-- Vendor Report Operation Binding End -->
+	</binding>
+	<service name="{{var wsdl.name}}Service"> 
+		<port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding"> 
+			<soap:address location="{{var wsdl.url}}" /> 
+		</port>
+	</service>
+</definitions>

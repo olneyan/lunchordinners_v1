@@ -1,0 +1,44 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php if($this->getVendorId()) { ?>
+	<div class="dashboard">
+		<div class="page-title">
+			<h1><i class="fa fa-dashboard fa-fw"></i> <?php echo $this->__('Dashboard') ?></h1>
+		</div>
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		<div class="welcome-msg">
+			<p class="hello"><strong><?php echo $this->__('Hello, %s!', $this->escapeHtml($this->getVendor()->getName())) ?></strong></p>
+			<p><?php echo $this->__('From your Dashboard you have the ability to view a snapshot of your total orders , total sales , total sales country wise, sales statistics (week, month or year wise) and recent activity on your associated products.') ?></p>
+		</div>
+		<div class="box-account box-info">
+			<?php echo $this->getChildHtml('info') ?>
+		</div>
+		<div class="box-account box-recent">
+			<?php echo $this->getChildHtml('chart') ?>
+		</div>
+		<div class="box-account box-recent">
+			<?php echo $this->getChildHtml('extrainfo') ?>
+		</div>
+		<div class="box-account box-recent">
+			<?php echo $this->getChildHtml('map') ?>
+		</div>
+	</div>
+<?php } ?>

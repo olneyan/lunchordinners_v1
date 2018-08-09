@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectdeals
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+    <modules>
+        <Ced_Mobiconnectdeals>
+            <version>1.0.2</version>
+          
+        </Ced_Mobiconnectdeals>
+    </modules>
+    <frontend>
+        <routers>
+            <mobiconnectdeals>
+                <use>standard</use>
+                <args>
+                    <module>Ced_Mobiconnectdeals</module>
+                    <frontName>mobiconnectdeals</frontName>
+                </args>
+            </mobiconnectdeals>
+        </routers>
+        <layout>
+            <updates>
+                <mobiconnectdeals>
+                    <file>mobiconnectdeals/deals.xml</file>
+                </mobiconnectdeals>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                   <modules>
+                        <mobiconnectdeals after="Mage_Adminhtml">Ced_Mobiconnectdeals</mobiconnectdeals>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<mobiconnect module="mobiconnectdeals">            
+				<children>
+					<groups module="mobiconnectdeals">
+						<title>Manage Deal Groups </title>
+						<sort_order>0</sort_order>
+						<action>adminhtml/adminhtml_groups/index</action>
+                        <depends><config>mobiconnectdeals/mobideals/activation</config></depends>
+					</groups>
+				</children>
+                <children>
+                    <deals module="mobiconnectdeals">
+                        <title>Manage Deals</title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/adminhtml_deals/index</action>
+                        <depends><config>mobiconnectdeals/mobideals/activation</config></depends>
+                    </deals>
+                </children>
+			</mobiconnect>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<mobiconnectdeals>
+					<file>mobiconnectdeals/deals.xml</file>
+				</mobiconnectdeals>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <mobiconnectdeals>
+                <class>Ced_Mobiconnectdeals_Model</class>
+                <resourceModel>mobiconnectdeals_mysql4</resourceModel>
+            </mobiconnectdeals>
+            <mobiconnectdeals_mysql4>
+                <class>Ced_Mobiconnectdeals_Model_Mysql4</class>
+                <entities>
+                    <group>
+                        <table>mobiconnectdeals_group</table>
+                    </group>
+                     <deals>
+                        <table>mobiconnectdeals_deals</table>
+                    </deals>
+                </entities>
+            </mobiconnectdeals_mysql4>
+        </models>
+        <resources>
+            <mobiconnectdeals_setup>
+                <setup>
+                    <module>Ced_Mobiconnectdeals</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mobiconnectdeals_setup>
+            <mobiconnectdeals_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </mobiconnectdeals_write>
+            <mobiconnectdeals_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </mobiconnectdeals_read>
+        </resources>
+        <blocks>
+            <mobiconnectdeals>
+                <class>Ced_Mobiconnectdeals_Block</class>
+            </mobiconnectdeals>
+        </blocks>
+        <helpers>
+            <mobiconnectdeals>
+                <class>Ced_Mobiconnectdeals_Helper</class>
+            </mobiconnectdeals>
+        </helpers>
+    </global>
+    <default>
+        <mobiconnectdeals>
+            <mobideals>
+                <activation>1</activation>
+            </mobideals>
+        </mobiconnectdeals>
+    </default>
+</config>

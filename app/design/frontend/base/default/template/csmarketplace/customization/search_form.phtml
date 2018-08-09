@@ -1,0 +1,65 @@
+<?php
+
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+if(!Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+	
+
+
+if (strpos($currentUrl, 'vendor-shop') === false) {}
+else{?>
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="input-box">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+        <input id="search" type="search" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text required-entry" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" placeholder="<?php echo $this->__('Search entire store here...') ?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+    </div>
+
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var searchForm = new Varien.searchForm('search_mini_form', 'search', '');
+        searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+    //]]>
+    </script>
+</form>
+<?php 
+	
+}
+} 
+?>
+
+<script>
+var req = null;
+jQuery("#rest_name").keyup(function(){
+	var string = jQuery("#rest_name").val();
+	if (req != null) req.abort();
+	if(string.length > 1){
+		req = jQuery.ajax({
+			type: "POST",
+			url: "<?php echo Mage::getUrl('csmarketplace/search/suggestion'); ?>",
+			data: {name: string},
+			success: function(html){
+				if(html.length !=0)
+				{
+					jQuery(".rest_sugg").remove();
+					var newDiv = jQuery(document.createElement('div')).attr("class", "rest_sugg").attr("style", "border: 1px solid #bbafa0;");
+					newDiv.html(html);				
+					newDiv.appendTo("#rest_suggets");
+			    }
+				
+			}
+		});
+	}else{
+		jQuery(".rest_sugg").remove();
+	}	
+});
+function pickval(id) {
+	jQuery("#rest_name").val(id);
+	jQuery(".rest_sugg").remove();
+	jQuery("#search_form").submit();
+}	
+    </script>

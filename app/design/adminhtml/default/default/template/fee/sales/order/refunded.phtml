@@ -1,0 +1,32 @@
+<?php
+/**
+ * Created by Magentix
+ * Based on Module from "Excellence Technologies" (excellencetechnologies.in)
+ *
+ * @category   Magentix
+ * @package    Magentix_Fee
+ * @author     Matthieu Vion (http://www.magentix.fr)
+ * @license    This work is free software, you can redistribute it and/or modify it
+ */
+?>
+
+<?php if($this->getSource() instanceof Mage_Sales_Model_Order): ?>
+
+    <?php if ((float)$this->getSource()->getFeeAmountRefunded() > 0): ?>
+        <tr>
+            <td class="label"><strong><?php echo Mage::helper('fee')->__('Tip refunded to customer') ?></strong></td>
+            <td><strong><?php echo $this->getSource()->getFeeAmountRefunded(); ?></strong></td>
+        </tr>
+    <?php endif; ?>
+
+<?php else: ?>
+
+    <?php if ((float)$this->getSource()->getFeeAmount()): ?>
+        <tr>
+            <td class="label"><strong><?php echo Mage::helper('fee')->__('Tip Refunded') ?></strong></td>
+            <td><strong><?php echo $this->getSource()->getFeeAmount(); ?></strong></td>
+        </tr>
+    <?php endif;  ?>
+
+<?php endif; ?>
+

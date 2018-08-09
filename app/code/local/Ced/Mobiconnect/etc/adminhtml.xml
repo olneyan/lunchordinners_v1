@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+    <menu>
+        <mobiconnect translate="title" module="mobiconnect">
+     
+            <title>MobiConnect</title>
+            <sort_order>15</sort_order>
+            <children>
+	            <connector translate="title" module="mobiconnect">
+	            	<title>Connector Setting</title>
+                    <sort_order>1</sort_order>
+                     <children>
+		                <banner translate="title" module="mobiconnect">
+		                    <title>Manage Banner</title>
+		                    <sort_order>1</sort_order>
+		                    <action>adminhtml/adminhtml_index/index</action>
+		                </banner>
+		                <widget translate="title" module="mobiconnect">
+		                    <title>Widgets</title>
+		                    <sort_order>2</sort_order>
+		                    <children>
+		                    	<home_banner translate="title" module="mobiconnect">
+				                    <title>Manage Home Page Banner</title>
+				                    <sort_order>1</sort_order>
+				                    <action>adminhtml/adminhtml_widget/index</action>
+		                		</home_banner>
+		                    </children>
+		                </widget>
+		               <app_config translate="title" module="mobiconnect">
+		                    <title>App Configuration</title>
+		                    <sort_order>5</sort_order>
+		                    <action>adminhtml/system_config/edit/section/mobiconnect</action>
+		               </app_config>
+		            </children>
+	            </connector>
+	            <mobiconnect_support translate="title" module="mobiconnect">
+	            	<title>Mobiconnect Support</title>
+                    <sort_order>2</sort_order>
+                    <action>adminhtml/adminhtml_support/support</action>
+	            </mobiconnect_support>
+            </children>
+            <depends><config>mobiconnect/general/enable</config></depends>
+		</mobiconnect>
+    </menu>
+</config>

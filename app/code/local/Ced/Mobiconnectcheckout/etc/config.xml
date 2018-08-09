@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+  <modules>
+    <Ced_Mobiconnectcheckout>
+      <version>0.0.6</version>
+    
+      <author>Cedcoss</author> 
+    </Ced_Mobiconnectcheckout>
+  </modules>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mobiconnectcheckout translate="title">
+                                            <title>Ced App Store Config</title>
+                                            <sort_order>1000</sort_order>
+                                       </mobiconnectcheckout>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <mobiconnectcheckout>
+                    <file>mobiconnectcheckout/checkout.xml</file>
+                </mobiconnectcheckout>
+            </updates>
+        </layout>
+    </adminhtml>                    
+    <frontend>
+        <routers>
+            <mobiconnectcheckout>
+                <use>standard</use>
+                <args>
+                    <module>Ced_Mobiconnectcheckout</module>
+                    <frontName>mobiconnectcheckout</frontName>
+                </args>
+            </mobiconnectcheckout>
+            <paypal>
+                <args>
+                    <modules>
+                        <Ced_Mobiconnectcheckout before="Mage_Paypal">Ced_Mobiconnectcheckout</Ced_Mobiconnectcheckout>
+                    </modules>
+                </args>
+            </paypal>
+            <payucheckout>
+                <args>
+                    <modules>
+                        <Ced_Mobiconnectcheckout before="Payu_PayuCheckout">Ced_Mobiconnectcheckout</Ced_Mobiconnectcheckout>
+                    </modules>
+                </args>
+            </payucheckout>
+        </routers>
+        <layout>
+            <updates>
+                <mobiconnectcheckout>
+                    <file>mobiconnectcheckout/checkout.xml</file>
+                </mobiconnectcheckout>
+            </updates>
+        </layout>
+  </frontend>
+    <global>
+        <blocks>
+            <mobiconnectcheckout>
+                <class>Ced_Mobiconnectcheckout_Block</class>
+            </mobiconnectcheckout>
+        </blocks>
+      <models>
+      <mobiconnectcheckout>
+        <class>Ced_Mobiconnectcheckout_Model</class>
+      </mobiconnectcheckout>
+      </models>
+      <helpers>
+        <mobiconnectcheckout>
+          <class>Ced_Mobiconnectcheckout_Helper</class>
+        </mobiconnectcheckout>
+      </helpers>
+    </global>
+    <default>
+      <mobiconnectcheckout>
+        <mobicheckout>
+          <activation>1</activation>
+        </mobicheckout>
+      </mobiconnectcheckout>
+    </default>
+</config>

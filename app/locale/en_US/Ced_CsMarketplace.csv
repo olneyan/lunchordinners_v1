@@ -1,0 +1,329 @@
+Product List,Product List
+Type,Type
+Action,Action
+Reset Filter,Reset Filter
+simple,simple
+virtual,virtual
+downloadable,downloadable
+Description,Description
+Short Description,Short Description
+SKU Available,SKU Available
+SKU Already Exist,SKU Already Exist
+SKU can't be empty,SKU can't be empty
+Default Image,Default Image
+Invalid extension! Please Upload an image,Invalid extension! Please Upload an image
+Error processing the request please Try Again,Error processing the request please Try Again
+Product Link Successfully Deleted,Product Link Successfully Deleted
+Product Sample Successfully Deleted,Product Sample Successfully Deleted
+Image Successfully Deleted,Image Successfully Deleted
+Upload,Upload
+Links,Links
+Samples,Samples
+Are you sure?,Are you sure?
+No File Choosen,No File Choosen
+No File...,No File...
+Pending Products,Pending Products
+Approved Products,Approved Products
+All Products,All Products
+Approve,Approve
+Disapprove,Disapprove
+Vendor Pending Products,Store Pending Products
+Vendor Approved Products,Store Approved Products
+Manage Vendor Products,Manage Store Products
+You sure?,You sure?
+Click to Approve,Click to Approve
+Click to Disapprove,Click to Disapprove
+Unable to delete the product,Unable to delete the product
+Your Product Has Been Sucessfully Deleted,Your Product Has Been Sucessfully Deleted
+The Product Name cannot be empty,The Product Name cannot be empty
+The Product SKU cannot be empty,The Product SKU cannot be empty
+The Product Weight cannot be empty,The Product Weight cannot be empty
+The Product Weight must be 0 or Greater,The Product Weight must be 0 or Greater
+The Product Stock cannot be empty,The Product Stock cannot be empty
+The Product Stock must be a valid Number,The Product Stock must be a valid Number
+The Product Tax Class cannot be empty,The Product Tax Class cannot be empty
+The Product Price cannot be empty,The Product Price cannot be empty
+The Product Price must be 0 or Greater,The Product Price must be 0 or Greater
+The Product Special Price must be 0 or Greater,The Product Special Price must be 0 or Greater
+The Product Short description cannot be empty,The Product Short description cannot be empty
+The Product Description cannot be empty,The Product Description cannot be empty
+Require Admin Approval,Require Admin Approval
+Allowed Product Attribute Set,Allowed Product Attribute Set
+Allowed Product Type,Allowed Product Type
+Product approved notification email,Product approved notification email
+Product rejected notification email,Product rejected notification email
+Downloadable Product Configuration,Downloadable Product Configuration
+Allowed Link Formats,Allowed Link Formats
+Allowed Sample Formats,Allowed Sample Formats
+Filter Report,Filter Report
+No Report Available,No Report Available
+No Transactions Available,No Transactions Available
+No Orders Available,No Orders Available
+No product records found,No product records found
+Start date,Start date
+End date,End date
+Vendor Payment Status,Store Payment Status
+Orders Report,Orders Report
+Total Sales,Total Sales
+Total Fees,Total Fees
+Net Sales,Net Sales
+Status changed Successfully,Status changed Successfully
+CsMarketplace's Products deleted successfully,CsMarketplace's Products deleted successfully
+I am a Vendor,I am a Store
+Transactions,Transactions
+Profile,Profile
+Panel,Panel
+"From your Dashboard you have the ability to view a snapshot of your total orders , total sales , total sales country wise, sales statistics (week, month or year wise) and recent activity on your associated products.","From your Dashboard you have the ability to view a snapshot of your total orders , total sales , total sales country wise, sales statistics (week, month or year wise) and recent activity on your associated products."
+Total Orders,Total Orders
+See more...,See more...
+Total Earning,Total Earning
+Sales Analytics,Sales Analytics
+Today,Today
+World Map,World Map
+Edit Profile Information,Edit Profile Information
+Vendor Dashboard,Store Dashboard
+The profile information has been saved.,The profile information has been saved.
+Unable to find vendor to save,Unable to find Store to save
+Orders,Orders
+You are a vendor since,You are a Store since
+Shop Url,Shop Url
+Vendor Group,Store Group
+Male,Male
+Female,Female
+Common,Common
+Profile Picture,Profile Picture
+Delete Image,Delete Image
+Email,Email
+Contact Number,Contact Number
+Company Name,Company Name
+About,About
+Company Banner,Company Banner
+Company Address,Company Address
+Support Number,Support Number
+Support Email,Support Email
+Payment Details,Payment Details
+Your vendor account is currently disabled.,Your Store account is currently disabled.
+Your vendor account is under admin approval.,Your Store account is under admin approval.
+You are not a vendor yet. Send request for become a vendor.,You are not a Store yet. Send request for become a Store.
+Your vendor application has been pending,Your Store application has been pending
+Your vendor application has been denied,Your Store application has been denied
+Manage Vendors,Manage Stores
+Vendor Attributes,Store Attributes
+Vendor Orders,Store Orders
+Vendor Payments,Store Payments
+Vendor Configuration,Store Configuration
+Vendor Name,Store Name
+Vendor Email,Store Email
+Vendor ID,Store ID
+Vendor Status,Store Status
+Delete Vendor(s),Delete Store(s)
+Change Vendor(s) Status,Change Store(s) Status
+Approve,Approve
+Add New Vendor,Add New Store
+Edit Vendor '%s',"Edit Store '%s'"""
+Save Vendor,Save Store
+Delete Vendor,Delete Store
+Vendor Information,Store Information
+Associated Customer,Associated Customer
+Company Information,Company Information
+Support Information,Support Information
+Vendor does not exist,Store does not exist
+Vendor is successfully saved,Store is successfully saved
+The vendor has been deleted.,The Store has been deleted.
+Please select vendor(s).,Please select Store(s).
+Total of '%s' record(s) have been deleted.,Total of '%s' record(s) have been deleted.
+Total of '%s' record(s) have been updated.,Total of '%s' record(s) have been updated.
+Some of the processed vendors have no Shop URL value defined. Please fill it prior to performing operations on these vendors.,Some of the processed Stores have no Shop URL value defined. Please fill it prior to performing operations on these Stores.
+This order no longer exists.,This order no longer exists.
+Orders List,Orders List
+Grand Total to be Charged,Grand Total to be Charged
+Discount,Discount
+Discount ('%s'),Discount ('%s')
+Bill To Name,Bill To Name
+Ship To Name,Ship To Name
+Order Id #,Order Id #
+G.T. Purchase,G.T. Purchase
+Order ID#,Order ID#
+Enable New Order Notification Email,Enable New Order Notification Email
+New Order Notification Template,New Order Notification Template
+Separate Orders,Separate Orders
+Commission Fee,Commission Fee
+PayNow,PayNow
+Manage Vendor Orders,Manage Store Orders
+Manage Vendor Transactions,Manage Store Transactions
+Vendor Payment,Store Payment
+Vendor Payment State,Store Payment State
+Order Payment State,Order Payment State
+Add New Transaction,Add New Transaction
+Add New Payment,Add New Payment
+Payment Selection,Payment Selection
+Beneficiary  Information,Beneficiary  Information
+Beneficiary Vendor,Beneficiary Store
+Selected Amount(s) for Payment,Selected Amount(s) for Payment
+Credit Amount,Credit Amount
+Debit Amount,Debit Amount
+Add/Remove Amount(s) for Payment,Add/Remove Amount(s) for Payment
+Please Select Amount(s) to Add,Please Select Amount(s) to Add
+Add Selected Amount(s) for Payment,Add Selected Amount(s) for Payment
+Select Transaction Type,Select Transaction Type
+Select Payment Method,Select Payment Method
+Enter fee amount of transaction,Enter fee amount of transaction
+Enter transaction id,Enter transaction id
+Readonly field,Readonly field
+Calculate Commission Fee,Calculate Commission Fee
+Payment is  successfully saved,Payment is  successfully saved
+Transactions Statistics,Transactions Statistics
+Total Received Amount,Total Received Amount
+Total Pending Amount,Total Pending Amount
+Pending Transfers,Pending Transfers
+Transactions List,Transactions List
+Created At #,Created At #
+Description,Description
+Transaction Id,Transaction Id
+Fee,Fee
+Net Amount,Net Amount
+Fields,Fields
+Transaction Date,Transaction Date
+Balance Amount,Balance Amount
+Notes,Notes
+Transaction Details,Transaction Details
+Vendor,Store
+The setting information has been saved.,The setting information has been saved.
+Check/Money Order,Check/Money Order
+Cheque Payee Name,Cheque Payee Name
+Bank Transfer,Bank Transfer
+Bank Name,Bank Name
+Bank Branch Number,Bank Branch Number
+Bank Swift Code,Bank Swift Code
+Bank Account Name,Bank Account Name
+Bank Account Number,Bank Account Number
+Tel,Tel
+Representative,Representative
+About Us,About Us
+Vendor Since,Store Since
+Vendor Profile,Store Profile
+There are no vendor available,There are no Store available
+Go to Shop,Go to Shop
+There are no products from this Vendor,There are no products from this Store
+CsMarketplace Vendor Shops,CsMarketplace Store Shops
+CsMarketplace Vendor Shop,CsMarketplace Store Shop
+Vendor Products,Store Products
+New values was missing.,New values was missing.
+Manage Vendor Attributes,Manage Store Attributes
+Manage Attribute Group,Manage Attribute Group
+Add Vendor Attribute,Add Store Attribute
+Edit Vendor Attribute '%s',Edit Store Attribute '%s'
+New Vendor Attribute,New Store Attribute
+Visible,Visible
+Position,Position
+Used in Vendor Profile Edit Form,Used in Store Profile Edit Form
+If yes then it will shown as input in vendor profile edit form.,If yes then it will shown as input in Store profile edit form.
+Position in Vendor Profile Edit Form,Position in Store Profile Edit Form
+Position of attribute in Vendor Profile Edit Form,Position of attribute in Store Profile Edit Form
+Vendor Input Type for Store Owner,Store Input Type for Store Owner
+Not shared with other vendors,Not shared with other Stores
+Vendor Shop URL,Store Shop URL
+Enable Vendor System,Enable Store System
+Vendor approved notification email,Store approved notification email
+Vendor rejected notification email,Store rejected notification email
+This email will be sent after account Approval.,This email will be sent after account Approval.
+This email will be sent after account Disapproval.,This email will be sent after account Disapproval.
+This notification email will be sent when the product is reviewed and approved,This notification email will be sent when the product is reviewed and approved
+This notification email will be sent when the product is reviewed and rejected,This notification email will be sent when the product is reviewed and rejected
+"comma separated like jpg,jpeg,png,gif,pdf","comma separated like jpg,jpeg,png,gif,pdf"
+"comma separated like zip,rar,pdf,doc","comma separated like zip,rar,pdf,doc"
+Enable notification email which is sent to vendor when new order is placed.,Enable notification email which is sent to Store when new order is placed.
+Vendor Account Sharing has been changed.,Store Account Sharing has been changed.
+Unable to Process Vendor Website Sharing.,Unable to Process Store Website Sharing.
+Vendor Website Sharing option need to be refresh.,Store Website Sharing option need to be refresh.
+Click here to,Click here to
+Rebuild Vendor Website Sharing., Rebuild Store Website Sharing.
+Can't process approval/disapproval for the Product.The Product's vendor is disapproved or not exist.,Can't process approval/disapproval for the Product.The Product's Store is disapproved or not exist.
+Can't process approval/disapproval for some products.Some of Product's vendor(s) are disapproved or not exist.,Can't process approval/disapproval for some products.Some of Product's Store(s) are disapproved or not exist.
+Websites(s),Websites(s)
+Please select products(s).,Please select products(s).
+Shop,Shop
+Enable notification email which is sent to vendor when order will be cancelled.,Enable notification email which is sent to Store when order will be cancelled.
+This email will be sent after account Deletion.,This email will be sent after account Deletion.
+Vendor deleted notification email,Store deleted notification email
+Enable Cancel Order Notification Email,Enable Cancel Order Notification Email
+Order Cancel Notification Template,Order Cancel Notification Template
+Vendor - Product deleted notification,Store - Product deleted notification
+Product deleted notification email,Product deleted notification email
+This notification email will be sent when the product is reviewed and deleted,This notification email will be sent when the product is reviewed and deleted
+Adjustment Amount,Adjustment Amount
+Disapproved,Disapproved
+"Can't continue with payment,because vendor did not specify payment method(s).","Can't continue with payment,because Store did not specify payment method(s)."
+Beneficiary Details,Beneficiary Details
+Payment Details,Payment Details
+Order Details,Order Details
+Net Amount can't be less than zero,Net Amount can't be less than zero
+Payment Mode,Payment Mode
+Total Earned Amount,Total Earned Amount
+Total Orders Placed,Total Orders Placed
+Total Products Sold,Total Products Sold
+Disapproved Products,Disapproved Products
+Latest Orders,Latest Orders
+Net Earned,Net Earned
+ Vendor Profile View, Store Profile View
+You have not saved any information in this group.,You have not saved any information in this group.
+Your Profile is,Your Profile is
+% completed,% completed
+Edit Profile,Edit Profile
+Transaction Mode,Transaction Mode
+Vendor Transactions,Store Transactions
+Amount Description,Amount Description
+Vendor Account Options,Store Account Options
+Vendor Shop Pages (Frontend),Store Shop Pages (Frontend)
+Vendor Profile Page,Store Profile Page
+Logo Image Width,Logo Image Width
+Logo Image Height,Logo Image Height
+Banner Image Width,Banner Image Width
+Banner Image Height,Banner Image Height
+Image Width,Image Width
+Image Height,Image Height
+Vendor Log/Debug Settings,Store Log/Debug Settings
+Vendor Data Process Log File Name,Store Data Process Log File Name
+Vendor Exception Log File Name,Store Exception Log File Name
+Debug Enabled,Debug Enabled
+Display Debug Toolbar if set to Yes and client's ip is whitelisted in System / Configuration / Developer / Developer Client Restrictions - Allowed IPS.,Display Debug Toolbar if set to Yes and client's ip is whitelisted in System / Configuration / Developer / Developer Client Restrictions - Allowed IPS.
+Allow admin/vendor to capture the bugs if any found and report to the developer.,Allow admin/Store to capture the bugs if any found and report to the developer.
+If enable then it will create log files.,If enable then it will create log files.
+All the process data will be capture.,All the process data will be capture.
+All exception will be capture.,All exception will be capture.
+CsMarketplace Page,CsMarketplace Page
+Banner,Banner
+For Top Link and Heading,For Top Link and Heading
+Country Wise Orders,Country Wise Orders
+Add Profile Picture,Add Profile Picture 
+Add Company Logo,Add Company Logo
+Add Company Banner,Add Company Banner
+Total Commission,Total Commission
+Product Categories Display,Product Categories Display
+Vendor Products Limit,Store Products Limit
+Allowed Categories,Allowed Categories
+All Allowed Categories,"All Allowed Categories
+"
+Specific Categories,Specific Categories
+Product Creation limit Exceeded,Product Creation limit Exceeded
+SEO Information (CsMarketplace Page),SEO Information (CsMarketplace Page)
+Meta Keywords,Meta Keywords
+Meta Description,Meta Description
+Find us on Facebook,Find us on Facebook
+Follow us on Twitter,Follow us on Twitter
+Product Creation limit has Exceeded,Product Creation limit has Exceeded
+Vendor shop enabled,Store shop enabled
+Vendor shop disabled,Store shop disabled
+Vendor Shop Enable notification email,Store Shop Enable notification email
+Vendor Shop Disable notification email,Store Shop Disable notification email
+This email will be sent after vendor shop will be disabled by admin.,This email will be sent after Store shop will be disabled by admin.
+This email will be sent after vendor shop will be enabled by admin.,This email will be sent after Store shop will be enabled by admin.
+Are you sure you want to Disable?,Are you sure you want to Disable?
+Are you sure you want to Enable?,Are you sure you want to Enable?
+Total of '%s' vendor shop(s) have been updated.,Total of '%s' Store shop(s) have been updated.
+Change Vendor Shops,Change Store Shops
+Vendor Shop Status,Store Shop Status
+Your Shop is disabled By Admin,Your Shop is disabled By Admin
+Vendor Placeholder Image,Store Placeholder Image
+Banner Placeholder Image,Banner Placeholder Image
+Vendor Review & Rating,Store Review & Rating

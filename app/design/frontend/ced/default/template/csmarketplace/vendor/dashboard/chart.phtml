@@ -1,0 +1,124 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+	$helper=Mage::helper('csmarketplace'); 
+	$vendorProducts = $this->getLayout()->getBlockSingleton('csmarketplace/vendor_dashboard_info')->getVendorProductsData();
+?>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<i class="fa fa-bar-chart-o fa-fw"></i> <?php echo $helper->__('Sales Analytics'); ?>
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+					<?php echo $this->__('Actions'); ?>
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu" id="range">
+					<li><a href="day" id="firstactionchart"><?php echo $helper->__('Today'); ?></a>
+					</li>
+					<li><a href="week"><?php echo $helper->__('Week'); ?></a>
+					</li>
+					<li><a href="month"><?php echo $helper->__('Month'); ?></a>
+					</li>
+					<li class="divider"></li>
+					<li><a href="year"><?php echo $helper->__('Year'); ?></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- /.panel-heading -->
+	<div class="panel-body">
+		<div id="chart-sale" style="width: 100%; height: 382px;"></div>
+	</div>
+	<!-- /.panel-body -->
+</div>
+<script type="text/javascript"><!--
+jced('#range a').on('click', function(e) {
+	jced('#activity-loading').show();
+	e.preventDefault();
+	jced(this).parent().parent().find('li').removeClass('active');
+	
+	jced(this).parent().addClass('active');
+	<?php 
+	$cedsecure = false;		
+	if(Mage::app()->getStore()->isCurrentlySecure()){
+		$cedsecure = true;
+	}
+	?>
+	jced.ajax({
+		type: 'get',
+		url: '<?php echo $this->getUrl('*/*/chart',array('_secure'=>$cedsecure, '_nosid'=>true)); ?>?range=' + jced(this).attr('href'),
+		dataType: 'json',
+		success: function(json) {
+			var option = {	
+				shadowSize: 0,
+				colors: ['#369BDC'],
+				bars: { 
+					show: true,
+					fill: true,
+					lineWidth: 1
+				},
+				grid: {
+					backgroundColor: '#FFFFFF',
+					hoverable: true
+				},
+				points: {
+					show: false
+				},
+				xaxis: {
+					show: true,
+					ticks: json['xaxis']
+				}
+			}
+			
+			jced.plot('#chart-sale', [json['order']], option);	
+					
+			jced('#chart-sale').bind('plothover', function(event, pos, item) {
+				jced('.tooltip').remove();
+			  
+				if (item) {
+					jced('<div id="tooltip" class="tooltip top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">' + item.datapoint[1].toFixed(2) + '</div></div>').prependTo('body');
+					jced('#tooltip').css({
+						position: 'absolute',
+						left: item.pageX /* - (jced('#tooltip').outerWidth()/2) */,
+						top: item.pageY - jced('#tooltip').outerHeight(),
+						pointer: 'cusror',
+					}).fadeIn('slow');	
+					
+					jced('#chart-sale').css('cursor', 'pointer');		
+				} else {
+					
+					jced('#chart-sale').css('cursor', 'auto');
+				}
+			});
+			jced('#activity-loading').hide();
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+		   console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+jced('#range a#firstactionchart').trigger('click');
+
+//--></script> 
+    

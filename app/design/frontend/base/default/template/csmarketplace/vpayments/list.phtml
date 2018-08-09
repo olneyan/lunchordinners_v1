@@ -1,0 +1,228 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+ 
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $collection = $this->getVpayments(); 
+$params = Mage::getSingleton('core/session')->getData('payment_filter');
+
+?>
+<div class="page-title">
+    <h1>		
+	<?php echo $this->__('Transactions List') ?></h1>
+</div>
+
+<form id="payment_form"
+	action=""
+	enctype="multipart/form-data" method="post">
+	<div class="vendor-button-set buttons-set">
+		<button style="margin:2px" onClick="filterPayment(0);" class="button" title="Filter" type="submit" id="Filter"	>
+					<span><span><?php echo $this->__('Filter') ?></span></span>
+		</button>  	
+		<button  style="margin:2px" onClick="filterPayment(1);" class="button" title="Filter" type="button" id="Filter"	>
+				<span><span><?php echo $this->__('Reset Filter') ?></span></span>
+		</button>
+		<?php if(count($collection)>0): ?>
+		<button onClick="window.location='<?php echo $this->getUrl('*/*/exportCsv',array('_nosid'=>true)); ?>'" class="button" title="<?php echo $this->__('Export') ?>" style="margin:2px; float:left;">
+			<span><span><?php echo $this->__('Export') ?></span></span>
+		</button>
+		<?php endif ?>
+	</div>	
+	
+
+
+
+<div style="clear:both;"></div>
+<?php echo $this->getPagerHtml(); ?>
+<div style="clear:both"></div>
+<div class="order-items order-details">
+	<table class="data-table orders " id="my-payments-table">
+	    <col width="2" />
+	    <col width="1"/>
+	    <col width="1"/>
+	    <col width="1"/>
+	    <col width="1" />
+	    <col width="1" />
+	     <col width="1" />
+	        <tr>
+			<thead>
+		
+			<th class="status"><?php echo $this->__('Created At #') ?>
+				<div class="list_filter">
+				<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" class="v-middle" id="date_from_trig" />
+				<input type="text" id="created_at_from" name="created_at[from]" value="<?php echo (isset($params['created_at']['from']) && urldecode($params['created_at']['from'])!="")?urldecode($params['created_at']['from']):""; ?>" /></div>
+				<div class="list_filter">
+				<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" class="v-middle" id="date_to_trig" />
+				<input type="text"  id="created_at_to" name="created_at[to]"  value="<?php echo (isset($params['created_at']['to']) && urldecode($params['created_at']['to'])!="")?urldecode($params['created_at']['to']):""; ?>"  /></div>
+			</th>
+	        	<th class="status"><?php echo $this->__('Payment Mode') ?>
+				<div class="list_filter"><input type="text" name="payment_method"   value="<?php echo (isset($params['payment_method']) && urldecode($params['payment_method'])!="")?urldecode($params['payment_method']):""; ?>" /></div>
+				</th>
+	            <th class="number"><?php echo $this->__('Transaction Id') ?>
+				<div class="list_filter"><input  type="text"  onUnfocus="filterPayment(0);" name="transaction_id"  value="<?php echo (isset($params['transaction_id']) && urldecode($params['transaction_id'])!="")?urldecode($params['transaction_id']):""; ?>"  /></div>
+				</th> 
+	            <th class="date"><?php echo $this->__('Amount') ?>
+				<div class="list_filter"><input type="text" name="amount[from]"   value="<?php echo (isset($params['amount']['from']) && urldecode($params['amount']['from'])!="")?urldecode($params['amount']['from']):""; ?>" /></div>
+				<div class="list_filter"><input type="text" name="amount[to]"  value="<?php echo (isset($params['amount']['to']) && urldecode($params['amount']['to'])!="")?urldecode($params['amount']['to']):""; ?>"  /></div>
+				</th>
+				<th class="date"><div><?php echo $this->__('Adjustment') ?></div>
+				<div><?php echo $this->__('Amount') ?></div>
+				<div class="list_filter"><input type="text" name="fee[from]"  value="<?php echo (isset($params['fee']['from']) && urldecode($params['fee']['from'])!="")?urldecode($params['fee']['from']):""; ?>"  /></div>
+				<div class="list_filter"><input type="text" name="fee[to]"   value="<?php echo (isset($params['fee']['from']) && urldecode($params['fee']['to'])!="")?urldecode($params['fee']['to']):""; ?>"  /></div>
+				</th>
+				<th class="number"><?php echo $this->__('Net Amount') ?>
+				<div class="list_filter"><input type="text" name="net_amount[from]"  value="<?php echo (isset($params['net_amount']['from']) && urldecode($params['net_amount']['from'])!="")?urldecode($params['net_amount']['from']):""; ?>"  /></div>
+				<div class="list_filter"><input type="text" name="net_amount[to]"  value="<?php echo (isset($params['net_amount']['from']) && urldecode($params['net_amount']['to'])!="")?urldecode($params['net_amount']['to']):""; ?>"  /></div>
+				</th>
+	            <th class="a-center number"><span class="number"><?php echo $this->__('Action') ?></span></th>
+	      
+			</tr>
+			
+	    </thead>
+	    <tbody>
+		<?php if(count($collection)>0): ?>
+	        <?php $_odd = ''; ?>
+	        <?php foreach ($collection as $_payment): ?>
+	        <tr>
+	            <td class="status"><?php echo  Mage::helper('core')->formatDate( $_payment->getCreatedAt() , 'medium', true);	 ?></td>
+	            <td class="status"><?php echo Mage::helper('csmarketplace/acl')->getDefaultPaymentTypeLabel($_payment->getPaymentMethod()); ?></td>
+				<td class="number"><?php echo $_payment->getTransactionId() ?></td>     
+	            <td class="date"><?php echo Mage::app()->getLocale()->currency($_payment->getCurrency())->toCurrency($_payment->getAmount());  ?></td>
+				<td class="date"><?php echo Mage::app()->getLocale()->currency($_payment->getCurrency())->toCurrency($_payment->getFee());  ?></td>
+				<td class="number"><?php echo Mage::app()->getLocale()->currency($_payment->getCurrency())->toCurrency($_payment->getNetAmount());  ?></td>
+	     		 <td class="a-center view number">
+	                <span class="number"><a href="<?php echo $this->getViewUrl($_payment) ?>"><?php echo $this->__('View') ?></a>
+	                </span>
+	            </td>
+	        </tr>
+	        <?php endforeach; ?>
+	    
+				<?php else: ?>
+				<tr><td colspan="7">
+				<div>
+				<p><?php echo $this->__('No Transactions Available'); ?></p>
+				</div>
+		</td></tr>		
+			<?php endif ?>
+		</tbody>
+	</table>
+</div>
+  </form>
+<script type="text/javascript">decorateTable('my-payments-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+
+
+
+<style>
+.list_filter input{
+width:100%;
+padding: 2px;
+}
+#date_from_trig, #date_to_trig{
+float:left;
+}
+#created_at_from, #created_at_to{
+width:78%;
+}
+</style>
+<script type="text/javascript">// <![CDATA[
+setTimeout(function(){
+Calendar.setup({
+    inputField : 'created_at_from',
+    ifFormat : '%m/%e/%y',
+    button : 'date_from_trig',
+    align : 'Bl',
+    singleClick : true
+});
+
+Calendar.setup({
+    inputField : 'created_at_to',
+    ifFormat : '%m/%e/%y',
+    button : 'date_to_trig',
+    align : 'Bl',
+    singleClick : true
+});
+}, 500);
+// ]]></script>
+
+<script type="text/javascript">
+
+<?php if($this->getRequest()->getActionName()=='index'){ ?>
+	filterPayment(2);
+  <?php } ?>
+  
+	jced(document).ready(function(){
+	  jced("#payment_form").submit(function() {
+				return false;
+			});
+	});
+
+
+function filterPayment(reset){
+		var params ;
+		if(reset==2)
+        	reset=0;
+		jced('#activity-loading').show();
+		if(reset==1)
+			params ='{reset_filter:1}';
+		else
+			params = jced("#payment_form").serialize().replace('+','%20');
+
+		new Ajax.Request("<?php 
+		$urlParams['_nosid'] = true;
+		if(Mage::app()->getStore()->isCurrentlySecure()){
+			$urlParams['_secure'] = true;
+		}
+		echo   $this->getUrl('csmarketplace/vpayments/filter',$urlParams) ?>", {
+           method: 'Post',
+           parameters:params,
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+
+           }
+       });
+   }
+   
+   
+   function setLocation(url){
+	   jced('#activity-loading').show();
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+           }
+       });
+   }
+   
+	jced('.pages a').click(function(e){
+		 jced('#activity-loading').show();
+		e.preventDefault();
+		var url = jced(this).attr('href');
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+           }
+       });
+	});
+ 
+</script>

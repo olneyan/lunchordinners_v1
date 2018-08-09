@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorReview
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<sections>
+		<ced_csmarketplace translate="label" module="csmarketplace">
+			<groups>
+				<vendorreview translate="label">
+					<label>Vendor Review And Rating</label>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<sort_order>100</sort_order>
+					<fields>
+						<activation translate="label">
+							<label>Enable Vendor Review System</label>
+							<frontend_type>select</frontend_type>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</activation>
+						<vendorapprval translate="label">
+							<label>Admin Approval Required</label>
+							<frontend_type>select</frontend_type>
+							<comment>If set to yes then admin need to approve each review</comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>2</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+						</vendorapprval>
+					</fields>
+				</vendorreview> 
+			</groups>
+		</ced_csmarketplace>
+	</sections>
+</config>

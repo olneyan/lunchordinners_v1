@@ -1,0 +1,58 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+/**
+ * @var $this Mage_Tax_Block_Checkout_Shipping
+ * @see Mage_Tax_Block_Checkout_Shipping
+ */
+?>
+<?php if ($this->displayBoth()):?>
+<ul class="shipping_title">
+    <li style="<?php echo $this->getStyle() ?>" class="ship_title" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getExcludeTaxLabel() ?>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="ship_val">
+        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+    </li>
+</ul>
+<ul class="shipping_title">
+    <li style="<?php echo $this->getStyle() ?>" class="ship_title" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getIncludeTaxLabel() ?>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="ship_val">
+        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+    </li>
+</ul>
+<?php elseif($this->displayIncludeTax()) : ?>
+<ul class="shipping_title">
+    <li style="<?php echo $this->getStyle() ?>" class="ship_title" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->getTotal()->getTitle() ?>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="ship_val">
+        <?php echo $this->helper('checkout')->formatPrice($this->getShippingIncludeTax()) ?>
+    </li>
+</ul>
+<?php else:?>
+<ul class="shipping_title">
+    <li style="<?php echo $this->getStyle() ?>" class="ship_title" colspan="<?php echo $this->getColspan(); ?>">
+        <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
+    </li>
+    <li style="<?php echo $this->getStyle() ?>" class="ship_val">
+        <?php echo $this->helper('checkout')->formatPrice($this->getShippingExcludeTax()) ?>
+    </li>
+</ul>
+<?php endif;?>

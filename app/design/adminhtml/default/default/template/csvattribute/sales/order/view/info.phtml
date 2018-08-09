@@ -1,0 +1,283 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_order = $this->getOrder() ?>
+<?php
+$orderAdminDate = $this->formatDate($_order->getCreatedAtDate(), 'medium', true);
+$orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', true);
+?>
+<?php
+	$this->_vendor = Mage::getModel('csmarketplace/vendor');
+
+  $this->_vendorCollection = Mage::getModel('csmarketplace/vendor')
+											->getCollection()
+											->addAttributeToSelect('*')
+											->addAttributeToFilter('status',array('eq'=>Ced_CsMarketplace_Model_Vendor::VENDOR_APPROVED_STATUS));
+
+$entityTypeId  = $this->_vendor->getEntityTypeId();
+		$setIds = Mage::getResourceModel('eav/entity_attribute_set_collection')
+				->setEntityTypeFilter($entityTypeId)->getAllIds();
+				
+		$groupCollection = Mage::getResourceModel('eav/entity_attribute_group_collection');
+		if(count($setIds) > 0) {
+			$groupCollection->addFieldToFilter('attribute_set_id',array('in'=>$setIds));
+		}
+		if(version_compare(Mage::getVersion(), '1.6', '<')) {
+			$groupCollection->getSelect()->order('main_table.sort_order');
+		}
+		else{
+			$groupCollection->setSortOrder()->load();
+		}
+		
+		$vendor_info = $this->_vendor->load($this->getVendorId());
+		$total = 0;
+		$saved = 0;
+		foreach($groupCollection as $group){
+			$attributes = $this->_vendor->getAttributes($group->getId(), true);
+			if (count($attributes)==0) {
+				continue;
+			}
+			foreach ($attributes as $attr){
+				$attribute = Mage::getModel('csmarketplace/vendor_attribute')->load($attr->getId());
+				 if($attribute->getIsVisible()){
+					$total++;
+					if($vendor_info->getData($attr->getAttributeCode())){
+						$saved++;
+					} 
+				}				
+			}
+		}
+		$this->_totalattr = $total;
+		$this->_savedattr = $saved;	
+$groupCollection=$groupCollection;
+
+
+?>
+
+<div class="box-left col-md-6 bordered alternate_width">
+    <!--Order Information-->
+    <div class="entry-edit ">
+        <?php if ($_order->getEmailSent()):
+            $_email = Mage::helper('sales')->__('the order confirmation email was sent');
+        else:
+            $_email = Mage::helper('sales')->__('the order confirmation email is not sent');
+        endif; ?>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?> (<?php echo $_email ?>)</h4>
+     
+        </div>
+        <div class="fieldset">
+            <table cellspacing="0" class="form-list">
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date') ?></label></td>
+                <td class="value"><strong><?php echo $orderAdminDate ?></strong></td>
+            </tr>
+            <?php if ($orderAdminDate != $orderStoreDate):?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></label></td>
+                <td class="value"><strong><?php echo $orderStoreDate ?></strong></td>
+            </tr>
+            <?php endif;?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Order Status') ?></label></td>
+                <td class="value"><strong><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></strong></td>
+            </tr>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Purchased From') ?></label></td>
+                <td class="value"><strong><?php echo $this->getOrderStoreName() ?></strong></td>
+            </tr>
+            <?php if($_order->getRelationChildId()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the New Order') ?></label></td>
+                <td class="value"><a href="<?php echo $this->getViewUrl($_order->getRelationChildId()) ?>">
+                    <?php echo $_order->getRelationChildRealId() ?>
+                </a></td>
+            </tr>
+            <?php endif; ?>
+            <?php if($_order->getRelationParentId()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('Link to the Previous Order') ?></label></td>
+                <td class="value"><a href="<?php echo $this->getViewUrl($_order->getRelationParentId()) ?>">
+                    <?php echo $_order->getRelationParentRealId() ?>
+                </a></td>
+            </tr>
+            <?php endif; ?>
+            
+            <?php if($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                <td class="value"><strong><?php echo $_order->getBaseToGlobalRate() ?></strong></td>
+            </tr>
+            <?php endif; ?>
+            <?php if($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
+            <tr>
+                <td class="label"><label><?php echo Mage::helper('sales')->__('%s / %s rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></label></td>
+                <td class="value"><strong><?php echo $_order->getBaseToOrderRate() ?></strong></td>
+            </tr>
+            <?php endif; ?>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="box-right  col-md-6 bordered alternate_width">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Account Information') ?></h4>
+            <div class="tools"><?php echo $this->getAccountEditLink()?></div>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Name') ?></label></td>
+                    <td class="value">
+                    
+                        <strong><?php echo $this->htmlEscape($_order->getCustomerName()) ?></strong>
+                   
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Email') ?></label></td>
+                    <td class="value"><a href="mailto:<?php echo $_order->getCustomerEmail() ?>"><strong><?php echo $_order->getCustomerEmail() ?></strong></a></td>
+                </tr>
+                <?php if ($_groupName = $this->getCustomerGroupName()) : ?>
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Customer Group') ?></label></td>
+                    <td class="value"><strong><?php echo $_groupName ?></strong></td>
+                </tr>
+                <?php endif; ?>
+                <?php foreach ($this->getCustomerAccountData() as $data):?>
+                <tr>
+                    <td class="label"><label><?php echo $data['label'] ?></label></td>
+                    <td class="value"><strong><?php echo $data['value'] ?></strong></td>
+                </tr>
+                <?php endforeach;?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+<div class="box-left  billing_info col-md-6 bordered alternate_width">
+    <!--Billing Address-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-billing-address"><?php echo Mage::helper('sales')->__('Billing Address') ?></h4>
+        </div>
+        <fieldset>
+            <address><?php echo $_order->getBillingAddress()->getFormated(true) ?></address>
+        </fieldset>
+    </div>
+</div>
+<?php if (!$this->getOrder()->getIsVirtual()): ?>
+<div class="box-right shipping_info col-md-6 bordered alternate_width">
+    <!--Shipping Address-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-shipping-address"><?php echo Mage::helper('sales')->__('Shipping Address') ?></h4>
+        </div>
+        <fieldset>
+            <address><?php echo $_order->getShippingAddress()->getFormated(true) ?></address>
+        </fieldset>
+    </div>
+</div>
+
+<div class="box-right shipping_info col-md-6 bordered alternate_width">
+    <!--Account Information-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-account"><?php echo Mage::helper('sales')->__('Seller Information') ?></h4>
+            <div class="tools"><?php echo $this->getAccountEditLink()?></div>
+        </div>
+        <div class="fieldset">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="form-list">
+<?php $id=$this->getRequest()->getParam('invoice_id');
+//echo $order_id;die('gg');
+$invoice = Mage::getModel('sales/order_invoice')->load($id);
+//or if you have the long increment id: `100000401`
+//$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($id);
+
+$order = $invoice->getOrder();
+$order_id=$order->getData('increment_id');
+$model=Mage::getModel('sales/order')->getCollection()->addFieldToFilter('increment_id', $order_id)->getData();
+if(!$model==null){
+$inc=$model[0]['increment_id'];
+$count_vendr=Mage::getModel('csmarketplace/vorders')->getCollection();
+
+
+?>
+		<?php foreach ($count_vendr as $vendor):
+if($vendor->getOrderId()==$inc){
+
+$vendor_info = $this->_vendor->load($vendor->getVendorId());
+$vendorNameStripped='';
+?>
+
+                <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Vendor Name') ?></label></td>
+                    <td class="value">
+                     <strong><?php echo $vendor_info->getName(); ?> <strong>
+                </tr>
+ <tr>
+                    <td class="label"><label><?php echo Mage::helper('sales')->__('Vendor Public Name') ?></label></td>
+                    <td class="value">
+                   <span><a href="<?php echo $vendor_info->getVendorShopUrl() ?>" title="<?php echo $vendorNameStripped; ?>"><?php echo $vendor_info->getPublicName(); ?></a></span>
+                    </td>
+                </tr>
+<?php  
+foreach($groupCollection as $group) {
+			$attributes = $this->_vendor->getAttributes($group->getId(), true);
+foreach ($attributes as $attr){
+				$attribute = Mage::getModel('csmarketplace/vendor_attribute')->setStoreId(0)->load($attr->getid());
+
+			if($attribute->getUseInInvoice()==1){
+					$html='';
+					$html .= '<strong>'.$attr->getFrontend()->getLabel().':</strong>';
+					$html .='<span class="attribute-value">'. $vendor_info->getData($attr->getAttributeCode()).'</span><br/>';?>
+<tr>
+                    <td class="label"><label><?php echo $attr->getFrontend()->getLabel(); ?></label></td>
+                    <td class="value">
+                    <span><?php echo $vendor_info->getData($attr->getAttributeCode()); ?></span>
+                    </td>
+                </tr>
+<?php
+			}
+		}
+	}
+}?>
+                <?php endforeach;?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php }?>
+<?php endif; ?>

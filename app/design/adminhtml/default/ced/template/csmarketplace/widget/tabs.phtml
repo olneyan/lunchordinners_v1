@@ -1,0 +1,54 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    design
+ * @package     default_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+		
+<?php if($this->getTitle()): ?>
+	<!--<div class="">
+		<strong><i class="fa fa-pencil-square-o"></i><span style="margin-left : 8px;"><?php echo $this->getTitle() ?></span></strong>
+	</div>-->
+<?php endif; ?>
+<?php if(!empty($tabs)): ?>
+	<div class="block-content panel-body">				
+		<div id="accordion" class="tabs panel-group">
+			<?php $i=0;$count=count($tabs);?>
+			<?php foreach ($tabs as $_tab): ?>
+			<?php $i++;?>
+			<?php if (!$this->canShowTab($_tab)): continue;  endif; ?>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a title="<?php echo $this->getTabUrl($_tab) ?>" id="<?php echo $this->getTabId($_tab) ?>" href="#collapse<?php echo $i ?>" data-parent="#accordion" data-toggle="collapse" aria-expanded="false" class="collapsed tab-item-link <?php echo $this->getTabClass($_tab) ?><?php if (preg_match('/\s?ajax\s?/', $_tab->getClass())) {?> notloaded<?php }?>" name="ajaxupdate<?php echo $i ?>">
+								<span></i><span class="changed" title="<?php echo $this->__('The information in this tab has been changed.') ?>"></span><span class="error" title="<?php echo $this->__('This tab contains invalid data. Please solve the problem before saving.') ?>"></span><?php echo $this->getTabLabel($_tab); ?></span>
+							</a>
+						</h4>
+					</div>
+					<div id="collapse<?php echo $i ?>" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+							<div class="panel-body" id="ajaxupdate<?php echo $i ?>">
+								<?php echo $this->getTabContent($_tab) ?>
+							</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    <?php echo $this->getJsObjectName() ?> = new varienTabs('accordion', '', '<?php echo $this->getActiveTabId() ?>', <?php echo $this->getAllShadowTabs()?>);
+</script>

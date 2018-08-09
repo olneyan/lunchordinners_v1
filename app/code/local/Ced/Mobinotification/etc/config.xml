@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobinotification
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+    <modules>
+        <Ced_Mobinotification>
+            <version>1.0.0</version>
+           
+        </Ced_Mobinotification>
+    </modules>
+    <global>
+        <models>
+            <mobinotification>
+                <class>Ced_Mobinotification_Model</class>
+                <resourceModel>mobinotification_mysql4</resourceModel>
+            </mobinotification>
+            <mobinotification_mysql4>
+                <class>Ced_Mobinotification_Model_Mysql4</class>
+                <entities>
+                    <notification>
+                        <table>ced_mobinotification_notification</table>
+                    </notification>
+                    <mobidevices>
+                        <table>ced_mobinotification_devices</table>
+                    </mobidevices>
+                </entities>
+            </mobinotification_mysql4>    
+        </models>
+        <blocks>
+            <mobinotification>
+                <class>Ced_Mobinotification_Block</class>
+            </mobinotification>
+        </blocks>
+        <helpers>
+            <mobinotification>
+                <class>Ced_Mobinotification_Helper</class>
+            </mobinotification>
+        </helpers>
+    </global>
+     <admin>
+     	<routers>
+            <adminhtml>
+                <args>
+                   <modules>
+                        <mobinotification after="Mage_Adminhtml">Ced_Mobinotification</mobinotification>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <mobinotification>
+                    <file>mobinotification/mobinotification.xml</file>
+                </mobinotification>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+    <resources>  
+        <mobinotification_setup>
+            <setup>
+                <module>Ced_Mobinotification</module>
+            </setup>
+            <connection>
+                <use>core_setup</use>
+            </connection>
+        </mobinotification_setup>
+        <mobinotification_write>
+            <connection>
+                <use>core_write</use>
+            </connection>
+        </mobinotification_write>
+        <mobinotification_read>
+            <connection>
+                <use>core_read</use>
+            </connection>
+        </mobinotification_read>
+    </resources>
+    </global>
+    <default>
+        <mobinotification>
+            <mobinotify>
+                <activation>1</activation>
+            </mobinotify>
+        </mobinotification>
+    </default>
+</config>

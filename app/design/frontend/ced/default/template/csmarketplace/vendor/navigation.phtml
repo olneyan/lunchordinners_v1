@@ -1,0 +1,125 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php
+	$helper = Mage::helper('csmarketplace');
+	$vendor = $this->_getSession()->getVendor();
+?>
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">		
+		<div class="user-panel">
+			<?php if($vendor && $vendor->getId()){ ?> 
+				<?php $vendorUrl = Mage::helper('csmarketplace/tool_image')->init($vendor->getData('profile_picture'))->resize(50); ?>
+				<div class="pull-left image">
+					<img alt="User Image" class="img-circle" src="<?php echo $vendorUrl; ?>">
+				</div>
+				<div class="pull-left info">
+					<p><?php echo $vendor->getName(); ?></p>
+					<?php if($vendor->getStatus() == Ced_CsMarketplace_Model_Vendor::VENDOR_APPROVED_STATUS) { ?>
+						<a href="#"><i class="fa fa-circle text-success"></i> <?php echo $this->__('Approved'); ?> </a>
+					<?php } elseif($vendor->getStatus() == Ced_CsMarketplace_Model_Vendor::VENDOR_DISAPPROVED_STATUS) { ?>
+						<a href="#"><i class="fa fa-circle text-danger"></i> <?php echo $this->__('Disapproved'); ?> </a>
+					<?php } else { ?>
+						<a href="#"><i class="fa fa-circle text-warning"></i> <?php echo $this->__('New'); ?> </a>
+					<?php } ?>
+				</div>
+			<?php } ?>
+		</div>
+		
+		
+		
+        <ul class="nav side-menu" id="side-menu">
+            <?php $_links = $this->getLinks(); ?>
+            <?php $_index = 1; ?>
+            <?php $_count = count($_links); ?>
+            <?php foreach ($_links as $_link): ?>
+                <?php $_last = ($_index++ >= $_count); ?>
+				<?php if($_link->getName() == 'vendor_commissions' && Mage::app()->getBaseCurrencyCode() != '') $_link->setFontAwesome($_link->getFontAwesome().' fa-'.strtolower(Mage::app()->getBaseCurrencyCode())); ?>
+                
+				<?php if ($this->isActive($_link)): ?>
+					<?php if($_link->getName() == 'vendor_products') 
+						$_link->setFontAwesome(str_replace('fa-folder','fa-folder-open',$_link->getFontAwesome())); ?>
+
+					<?php if(count($_link->getChildren()) > 0) { ?>
+						<li class="active">
+							<a class="active" href="#"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><strong style="margin-left: 3px;"><?php echo $_link->getLabel() ?></strong><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<?php foreach($_link->getChildren() as $ch1_link) { ?>
+									<li>
+									   <a class="<?php echo $this->isActive($ch1_link)?'active':''; ?>" href="<?php echo $ch1_link->getUrl() ?>"><i class="<?php echo $ch1_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $ch1_link->getLabel(); ?></span>
+										<?php if(count($ch1_link->getChildren()) > 0) { ?>
+											<span class="fa arrow"></span></a>
+											<ul class="nav nav-third-level collapse">
+												<?php foreach($ch1_link->getChildren() as $ch2_link) { ?>
+													<li>
+													   <a class="<?php echo $this->isActive($ch2_link)?'active':''; ?>" href="<?php echo $ch2_link->getUrl() ?>"><i class="<?php echo $ch2_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $ch2_link->getLabel(); ?></span></a>
+													</li>
+												<?php } ?>
+											</ul>
+										<?php } else {	?>
+											</a>
+										<?php } ?>
+									</li>
+								<?php } ?>
+							</ul>
+						</li>
+        			<?php } else { ?>
+        				<li class="active<?php echo ($_last ? ' last' : '') ?>"><a class="active" href="<?php echo $_link->getUrl() ?>"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><span ><strong style="margin-left: 3px;"><?php echo $_link->getLabel() ?></strong></span></a></li>
+        			<?php } ?>
+                <?php else: ?>						  
+						<?php if(count($_link->getChildren()) > 0) { ?>
+							<li>
+								<a href="#"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $_link->getLabel() ?></span><span class="fa arrow"></span></a>
+								<ul class="nav nav-second-level collapse">
+									<?php foreach($_link->getChildren() as $ch1_link) { ?>
+										<li>
+										   <a href="<?php echo $ch1_link->getUrl() ?>"><i class="<?php echo $ch1_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $ch1_link->getLabel(); ?></span>
+											<?php if(count($ch1_link->getChildren()) > 0) { ?>
+												<span class="fa arrow"></span></a>
+												<ul class="nav nav-third-level collapse">
+													<?php foreach($ch1_link->getChildren() as $ch2_link) { ?>
+														<li>
+														   <a href="<?php echo $ch2_link->getUrl() ?>"><i class="<?php echo $ch2_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $ch2_link->getLabel(); ?></span></a>
+														</li>
+													<?php } ?>
+												</ul>
+											<?php } else {	?>
+												</a>
+											<?php } ?>
+										</li>
+									<?php } ?>
+								</ul>
+							</li>
+						<?php } else {	?>
+							<li<?php echo ($_last ? ' class="last"' : '') ?>><a href="<?php echo $_link->getUrl() ?>"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><span style="margin-left: 3px;"><?php echo $_link->getLabel() ?></span></a></li>
+						<?php } ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+			<?php  if($this->getVendorId() && $this->getVendor()->getStatus() == Ced_CsMarketplace_Model_Vendor::VENDOR_APPROVED_STATUS ) { 
+						if (Mage::getStoreConfig('ced_csmarketplace/general/shopurl_active'))
+						{?>
+					<li>
+						<a href="<?php echo $this->getVendor()->getVendorShopUrl(); ?>" title="<?php echo $helper->__('Go to Shop') ?>" target="_blank"><i class="fa fa-external-link fw"></i><span style="margin-left: 3px;"><?php echo $helper->__('Go to Shop') ?></span></a>
+					</li>
+			 <?php }}?>
+		</ul>
+		
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<style type="text/css">
+	span.ced-csmarketplace-availability-failed{
+		background : url('<?php echo Mage::getBaseUrl('skin'); ?>frontend/base/default/images/ced/csmarketplace/error_msg_icon.gif');
+		display: block;
+		height: 17px;
+		width: 16px;
+	}
+	span.ced-csmarketplace-availability-passed {
+		background : url('<?php echo Mage::getBaseUrl('skin'); ?>frontend/base/default/images/ced/csmarketplace/success_msg_icon.gif');
+		display: block;
+		height: 17px;
+		width: 16px;
+	}
+</style>
+<li class="control">
+	<div class="input-box">
+		<input onchange="ced_csmarketplace.showVendorFrom(this);" type="checkbox" name="is_vendor" title="<?php echo Mage::helper('csmarketplace')->__('Become a Vendor'); ?>" value="1" id="is_vendor" class="checkbox">
+	</div>
+	<label for="is_vendor"><?php echo Mage::helper('csmarketplace')->__('Become a Vendor'); ?></label>
+</li>
+<div class="fieldset" id="ced-csmarketplace-registration-fields" style="display: none;">
+	<h2 class="legend"><?php echo Mage::helper('csmarketplace')->__('Become a Vendor'); ?></h2>
+	<ul class="form-list">
+		<li id="ced-public-name" style="display:none;">
+			<div class="field">
+				<label for="ced-public-name-field" class="required"><em>*</em><?php echo Mage::helper('csmarketplace')->__('Public Name') ?></label>
+				<div class="input-box">
+					<input <?php /* onchange="ced_csmarketplace.showAvailability(this);" */ ?> type="text" title="<?php echo Mage::helper('csmarketplace')->__('Public Name') ?>" class="input-text required-entry" name="vendor[public_name]" id="ced-public-name-field" />
+			</div>
+		</li>
+		<li id="ced-shop-url" style="display:none;">
+			<div class="field">
+				<label for="ced-shop-url-field" class="required"><em>*</em><?php echo Mage::helper('csmarketplace')->__('Shop Url') ?></label>
+				<div style="width: 101%;" class="input-box">
+					<input style="float:left;" <?php /* onchange="ced_csmarketplace.showAvailability(this);" */ ?> type="text" title="<?php echo Mage::helper('csmarketplace')->__('Shop Url') ?>" class="input-text validate-shopurl required-entry" name="vendor[shop_url]" id="ced-shop-url-field" onBlur="ced_csmarketplace.checkUrlAvailability();" />
+					<div id="advice-validate-shopurl-ced-shop-url-field" class="validation-advice" style="display:none;">Shop Url is not available.</div>
+					<span style="float:left;" id="ced-csmarketplace-availability" >&nbsp;</span>
+					<span style="float:left;" id="ced-csmarketplace-availability-suggestion" >&nbsp;</span>
+					<div style="clear:both"></div>
+					<span class="note"><small style="font-size: 10px;"><?php echo Mage::helper('csmarketplace')->__('Please enter your Shop URL Key. For example "my-shop-url".') ?></small></span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	//<![CDATA[
+		var ced_csmarketplace = new ced_csmarketplace('<?php echo $this->getUrl('csmarketplace/vendor/checkAvailability',array('_secure'=>true)); ?>','form-validate');
+	//]]>
+</script>

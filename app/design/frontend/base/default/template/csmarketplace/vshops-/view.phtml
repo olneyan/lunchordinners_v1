@@ -1,0 +1,96 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+	$helper = Mage::helper('csmarketplace/tool_image');
+	$width = (int)Mage::getStoreConfig('ced_vshops/general/logo_image_width',Mage::app()->getStore()->getId());
+	$height = (int)Mage::getStoreConfig('ced_vshops/general/logo_image_height',Mage::app()->getStore()->getId());
+	$width = $width?$width:175;
+	$height = $height?$height:150;
+	$vattribute_enabled = FALSE;
+	if(Mage::helper('core')->isModuleEnabled('Ced_CsVAttribute')) {
+		$vattribute_enabled = TRUE;
+	}
+?>
+<?php if(Mage::helper('csmarketplace/acl')->isEnabled()) { ?>
+<style>
+.block-content h3:before, .block-content h3:after,
+.block-content li:before, .block-content li:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+</style>
+	<div class="block block-poll">
+		<div class="block-title">
+			<strong><span><?php echo $this->__('Vendor Profile')?></span></strong>
+		</div>
+		<?php ?>
+		<div class="block-content" style="padding: 10px;">
+			<img src="<?php echo $helper->init($this->getVendorLogo())->resize($width,$height); ?>"/>
+			<ul>
+				<?php foreach($this->getLeftProfileAttributes() as $attribute) { ?>
+					<li>
+						<?php $method = 'get'.$this->camelize($attribute->getAttributeCode()); ?>
+						<?php if(method_exists($this,$method)) { ?>
+							<?php echo $this->$method($attribute); ?>
+						<?php } else {
+							
+							if(strlen($attribute->getStoreLabel()) > 0) {
+								$label = $vattribute_enabled?$attribute->getStoreLabel():$helper->__($attribute->getStoreLabel());
+							} else { 
+								$label = $vattribute_enabled?$attribute->getAttributeCode():$helper->__($attribute->getAttributeCode());
+							}
+							?>
+							<label><i class="<?php echo $attribute->getData('fontawesome_class_for_left_profile'); ?>"></i><?php echo $label;?></label>:
+								<?php if($attribute->getData('frontend_input') == 'file') {
+							        if ($this->$method()) {
+							        	$url = Mage::getBaseUrl('media').$this->$method();
+							    		echo '<a href="'.$url.'" target="_blank" >'.$lable.' '.$helper->__('Download').'</a>';
+							        }
+							    } else {
+							        echo $this->escapeHtml($this->$method());
+							    } ?>
+								
+						<?php } ?>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+	<style>
+	i{
+	font-size:12px;
+	margin-right:5px;
+	}
+	.block-poll label {
+    color: black;
+    font-weight: bold;
+	}
+	.block-poll .block-content li a {
+    color: black;
+    text-decoration:none;
+	}
+	.block-poll .block-content li a:hover {
+    color: #1E7EC8;
+	}
+
+	</style>
+<?php } ?>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Delivery
+ * @package     Delivery_Boy
+ */
+-->
+
+<layout>
+    
+    <adminhtml_delivery_boy_edit>
+        
+        <reference name="content">
+            <block type="delivery_boy/adminhtml_boy_edit" name="delivery_boy_edit"></block>
+        </reference>
+        
+        <reference name="left">
+            <block type="delivery_boy/adminhtml_boy_edit_tabs" name="delivery_boy_edit_tabs">
+                <block type="delivery_boy/adminhtml_boy_edit_tab_general" 
+                       name="delivery_boy_edit_tab_general"/>
+                <action method="addTab">
+                    <name>general_section</name>
+                    <block>delivery_boy_edit_tab_general</block>
+                </action>
+                <block type="delivery_boy/adminhtml_boy_edit_tab_bankAccount" 
+                       name="delivery_boy_edit_tab_bankAccount"/>
+                <action method="addTab">
+                    <name>bank_account_section</name>
+                    <block>delivery_boy_edit_tab_bankAccount</block>
+                </action>
+            </block>
+        </reference>
+        
+    </adminhtml_delivery_boy_edit>
+    
+    <adminhtml_delivery_boy_grid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="delivery_boy/adminhtml_boy_grid" name="admin.delivery.boy.grid"/>
+        </block>
+    </adminhtml_delivery_boy_grid>
+
+</layout>

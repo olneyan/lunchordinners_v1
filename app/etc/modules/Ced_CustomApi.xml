@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <modules>
+    <Ced_CustomApi>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Ced_CustomApi>
+  </modules>
+</config>

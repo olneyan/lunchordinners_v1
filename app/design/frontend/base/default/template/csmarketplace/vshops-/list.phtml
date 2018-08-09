@@ -1,0 +1,149 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+
+<?php
+	$vendors = $this->getLoadedVendorCollection();
+	$helper = Mage::helper('csmarketplace/tool_image');
+	$title = Mage::getStoreConfig('ced_vshops/general/vshoppage_title',Mage::app()->getStore()->getId())?Mage::getStoreConfig('ced_vshops/general/vshoppage_title',Mage::app()->getStore()->getId()):"CsMarketplace";
+	// banner
+	$width = (int)Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_width',Mage::app()->getStore()->getId());
+	$height = (int)Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_height',Mage::app()->getStore()->getId());
+	$img=Mage::getStoreConfig("ced_vshops/general/vshoppage_banner",Mage::app()->getStore()->getId())?"ced/csmarketplace/".Mage::getStoreConfig("ced_vshops/general/vshoppage_banner",Mage::app()->getStore()->getId()):'';
+	$width = $width?$width:800;
+	$height = $height?$height:200;
+?>
+<?php if(Mage::helper('csmarketplace/acl')->isEnabled()) { ?>  
+	<div style="text-align:center;" class="page-title category-title">
+		<h1><?php echo $title?></h1>
+	</div>
+   <p class="category-image">
+    <img id="product-collection-image-1"
+                     src="<?php echo $helper->init($img,'csbanner')->keepAspectRatio(false)->resize($width,$height)?>"
+                     alt="CsMarketplace Banner" height="100%" width="100%" />
+   	</p>
+    <div class="category-description std">
+        <?php echo Mage::getStoreConfig('ced_vshops/general/vshoppage_about',Mage::app()->getStore()->getId()); ?>
+    </div>
+    
+	<?php if(!$vendors->count()): ?>
+	<div class="remove_vendors_wrap">
+		<p class="note-msg"><?php echo $this->__('Sorry!! No vendor available.') ?></p>
+		<span class="currently_search">
+			<a class="remove" href="<?php echo $this->getUrl('csmarketplace/vshops/index') ?>">
+				<?php echo $this->__('X');?>
+			</a>
+		</span>
+		<div class="cleared"><div>
+		</div>
+	<?php else: ?>
+	<div class="vendor_list_page">
+		<div class="search_vendor" style="float: left;">
+			<span>
+				<?php echo $this->getChildHtml('country_filter'); ?>
+			</span>
+		</div>
+		<div class="category-products" style="float: right;">
+			<?php echo $this->getToolbarHtml(); ?>
+			<?php // List mode ?>
+			<?php if($this->getMode()!='grid'): ?>
+			<?php $_iterator = 0; ?>
+			<?php // Vendor Logo 
+						$width = (int)Mage::getStoreConfig('ced_vshops/general/list_image_width',Mage::app()->getStore()->getId());
+						$height = (int)Mage::getStoreConfig('ced_vshops/general/list_image_height',Mage::app()->getStore()->getId());
+						$width = $width?$width:135;
+						$height = $height?$height:135;
+			?>
+			<ol class="products-list csmarketplace-vendors-list" id="csmarketplace-vendors-list">
+			<?php foreach ($vendors as $vendor):?>
+				<li class="item<?php if( ++$_iterator == sizeof($vendors) ): ?> last<?php endif; ?>">
+				   <a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?php echo $helper->init($vendor->getData('company_logo'))->keepFrame(false)->resize($width,$height); ?>" alt="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" /></a>
+							 <!--  <h2 class="product-name csmarketplace-vendor-name"><a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>"><?php echo $vendor->getPublicName() ?></a></h2>-->
+							<?php /* if($vendor->getRatingSummary()): ?>
+							<?php echo $this->getReviewsSummaryHtml($vendor, 'short') ?>
+							<?php endif; */ ?>
+					
+					<?php // Vendor description ?>
+					<div class="product-shop">
+						<div class="f-fix">
+							<div class="product-primary">
+								<?php $vendorNameStripped = $this->stripTags($vendor->getName(), null, true); ?>
+								<h2 class="product-name"><a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $vendorNameStripped; ?>"><?php echo $vendor->getPublicName(); ?></a></h2>
+								<?php //if($vendor->getRatingSummary()): ?>
+								<?php echo $this->getReviewsSummaryHtml($vendor) ?>
+								<?php //endif; ?>
+
+							</div>
+							<div class="desc std">
+								<div><?php echo $vendor->getAbout(); ?></div>
+								<a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $vendorNameStripped ?>" class="link-learn"><?php echo $this->__('Go to Shop') ?></a>
+							</div>
+						</div>
+					</div>
+				</li>
+			<?php endforeach; ?>
+			</ol>
+			<script type="text/javascript">decorateList('csmarketplace-vendors-list', 'none-recursive')</script>
+
+			<?php else: ?>
+			<?php // Grid Mode ?>
+			<?php $_collectionSize = $vendors->count() ?>
+			<?php $_columnCount = $this->getColumnCount(); ?>
+			
+			<?php 
+							// Vendor Logo
+							$width = (int)Mage::getStoreConfig('ced_vshops/general/grid_image_width',Mage::app()->getStore()->getId());
+							$height = (int)Mage::getStoreConfig('ced_vshops/general/grid_image_height',Mage::app()->getStore()->getId());
+							$width = $width?$width:135;
+							$height = $height?$height:135;
+			?>
+			<?php $i=0; foreach ($vendors as $vendor): ?>
+				<?php $vendorNameStripped = $this->stripTags($vendor->getName(), null, true); ?>
+				<?php //print_r($vendor->getData());?>
+				<?php if ($i++%$_columnCount==0): ?>
+				<div>
+					<ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col csmarketplace-vendors-grid">
+					<?php endif ?>
+						<li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+							<a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?php echo $helper->init($vendor->getData('company_logo'))->resize($width,$height); ?>" alt="<?php echo $this->stripTags($vendor->getName(), null, true) ?>" /></a>
+							<h2 class="product-name csmarketplace-vendor-name"><a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>"><?php echo $vendor->getPublicName() ?></a></h2>
+							<?php //if($vendor->getRatingSummary()): ?>
+							<?php echo $this->getReviewsSummaryHtml($vendor) ?>
+							<?php //endif; ?>
+							
+							 <div class="product-info">
+							 <a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $vendorNameStripped; ?>" class="link-learn"><?php echo $this->__('Go to Shop') ?></a>
+							 </div>
+						</li>
+					<?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+					</ul>
+				</div>
+				<?php endif ?>
+			<?php endforeach ?>
+			<script type="text/javascript">decorateGeneric($$('ul.csmarketplace-vendors-grid'), ['odd','even','first','last'])</script>
+			<?php endif ?>
+			<div class="toolbar-bottom">
+			   <?php echo $this->getToolbarHtml(); ?>
+			</div>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<?php endif; ?>
+<?php } ?>

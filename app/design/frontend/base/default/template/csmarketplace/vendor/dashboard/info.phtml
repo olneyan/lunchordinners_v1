@@ -1,0 +1,149 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php
+	$pendingAmount = $this->getPendingAmount();
+	$earnedAmount = $this->getEarnedAmount();
+	$ordersPlaced = $this->getOrdersPlaced();
+	$productsSold = $this->getProductsSold();
+	$vendorProducts = $this->getVendorProductsData();
+?>
+<?php $helper=Mage::helper('csmarketplace');?>
+<div class="col2-set row">
+	<!-- Total Pending Amount --> 
+    <div class="col-1 col-lg-3 col-md-3 col-sm-6">
+        <div class="box tile">
+            <div class="box-title tile-heading">
+                <div class="tile-heading"><strong><?php echo $helper->__('Total Pending Amount') ?></strong></div>
+            </div>
+            <div class="box-content tile-body">
+				<div class="box-first">
+					<i class="fa fa-credit-card"></i>
+					<h2 class="pull-right"><?php echo $pendingAmount['total']; ?></h2>
+				</div>
+				<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $pendingAmount['action']; ?>"><?php echo $helper->__('See more...') ?></a></div>
+            </div>		
+        </div>
+    </div>
+	<!-- Total Earned Amount -->
+    <div class="col-2 col-lg-3 col-md-3 col-sm-6">
+        <div class="box tile tile-green">
+            <div class="box-title tile-heading">
+                <div class="tile-heading"><strong><?php echo $helper->__('Total Earned Amount') ?></strong></div>
+            </div>
+            <div class="box-content tile-body">
+				<div class="box-first">
+					<i class="fa fa-money"></i>
+					<h2 class="pull-right"><?php echo $earnedAmount['total']; ?></h2>
+				</div>
+				<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $earnedAmount['action']; ?>"><?php echo $helper->__('See more...') ?></a></div>
+            </div>		
+        </div>
+    </div>
+</div>
+<div class="col2-set row">
+	<!-- Total Orders Placed -->
+    <div class="col-1 col-lg-3 col-md-3 col-sm-6">
+        <div class="box tile tile-blue">
+            <div class="box-title tile-heading">
+                <div class="tile-heading"><strong><?php echo $helper->__('Total Orders Placed') ?></strong></div>
+            </div>
+            <div class="box-content tile-body">
+				<div class="box-first">
+					<i class="fa fa-shopping-cart"></i>
+					<h2 class="pull-right"><?php echo $ordersPlaced['total']; ?></h2>
+				</div>
+				<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $ordersPlaced['action']; ?>"><?php echo $helper->__('See more...') ?></a></div>
+            </div>		
+        </div>
+    </div>
+	<!-- Total Products Sold -->
+    <div class="col-2 col-lg-3 col-md-3 col-sm-6">
+        <div class="box tile tile-yellow">
+            <div class="box-title tile-heading">
+                <div class="tile-heading"><strong><?php echo $helper->__('Total Products Sold') ?></strong></div>
+            </div>
+            <div class="box-content tile-body">
+				<div class="box-first">
+					<i class="fa fa-bar-chart-o"></i>
+					<h2 class="pull-right"><?php echo $productsSold['total']; ?></h2>
+				</div>
+				<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $productsSold['action']; ?>"><?php echo $helper->__('See more...') ?></a></div>
+            </div>		
+        </div>
+    </div>
+</div>
+<div class="col2-set row">
+    <!-- Total Products -->
+	<!-- <div class="col-1 col-lg-3 col-md-3 col-sm-6" style="width: 100%;">
+        <div class="box tile tile-light-red" style="width: ">
+            <div class="box-content tile-body"> -->
+				<!-- Total Pending Products -->
+				<div class="col-1 col-lg-3 col-md-3 col-sm-6 approval">
+					<div class="box tile tile-light-red">
+						<div class="box-title tile-heading">
+							<div class="tile-heading"><strong><?php echo $helper->__('Pending Products') ?></strong></div>
+						</div>
+						<div class="box-content tile-body">
+							<div class="box-first">
+								<i class="fa fa-clock-o"></i>
+								<h2 class="pull-right"><?php echo $vendorProducts['total'][0]; ?></h2>
+							</div>
+							<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $vendorProducts['action'][0]; ?>"><?php echo $helper->__('See more...') ?></a></div>
+						</div>		
+					</div>
+				</div>
+				
+				<!-- Total Approved Products -->
+				<div class="col-2 col-lg-3 col-md-3 col-sm-6 approval" >
+					<div class="box tile tile-light-red">
+						<div class="box-title tile-heading">
+							<div class="tile-heading"><strong><?php echo $helper->__('Approved Products') ?></strong></div>
+						</div>
+						<div class="box-content tile-body">
+							<div class="box-first">
+								<i class="fa fa-check-circle"></i>
+								<h2 class="pull-right"><?php echo  $vendorProducts['total'][1]; ?></h2>
+							</div>
+							<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $vendorProducts['action'][1]; ?>"><?php echo $helper->__('See more...') ?></a></div>
+						</div>		
+					</div>
+				</div>
+				
+				<!-- Total Disapproved Products -->
+				<div class="col-1 col-lg-3 col-md-3 col-sm-6 disapprove">
+					<div class="box tile tile-light-red">
+						<div class="box-title tile-heading">
+							<div class="tile-heading"><strong><?php echo $helper->__('Disapproved Products') ?></strong></div>
+						</div>
+						<div class="box-content tile-body">
+							<div class="box-first">
+								<i class="fa fa-exclamation-circle"></i>
+								<h2 class="pull-right"><?php echo  $vendorProducts['total'][2]; ?></h2>
+							</div>
+							<div class="tile-footer"><a style="text-decoration: none;" href="<?php echo $vendorProducts['action'][2]; ?>"><?php echo $helper->__('See more...') ?></a></div>
+						</div>		
+					</div>
+				</div>
+				<!-- <div class="tile-footer"><a style="text-decoration: none;" href="<?php //echo $pendingProducts['action']; ?>"><?php //echo $helper->__('See more...') ?></a></div>
+            </div>		
+        </div>
+    </div> -->
+</div>

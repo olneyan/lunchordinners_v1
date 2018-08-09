@@ -1,0 +1,61 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+<div class="page-title">
+    <h1><?php //echo $this->__('Your order has been received.') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<h2 class="sub-title"><?php echo $this->__('Thank you for your purchase!') ?></h2>
+
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+    <p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+<?php  else :?>
+    <p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+<?php endif;?>
+    <p><?php//echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
+<?php endif;?>
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Continue Shopping')) ?>" onclick="shopMore('true');"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+<script type="text/javascript">
+OrderSuccess(true);
+function OrderSuccess(success) {
+
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if( userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i ) ){
+        window.webkit.messageHandlers.redir.postMessage("Redirect");
+    }
+    else if( userAgent.match( /Android/i ) ){
+      Android.OrderSuccess( success ); 
+    }           
+  }
+    function shopMore(toast) {
+
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if( userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i ) ){
+          window.webkit.messageHandlers.redir.postMessage("Redirect");
+      }
+      else if( userAgent.match( /Android/i ) ){
+        Android.ContinueShopping( toast ); 
+      }           
+    }
+</script>

@@ -1,0 +1,143 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+?>
+<?php 
+$store=Mage::app()->getStore();
+$rootId = $store->getRootCategoryId();
+$category = Mage::getModel('catalog/category')->load($rootId);
+?>
+<style>
+    .vshop-left-cat-filter {margin-left:10px;padding: 5px;}
+    .cat-label {
+        padding-left: 5px;
+    }
+</style>
+<div class="block block-layered-nav ced-block-layered-nav">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Browse By') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <dl id="narrow-by-list2">
+            <dt><?php echo $this->__('Category') ?></dt>
+            <dd>
+                <?php echo $this->getCategoriesHtml($rootId);?>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script>
+	function filterProductsByCategory(element)
+	{
+		if(element.checked == true)
+			setLocation(element.value);
+		else if(element.checked == false)
+			setLocation(element.getAttribute('data-uncheckurl'));
+
+	}
+</script>
+
+<script type="text/javascript">
+    jQuery('a').click(function(){
+        jQuery('html, body').animate({
+            scrollTop: jQuery( jQuery(this).attr('href') ).offset().top
+        }, 500);
+        return false;
+    });
+</script>
+
+<script type="text/javascript">
+// var fixmeTop = jQuery('.block-layered-nav , .ced-block-layered-sticky').offset().top;
+//     jQuery(window).scroll(function() {                
+//     var currentScroll = jQuery(window).scrollTop(); 
+//     var winwidth=jQuery(window).width();
+
+//     if (currentScroll >= fixmeTop && winwidth >= 768) {         
+//         jQuery('.block-layered-nav').addClass("fix-me"); 
+//     jQuery('.ced-block-layered-sticky').addClass("fix-me-two");             
+//      var p=jQuery('.ced-block-layered-nav').height();
+//      jQuery(".fix-me-two").css("top", p);
+
+// } 
+// else{         
+//         jQuery('.block-layered-nav').removeClass("fix-me");            
+//         jQuery('.ced-block-layered-sticky').removeClass("fix-me-two");  
+//     }
+// });
+
+    jQuery( ".cat-label" ).click(function() {
+    	 jQuery( ".cat-label" ).removeClass('active');
+         jQuery(this).addClass('active');
+    	});
+</script>
+
+
+
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery('.ced-block-layered-nav').nextAll('div.block').addClass('ced-block-layered-sticky');
+    });
+
+</script>
+
+<style>
+
+.block-layered-nav .block-content a , .ced-block-layered-sticky .block-content a {
+  color: #959595;
+  text-decoration: none;
+}
+.block-layered-nav .block-content a:hover , .ced-block-layered-sticky .block-content a:hover {
+  color: #464646;
+  text-decoration: none;
+}
+    .block-layered-nav.fix-me{
+        position: fixed;
+        top: 0;
+        width: 270px;
+        z-index: 100;
+        background-color: #ffffff;
+    }
+    .ced-block-layered-sticky.fix-me-two {
+      background: #ffffff none repeat scroll 0 0;
+      position: fixed;
+      top: 327px;
+      width: 270px;
+      z-index: 100;
+  }
+  @media (max-width: 1200px){
+    .block-layered-nav.fix-me {
+      width: 215px;
+  }
+      .ced-block-layered-sticky.fix-me-two {
+      width: 215px;
+  }
+}
+ @media (max-width: 991px){
+    .block-layered-nav.fix-me {
+      width: 165px;
+  }
+      .ced-block-layered-sticky.fix-me-two {
+      width: 165px;
+  }
+}
+</style>
+
+
+
+

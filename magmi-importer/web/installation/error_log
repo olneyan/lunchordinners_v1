@@ -1,0 +1,16 @@
+[07-May-2018 14:06:35 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:06:35 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/stage_1.php on line 15
+[07-May-2018 14:06:36 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:06:36 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/stage_1.php on line 15
+[07-May-2018 14:06:50 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:06:50 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/superloader/magmi-install/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:15:20 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:15:25 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:15:25 UTC] PHP Notice:  A session had already been started - ignoring session_start() in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/stage_1.php on line 15
+[07-May-2018 14:15:29 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:15:30 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:30:49 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:30:54 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:30:54 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:32:42 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14
+[07-May-2018 14:32:42 UTC] PHP Notice:  Undefined variable: version in /home/aather/public_html/lunchordinners.com/magmi-importer/web/installation/index.php on line 14

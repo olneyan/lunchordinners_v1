@@ -1,0 +1,243 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php
+$helper = Mage::helper ( 'csmarketplace' );
+$_product=$this->getVproduct()?$this->getVproduct():Mage::registry('current_product');
+$checkstatus=$this->getCheckStatus();
+$stockitem=$_product->getStockItem();
+$typeId=$_product->getTypeId()!=null?$_product->getTypeId():$this->getRequest()->getParam('type');
+$productformdata=array();
+if(Mage::getSingleton('customer/session')->getFormError()==true)
+	$productformdata=Mage::getSingleton('customer/session')->getProductFormData();
+
+if(!$_product->getId()){
+	$name = isset($productformdata['product']['name'])?$productformdata['product']['name']:'';
+	$description = isset($productformdata['product']['description'])?$productformdata['product']['description']:'';
+	$short_description = isset($productformdata['product']['short_description'])?$productformdata['product']['short_description']:'';
+	$sku = isset($productformdata['product']['sku'])?$productformdata['product']['sku']:'';
+	$weight = isset($productformdata['product']['weight'])?$productformdata['product']['weight']:'';	
+	$qty = isset($productformdata['product']['stock_data']['qty'])?$productformdata['product']['stock_data']['qty']:'';
+	$is_in_stock = isset($productformdata['product']['stock_data']['is_in_stock'])?$productformdata['product']['stock_data']['is_in_stock']:'';
+	$tax_class_id = isset($productformdata['product']['tax_class_id'])?$productformdata['product']['tax_class_id']:'';
+	$price = isset($productformdata['product']['price'])?$productformdata['product']['price']:'';
+	$special_price = isset($productformdata['product']['special_price'])?$productformdata['product']['special_price']:'';
+} 
+else if($_product->getId()){
+	$name = $_product->getName();
+	$description = $_product->getDescription();
+	$short_description = $_product->getShortDescription();
+	$sku = $_product->getSku();
+	if($_product->getTypeId()==Mage_Catalog_Model_Product_Type::TYPE_SIMPLE||$this->getRequest()->getParam('type')==Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+		$weight =$_product->getWeight();
+	if($checkstatus==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS){
+		$status = $_product->getStatus();
+	}
+	$qty=$stockitem->getQty();
+	if($_product->getId()){
+		$is_in_stock = $stockitem->getIsInStock();
+		$tax_class_id = $_product->getTaxClassId();
+	}
+	$price=$_product->getPrice();
+	$special_price=$_product->getSpecialPrice();
+	
+}
+?>
+<script type="text/javascript">
+ bkLib.onDomLoaded(function() {
+        new nicEditor({fullPanel : true}).panelInstance('description');
+        new nicEditor({fullPanel : true}).panelInstance('short_description');
+  }); 
+</script>
+ <div class="page-title">
+        <h1>
+		<?php $faClass = !$_product->getId()?"fa-plus-square":"fa-pencil-square-o"; ?>
+		<i class="fa <?php echo $faClass ?> fa-fw"></i>
+		<?php echo $_product->getId()?$helper->__('Edit')." ".$helper->__('Product'):$helper->__('Create')." ".$helper->__('Product') ?></h1>
+   </div>
+ <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form
+	action="<?php echo $this->getUrl('csmarketplace/vproducts/save',array("id"=>$_product->getId())); ?>"
+	enctype="multipart/form-data" method="post"
+	id="form-validate">
+	<!-- Current Vendor Id -->
+	<input type="hidden" name="type" id="type"
+			value="<?php echo $typeId?>"/>
+	<input type="hidden" name="set" id="set"
+			value="<?php echo $_product->getAttributeSetId()!=null?$_product->getAttributeSetId():$this->getRequest()->getParam('set');?>"/>
+	<div class="fieldset">
+		<h4 class="legend"><?php echo $_product->getId()?$helper->__('Edit')." ".$helper->__($typeId)." ".$helper->__('Product'):$helper->__('New')." ".$helper->__($typeId)." ".$helper->__('Product') ?></h4>
+		<ul class="form-list" id="bodymain">
+			
+			<?php 
+			if($this->getRequest()->getActionname()=="edit")
+			echo $this->getLayout()->createBlock('csmarketplace/vproducts_store_switcher')->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null,'_nosid'=>true)))->toHtml();
+			?>
+			<?php 
+			if(Mage::helper('csmarketplace')->isSharingEnabled())
+				echo $this->getChildHtml('website');?>	
+			
+			<?php echo $this->getChildHtml('category');?>		
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Product Name') ?>:</label>
+				<div class="input-box">
+					<input type="text" value="<?php echo $name;?>" class="required-entry input-text" name="product[name]"
+						id="name" />
+				</div></li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Description') ?>:</label>
+				<div class="input-box">
+					<textarea name="product[description]" class="input-text description required-entry required-entry textarea" id="description"
+						rows="5" cols="75"><?php echo $description;?></textarea>
+				</div></li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Short Description') ?>:</label>
+				<div class="input-box">
+					<textarea name="product[short_description]" id="short_description" rows="5"
+						cols="75" class="input-text short_description required-entry required-entry textarea"><?php echo $short_description?></textarea>
+				</div></li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('SKU') ?>:</label>
+				<div style="clear:both"></div>
+				<div style="float:left" class="input-box">
+					<input name="product[sku]" id="sku"  type="text" value="<?php echo $sku; ?>" class="required-entry input-text" />
+				</div>
+				<div id="skuavailable" >
+						<span class="sku-success-msg skuavailable">&nbsp;<?php //echo $helper->__('SKU Available') ?></span>
+				</div>
+				<div id="skunotavailable" >
+						<span class="sku-error-msg skunotavailable">&nbsp;<?php //echo $helper->__('SKU Already Exist') ?></span>
+				</div>
+				<div style="clear:both"></div>
+			</li>
+			<?php if($_product->getTypeId()==Mage_Catalog_Model_Product_Type::TYPE_SIMPLE||$this->getRequest()->getParam('type')==Mage_Catalog_Model_Product_Type::TYPE_SIMPLE){?>	
+			
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Weight') ?>:</label>
+				<div class="input-box">
+					<input  type="text" value="<?php echo $weight;?>"  class="required-entry validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999 input-text" name="product[weight]" id="weight"/>
+				</div>
+			</li>
+			<?php }?>
+			<?php if($checkstatus==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS){?>
+				<li class="wide">
+					<label class="required"><em>*</em><?php echo $helper->__('Status') ?>:</label>
+					<div class="input-box">
+						<input type="radio" class="" name="product[status]" id="status" <?php echo $status==Mage_Catalog_Model_Product_Status::STATUS_ENABLED?"checked":""?>  value="<?php echo Mage_Catalog_Model_Product_Status::STATUS_ENABLED?>" /><?php echo $helper->__("Enable"); ?><br>
+						<input type="radio" class="" name="product[status]" id="status" <?php echo $status==Mage_Catalog_Model_Product_Status::STATUS_DISABLED?"checked":""?> value="<?php echo Mage_Catalog_Model_Product_Status::STATUS_DISABLED?>" /><?php echo $helper->__("Disable"); ?>
+					</div>
+				</li>
+				<?php }?>
+			<li class="wide"><label><?php echo $helper->__('Stock Availability') ?>:</label>
+				<div class="input-box">
+					<select id="is_in_stock" class="select"
+						name="product[stock_data][is_in_stock]">
+						<option <?php echo $is_in_stock=='-1'?"selected":" "?>value="-1"><?php echo $helper->__('--Please Select--'); ?></option>
+						<option <?php echo $is_in_stock=='1'?"selected":" "?> value="1"><?php echo $helper->__('In Stock'); ?></option>
+						<option <?php echo $is_in_stock=='0'?"selected":" "?> value="0"><?php echo $helper->__('Out of Stock'); ?></option>
+					</select>
+				</div>
+			</li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Stock') ?>:</label>
+				<div class="input-box">
+					<input  type="text" name="product[stock_data][qty]" value="<?php echo $qty;?>" id="qty" class="required-entry validate-number input-text" />
+				</div>
+			</li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Tax Class') ?>:</label>
+				<div class="input-box">
+								<select id="tax_class_id" class="validate-select select" name="product[tax_class_id]">
+									<option <?php echo ($tax_class_id=='')?"selected":""?> value=""><?php echo $helper->__('--Please Select--')?></option>
+									<option <?php echo ($tax_class_id=='0')?"selected":""?> value="0"><?php echo $helper->__('None')?></option>
+									<?php
+										$taxes=Mage::getModel('tax/class')->getCollection()
+													->addFieldToFilter('class_type',array('eq'=>'PRODUCT'));
+										foreach($taxes as $tax){
+									?>
+									<option <?php echo ($tax_class_id==$tax->getId())? 'selected':''; ?> value="<?php echo $tax->getId() ?>"><?php echo $tax->getClassName()?></option>
+									<?php } ?>
+								</select>
+				</div>
+			</li>
+			<li class="wide"><label class="required"><em>*</em><?php echo $helper->__('Price') ?><?php $currency_code =Mage::getModel('core/store')->load($_product->getStoreId())->getBaseCurrencyCode(); echo  " (". Mage::app()->getLocale()->currency( $currency_code )->getSymbol().")"; ?>:</label>
+				<div class="input-box">
+					<input  type="text" name="product[price]" value="<?php if($price!='') echo $price;?>" id="price" class="required-entry validate-number validate-zero-or-greater  input-text" />
+				</div>
+			</li>
+			<li class="wide"><label><?php echo $helper->__('Special Price') ?><?php $currency_code =Mage::getModel('core/store')->load($_product->getStoreId())->getBaseCurrencyCode(); echo  " (". Mage::app()->getLocale()->currency( $currency_code )->getSymbol().")"; ?>:</label>
+				<div class="input-box">
+					<input  type="text" name="product[special_price]" value="<?php  if($special_price!='')echo $special_price;?>" id="special_price" class="input-text validate-number validate-zero-or-greater " />
+				</div>
+			</li>
+			
+			<?php echo $this->getChildHtml('media')?>
+			
+			<?php if($_product->getTypeId()==Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE||$this->getRequest()->getParam('type')==Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE){
+					echo $this->getChildHtml('downloadable');		
+			}?>
+		</ul>
+	</div>
+	<div class="buttons-set">
+		<p class="required"><?php echo $helper->__('* Required Fields') ?></p>
+		<button class="button" title="Save" type="submit" id="save_butn"
+			style="float: none;">
+			<span><span><?php echo $helper->__('Save') ?></span></span>
+		</button>
+		<button type="reset" style="float: none;" class="button">
+			<span><span><?php echo $helper->__('Cancel') ?></span></span>
+		</button>
+		<?php if($_product->getId()){?>
+		<button style="float: none;" type="button" onCLick="if(confirm('<?php echo $helper->__('Are you sure?') ?>'))window.location='<?php echo $this->getDeleteUrl($_product)?>'" title="<?php echo $helper->__('Delete')." ".$helper->__('Product') ?>" class="button"><span><span><?php echo $helper->__('Delete')." ".$helper->__('Product') ?></span></span></button>
+		<?php }?>
+		<p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+	</div>
+</form>
+<?php Mage::getSingleton('customer/session')->setFormError(false)->setProductFormData(array());?>
+<script type="text/javascript">
+jced('#sku').change(function(){
+	var sku=jced('#sku').val();
+	var skulength=sku.length;
+	if(skulength==0){
+		alert("<?php echo $helper->__("SKU can't be empty") ?>");
+		jced('#skuavailable').css('display','none');
+		jced('#skunotavailable').css('display','none');
+	}
+	else{
+		jced.ajax({
+			url: "<?php echo Mage::getUrl('csmarketplace/vproducts/checkSku',array('id'=>$_product->getId()));?>",
+			type: "POST",
+			data: {sku:sku},
+			dataType: 'html',
+			success:function($data){
+				$data=JSON.parse($data);
+				if($data.result==1){
+					jced('#skuavailable').css('display','block');
+					jced('#skunotavailable').css('display','none');
+				}
+				else{
+					jced('#skunotavailable').css('display','block');
+					jced('#skuavailable').css('display','none');
+					jced("#sku").attr('value','');
+				}
+			}
+		});
+	}
+});
+
+//<![CDATA[
+    var dataForm = new VarienForm('form-validate', true);
+//]]>
+</script>
+
+

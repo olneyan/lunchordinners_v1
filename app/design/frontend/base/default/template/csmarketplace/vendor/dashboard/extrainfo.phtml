@@ -1,0 +1,91 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+ 
+?>
+<?php $statusArray=Mage::getModel('sales/order_invoice')->getStates();?>
+<?php $helper=Mage::helper('csmarketplace');?>
+<?php $collection = $this->getVorders(); ?>
+	<div class="box-head panel-heading">
+		<h3 class="panel-title"><i class="fa fa-shopping-cart"></i><?php echo $helper->__('Latest Orders')?></h3>
+	</div>
+	<table class="data-table orders ced-dashboard-tables" id="vendor-orders-table">
+		<col width="1" />
+		<col width="1" />
+		<col width="1" />
+		<col width="1" />
+		<col width="1" />
+		<col width="1" />
+		<thead>
+			<tr>							
+				<th class="number"><?php echo $helper->__('Order ID').'#'; ?></th>
+				<th class="date"><?php echo $helper->__('Purchased On') ?></th>
+				<th class="ship"><?php echo $helper->__('Billing Name') ?></th>
+				<!-- 
+					<th class="date" style="white-space: normal;"><span class="nobr"><?php echo $helper->__('Grand Total') ?></span></th>
+					<th class="date" style="white-space: normal;"><span class="nobr"><?php echo $helper->__('Commission Fee') ?></span></th>
+				 -->
+				<th class="total"><span class="nobr"><?php echo $helper->__('Net Earned') ?></span></th>
+				<th class="status"><span class="nobr"><?php echo $helper->__('Order Status') ?></span></th>
+				<!-- <th class="status" style="white-space: normal;"><span class="nobr"><?php echo $helper->__('Vendor Payment Status') ?></span></th>
+				-->
+			</tr>
+		</thead>
+		<tbody>
+		 <?php if(count($collection)>0): ?>
+				<?php $_odd = ''; ?>
+				<?php foreach ($collection as $_order):
+				?>
+				<tr class="<?php echo $_order->getStatus();?>" style="cursor: pointer;" onclick="setLocation('<?php echo $this->getViewUrl($_order); ?>')">
+					<td class="number"><a title="Click to view Order Details" href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $_order->getIncrementId() ?></a></td>
+					<td class="date"><?php echo  Mage::helper('core')->formatDate( $_order->getCreatedAt() , 'medium', true);	 ?></td>
+					<td class="ship"><?php echo $_order->getBillingName()?$this->escapeHtml($_order->getBillingName()):'&nbsp;'; ?></td>   
+					<!--
+					<td class="date">
+						<?php 
+						echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getOrderTotal()) ?>
+					</td>
+					<td class="date">
+						<?php 
+						echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getShopCommissionFee()) ?>
+					</td>
+					-->
+					<td class="total">
+						<?php 
+						echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getNetVendorEarn()) ?>
+					</td>
+					<td class="status"><?php echo ucfirst($_order->getStatus()); ?></td>
+					<!--
+					<td class="status"><?php echo $statusArray[$_order->getOrderPaymentState()]?></td>
+					-->
+				</tr>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<tr>
+					<td colspan="6">
+						<div>
+							<p><?php echo $this->__('No Orders Available'); ?></p>
+						</div>
+					</td>
+				</tr>		
+			<?php endif ?>
+		</tbody>
+</table>
+<script type="text/javascript">
+	decorateTable('vendor-orders-table');
+</script>

@@ -1,0 +1,41 @@
+<config>
+	<global>
+		<install>
+			<date><![CDATA[Wed, 28 Aug 2013 09:21:56 +0000]]></date>
+		</install>
+		<crypt>
+			<key><![CDATA[c42608cdc8d4feea50466dd6372fb118]]></key>
+		</crypt>
+		<disable_local_modules>false</disable_local_modules>
+		<resources>
+			<db>
+				<table_prefix><![CDATA[]]></table_prefix>
+			</db>
+			<default_setup>
+				<connection>
+					<host><![CDATA[localhost]]></host>
+					<username><![CDATA[staging]]></username>
+					<password><![CDATA[B8lB?h8hd]]></password>
+					<dbname><![CDATA[Go4Ethnic_live]]></dbname>
+					<initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+					<model><![CDATA[mysql4]]></model>
+					<type><![CDATA[pdo_mysql]]></type>
+					<pdoType><![CDATA[]]></pdoType>
+					<active>1</active>
+				</connection>
+			</default_setup>
+		</resources>
+		<!--<session_save><![CDATA[files]]></session_save>-->
+		<session_save>db</session_save>
+	</global>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<frontName><![CDATA[back]]></frontName>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+</config>
+

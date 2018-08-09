@@ -1,0 +1,120 @@
+<?php
+
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+
+
+if (strpos($currentUrl, 'vendor-shop') === false) {
+	?>
+	<h2><?php echo __('Order Food Delivery from Your Favorite Restaurants')?></h2>
+	<form id="search_forms" action="<?php echo $this->getUrl('csmarketplace/vshops/index'); ?>" method="get">
+   
+	  <div class="input-box"  id=rests_suggets>
+       
+        <input name="rest" id="rest_names" type="search" value="" class="search input-text required-entry" autocomplete="off"  placeholder="<?php echo $this->quoteEscape($this->__('Search by your postal code [ex- K1A 0B1], neighbourhood or name of your favourite store')) ?>" />
+        <button type="submit" title="<?php echo $this->quoteEscape($this->__('Lets Find Food')) ?>" class="button search-button"><span><span><?php echo $this->__('Lets Find Food') ?></span></span></button>
+    </div>
+        <script type="text/javascript">
+      //<![CDATA[
+        var dataForm = new VarienForm('search_form', true);
+     
+    //]]>
+    </script>
+</form>
+	
+	<?php 
+}
+else{?>
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="input-box">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+        <input id="search" type="search" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text required-entry" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" placeholder="<?php echo $this->__('Search entire store here...') ?>" />
+        <button type="submit" title="<?php echo $this->__('Search') ?>" class="button search-button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+    </div>
+
+    <div id="search_autocomplete" class="search-autocomplete"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+        var searchForm = new Varien.searchForm('search_mini_form', 'search', '');
+        searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+    //]]>
+    </script>
+</form>
+<?php 
+	
+}
+
+?>
+
+<script>
+var req = null;
+jQuery("#rest_names").change(function(){
+	var string = jQuery("#rest_names").val();
+	if (req != null) req.abort();
+	if(string.length > 1){
+		req = jQuery.ajax({
+			type: "POST",
+			url: "<?php echo Mage::getUrl('csmarketplace/search/suggestion'); ?>",
+			data: {name: string},
+			success: function(html){
+				if(html.length !=0)
+				{
+					jQuery(".rest_suggs").remove();
+					var newDiv = jQuery(document.createElement('div')).attr("class", "rest_suggs").attr("style", "border: 1px solid #bbafa0;");
+					newDiv.html(html);				
+					newDiv.appendTo("#rests_suggets");
+			    }
+				/* else{
+					   jQuery(".rest_suggs").remove();
+					} */
+				
+				
+			}
+		});
+	}else{
+		jQuery(".rest_suggs").remove();
+	}	
+});
+function pickval(id) {
+//	jQuery("#rest_names").val(id);
+//	jQuery(".rest_suggs").remove();
+//	jQuery("#search_forms").submit();
+}	
+
+var $listItems = jQuery('.l');
+
+jQuery('input').keydown(function(e)
+{
+    var key = e.keyCode,
+        $selected = $listItems.filter('.selected'),
+        $current;
+
+    if ( key != 40 && key != 38 ) return;
+
+    $listItems.removeClass('selected');
+
+    if ( key == 40 ) // Down key
+    {
+        if ( ! $selected.length || $selected.is(':last-child') ) {
+            $current = $listItems.eq(0);
+        }
+        else {
+            $current = $selected.next();
+        }
+    }
+    else if ( key == 38 ) // Up key
+    {
+        if ( ! $selected.length || $selected.is(':first-child') ) {
+            $current = $listItems.last();
+        }
+        else {
+            $current = $selected.prev();
+        }
+    }
+
+    jQuery(this).val ( $current.addClass('selected').text() );
+});
+    </script>

@@ -1,0 +1,259 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+ 
+?>
+<?php $_products = $this->getVproducts();
+$helper = Mage::helper ( 'csmarketplace' );
+$checkstatusarray=Mage::getModel('csmarketplace/vproducts')->getOptionArray();
+$types = Mage::getModel('csmarketplace/system_config_source_vproducts_type')->toOptionArray(false,true);
+$params = Mage::getSingleton('core/session')->getData('product_filter');
+?>
+<div class="page-title">
+    <h1>
+		<i class="fa fa-folder fa-fw"></i> <?php echo $helper->__('Products List') ?>
+		<button style="line-height: 1.2em;float:right" type="button" onclick="window.location='<?php echo $this->getUrl('*/*/new'); ?>'" title="<?php echo $helper->__('New')." ".$helper->__('Product') ?>" class="button">
+			<span>
+				<span><?php echo $helper->__('New')." ".$helper->__('Product') ?></span>
+			</span>
+		</button>
+    </h1>
+    <div style="clear:both"></div>
+</div>
+<form
+	action=""
+	enctype="multipart/form-data" method="post" id="product-list-form"
+	>
+	<div class="vendor-button-set buttons-set">
+		<div style="float:left">
+			<?php echo $this->getLayout()->createBlock('csmarketplace/vproducts_store_switcher')->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>false, '_query'=>false,'_nosid'=>true)))->toHtml();?>
+		</div>
+		<div class="filter_button" style="margin-top:20px">	
+			<button  style="margin:2px" onClick="filterProducts(0);" class="button" title="<?php echo $helper->__('Filter') ?>" type="submit" id="Filter"	>
+					<span><span><?php echo $helper->__('Filter') ?></span></span>
+			</button>
+			<button  style="margin:2px" onClick="filterProducts(1);" class="button" title="<?php echo $helper->__('Reset Filter') ?>" type="button" id="Filter"	>
+						<span><span><?php echo $helper->__('Reset Filter') ?></span></span>
+			</button>
+		</div>
+	</div>	
+	<div style="clear:both"></div>
+	<?php echo $this->getPagerHtml(); ?>
+	<div style="clear:both"></div>
+	 <div class="order-items order-details">
+		<table class="data-table orders" id="my-products-table">
+		    <col width="1"/>
+		    <col width="1"/>
+		   	<col width="1"/>
+		    <col width="1"/>
+		    <col width="1"/>
+		    <col width="1"/>
+		    <col width="1"/>
+		    <col width="1"/>
+		    <thead>
+		        <tr>
+		        	<th class="date"><?php echo $helper->__('ID') ?>
+		        	<div class="product-list-filter">
+		        		
+		        		<input type="text" name="entity_id[from]" class="input-text-tiny" value="<?php echo (isset($params['entity_id']['from']) && urldecode($params['entity_id']['from'])!="")?urldecode($params['entity_id']['from']):""; ?>"/>
+		        	</div>
+		        	<div class="product-list-filter">
+		        		
+		        		<input type="text" name="entity_id[to]"  class="input-text-tiny" value="<?php echo (isset($params['entity_id']['to']) &&  urldecode($params['entity_id']['to'])!="")?urldecode($params['entity_id']['to']):""; ?>"/>
+		        	</div>
+		        	</th>
+		        	<th class="status"><?php echo $helper->__('Product') ?>
+		        	<div><?php echo $helper->__('Image') ?></div>   	
+		        	</th>
+		            <th class="number"><span class="nobr"><?php echo $helper->__('Product Name') ?></span>
+		            <div class="product-list-filter"><input type="text" name="name" class="input-text-smallmedium" value="<?php echo (isset($params['name']) && urldecode($params['name'])!="")?urldecode($params['name']):""; ?>"/></div>
+		            </th> 
+		            <th class="status"><span class="nobr"><?php echo $helper->__('Product') ?><div><?php echo $helper->__('Type') ?></div>  </span>
+		            <div class="product-list-filter"><select type="text" name="type_id" class="input-select-small" value="">
+		           <?php foreach($types as $type) { echo $type['label'];?>
+								<?php if(!isset($type['value']) || !isset($type['label'])) continue; ?>
+								<option <?php echo (isset($params['type_id']) && urldecode($params['type_id'])==$type['value'])?"selected":"";?> value="<?php echo $type['value']; ?>"><?php echo $helper->__($type['label']); ?></option>
+							<?php } ?>
+		            </select></div>
+		            </th>
+		            <th class="status"><?php echo $helper->__('Status') ?>
+		            <div class="product-list-filter"><select type="text" name="check_status" class="input-select-small product-list-checkstatus" value="">
+		            <option value=""></option>
+		           <?php foreach($checkstatusarray as $key=>$val) { ?>
+									<option <?php echo (isset($params['check_status']) && (urldecode($params['check_status'])!='')&&(urldecode($params['check_status'])==$key))?"selected":"";?> value="<?php echo $key; ?>"><?php echo $helper->__($val); ?></option>
+								<?php } ?>
+		            </select></div>
+		             <div <?php if(isset($params['check_status']) && urldecode($params['check_status'])!=Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS) echo "style='display:none'"; else echo ""; ?> class="product-list-filter product-list-status"><select type="text" name="status" class="input-select-small" value="">
+		          			<option value=""></option>
+		          			<option <?php echo isset($params['status']) && urldecode($params['status'])==Mage_Catalog_Model_Product_Status::STATUS_ENABLED?"selected":"";?> value="<?php echo Mage_Catalog_Model_Product_Status::STATUS_ENABLED;?>"><?php echo $helper->__('Enabled')?></option>
+		          			<option <?php echo isset($params['status']) && urldecode($params['status'])==Mage_Catalog_Model_Product_Status::STATUS_DISABLED?"selected":"";?> value="<?php echo Mage_Catalog_Model_Product_Status::STATUS_DISABLED?>"><?php echo $helper->__('Disabled')?></option>
+		            </select></div>
+		            </th>
+		            <th class="status"><?php echo $helper->__('Price') ?>
+		            <div class="product-list-filter">
+		            	
+		            	<input type="text" name="price[from]" id="price_from" class="input-text-tiny" value="<?php echo (isset($params['price']['from']) && urldecode($params['price']['from'])!="")?urldecode($params['price']['from']):""; ?>"/>
+		            </div>
+		        	<div class="product-list-filter">
+		        		
+		        		<input type="text" id="price_to" name="price[to]" class="input-text-tiny" value="<?php echo (isset($params['price']['to']) && urldecode($params['price']['to'])!="")?urldecode($params['price']['to']):""; ?>"/>
+		        	</div>
+		            </th>
+		            <th class="status"><span class="nobr"><?php echo $helper->__('Qty') ?></span>
+		           		<div class="product-list-filter">
+		           			
+		           			<input type="text" name="qty[from]" class="input-text-tiny" value="<?php echo (isset($params['qty']['from']) && urldecode($params['qty']['from'])!="")?urldecode($params['qty']['from']):""; ?>"/></div>
+		        		<div class="product-list-filter">
+		        			
+		        			<input type="text"  name="qty[to]" class="input-text-tiny" value="<?php echo (isset($params['qty']['to']) && urldecode($params['qty']['to'])!="")?urldecode($params['qty']['to']):""; ?>"/>
+		        		</div>
+		            </th>
+		            <th class="number"><span class="nobr"><?php echo $helper->__('Action') ?></span></th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    	<?php if(count($_products)>0): ?>
+		        <?php $_odd = ''; ?>
+		        <?php foreach ($_products as $_product): ?>
+		        <?php
+		        if($_products->getStoreId()==0 && Mage::app()->isSingleStoreMode())
+		        	$productUrl=$_product->getProductUrl();
+		        else if($_products->getStoreId()!=0)
+		        	$productUrl=$_product->getUrlInStore(array('_store'=>$_products->getStoreId()));
+		        
+		        ?>
+		        <tr>
+		            <td class="date"><?php echo $_product->getId() ?></td>
+		            <td class="status">
+		           <?php if(($_product->getCheckStatus()==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS) && (($_product->getStatus()==Mage_Catalog_Model_Product_Status::STATUS_ENABLED && $_products->getStoreId()!=0)||($_products->getStoreId()==0 && Mage::app()->isSingleStoreMode()))){?>
+		            	<a target="_blank" href="<?php echo $productUrl ?>" target="_blank" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>" class="product-image">
+		            	<img  width="50" height="35" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail',$_product->getImage())->constrainOnly(true)->resize(50, 35); ?>"/>
+		            	</a>
+		            <?php }else {?>
+		            <img  width="50" height="35" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail',$_product->getImage())->constrainOnly(true)->resize(50, 35); ?>"/>
+		            <?php }?>
+		            </td>
+		            <td class="number">
+		            <?php if(($_product->getCheckStatus()==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS) && (($_product->getStatus()==Mage_Catalog_Model_Product_Status::STATUS_ENABLED && $_products->getStoreId()!=0)||($_products->getStoreId()==0 && Mage::app()->isSingleStoreMode()))){?>
+		            <a target="_blank" href="<?php echo $productUrl?>" target="_blank" title="<?php  echo $_product->getName()?>" ><?php echo $_product->getName() ?></a>
+		            <?php }else{?>
+		            <?php echo $_product->getName(); 
+					}
+		            ?>
+		            </td>     
+		            <td class="status"><?php echo $_product->getTypeId() ?></td>
+		            <td class="status"><?php echo $_product->getCheckStatus()?(($_product->getCheckStatus()==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS)? "Approved":"Pending") : "Not Approved" ?>
+		            <br/><?php if($_product->getCheckStatus()==Ced_CsMarketplace_Model_Vproducts::APPROVED_STATUS) echo $_product->getStatus()==Mage_Catalog_Model_Product_Status::STATUS_ENABLED?"(Enabled)":"(Disabled)"?>
+		            </td>
+		            <td class="status"><?php echo  Mage::app()->getLocale()->currency(Mage::getModel('core/store')->load($_products->getStoreId())->getBaseCurrencyCode())->toCurrency($_product->getPrice())?></td>
+		            <td class="status"><?php echo round($_product->getQty());?></td>
+		     		<td class="a-center view number">
+		                <span class="nobr number"><a href="<?php echo $this->getEditUrl($_product) ?>"><?php echo $this->__('Edit') ?></a>
+		                <span class="separator">|</span> <a id="delete_product" href="#" onCLick="if(confirm('<?php echo $helper->__('Are you sure?') ?>'))window.location='<?php echo $this->getDeleteUrl($_product)?>'" class="link-reorder "><?php echo $helper->__('Delete') ?></span></a>
+		                </span>
+		            </td>
+		        </tr>
+		        <?php endforeach; ?>
+		        <?php else: ?>
+				<tr>
+					<td colspan="8">
+					<div>
+					<p><?php echo $helper->__('No product records found'); ?></p>
+					</div>
+					</td>
+				</tr>		
+				<?php endif ?>
+		    </tbody>
+		</table>
+	</div>
+</form>
+<script type="text/javascript">decorateTable('my-products-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<script type="text/javascript">
+
+<?php if($this->getRequest()->getActionName()=='index'){ ?>
+	filterProducts(2);
+<?php } ?>
+
+
+jced('.product-list-checkstatus').change(function(){
+	if(jced('.product-list-checkstatus option:selected').val()==1){
+		jced('.product-list-status').show();
+	}
+	else{
+		jced('.product-list-status').hide();
+	}
+		
+});
+
+function filterProducts(reset){
+	var params ;
+	if(reset==2)
+    	reset=0;
+	jced('#activity-loading').show();
+	if(reset==1)
+		params ='{reset_product_filter:1}';
+	else
+		params = jced("#product-list-form").serialize();
+	new Ajax.Request("<?php 
+	$urlParams['_nosid'] = true;
+	if(Mage::app()->getStore()->isCurrentlySecure()){
+		$urlParams['_secure'] = true;
+	}
+	echo   $this->getUrl('csmarketplace/vproducts/filter/store/'.$this->getRequest()->getParam('store',0),$urlParams) ?>", {
+       method: 'Post',
+       parameters:params,
+       onComplete: function(transport) {
+           jced('.vendor-dashboard').html(transport.responseText);
+    	   jced('#activity-loading').hide();
+
+       }
+   });
+}
+  
+	jced(document).ready(function(){
+	  jced("#product-list-form").submit(function() {
+				return false;
+			});
+	});   
+   
+   function setLocation(url){
+	   jced('#activity-loading').show();
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+        	   jced('.vendor-dashboard').html(transport.responseText);
+        	   jced('#activity-loading').hide();
+           }
+       });
+   }
+   
+	jced('.pages a').click(function(e){
+		jced('#activity-loading').show();
+		e.preventDefault();
+		var url = jced(this).attr('href');
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+           }
+       });
+	});
+ 
+</script>

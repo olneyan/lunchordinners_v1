@@ -1,0 +1,171 @@
+<style>
+	#popup_window {
+		top:35px !important;
+	}
+	.ui-widget-content{
+		display: block;
+	    left: 396.383px;
+	    top: 252.6px;
+	    width: 470px;
+	    z-index: 99999;
+	}
+	.block.block-list.block-compare {
+    display: none;
+}
+</style>
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+$vendor_id=$this->getRequest()->getParam('id');	
+$vendor=Mage::getModel('csmarketplace/vendor')->load($vendor_id);
+$vendor_email=$vendor->getEmail();
+$vendor_public_name=$vendor->getPublicName();
+$messages=$this->getinboxcollection();
+$vendors=Mage::getModel('csmarketplace/vendor')->getCollection()->getData();
+?>
+<div class="top_msg"></div>
+<!-- Content Wrapper. Contains page content -->
+<div id="myModal" >
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header content-header-wrap">
+		<h3>Customer Vendor Conversation Area</h3>
+	</section>
+	<!-- Main content -->
+	<section class="content">
+		<div class="row">
+			<div class="left-sidebar-wrap">
+				<!--               <a href="mailbox.html" class="btn btn-primary btn-block margin-bottom">Back to Inbox</a>
+ -->			<div class="box-header with-border box-folder">
+						<h3 class="box-title">Folders</h3>
+				</div>
+				<div class="box box-solid">
+					
+					<div class="box-body no-padding">
+						<ul class="nav nav-pills nav-stacked">
+							<li><a
+								href="<?php echo Mage::getUrl('csvendorchat/frontend/inbox')?>" class=""> Inbox <span
+									class="label label-primary pull-right"><?php  if(count($messages)>0){echo count($messages);}?></span></a></li>
+							<li><a
+								href="<?php echo Mage::getUrl('csvendorchat/frontend/sent')?>" class="sent-mail-tab"> Sent</a></li>
+
+						</ul>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				
+			</div>
+			<!-- /.col -->
+			<div class="right-sidebar-wrap mail-compose" >
+				<div class="box box-primary" >
+					<div class="box-header with-border" >
+						<h3 class="box-title">Compose New Message</h3>
+						<div class="clear"></div>
+					</div>
+					<!-- /.box-header -->
+					<form method="post" 
+						action="<?php echo Mage::getBaseUrl()?>csvendorchat/frontend/savechat"
+						enctype="multipart/form-data">
+						<?php if($vendor_id!=0){?>
+						<div class="form-group">
+							<input class="form-control" name="receiver_email"
+								name="receiver_email" placeholder="TO:"
+								value="<?php  if($vendor_id)echo $vendor_public_name.'('.$vendor_email.')';?>" readonly/>
+						</div>
+						<input type="hidden" value="<?php echo $vendor_id?>"
+						name="vendor_id" />
+						
+						<?php }
+						else{?>
+						<div class="form-group">
+								<input class="form-control"  name="receiver_email"
+								placeholder="Vendor Name" id="tags"   />
+						</div>		
+						<input type="hidden" value="" 
+							name="vendor_id" />
+							
+						<?php }?>
+						<div class="form-group">
+							<input class="form-control" name="email_subject"
+								placeholder="Message Object:" id="vendor_subject" value="" />
+						</div>
+						<div class="loading_send" style="display: none">
+							<img
+								src="<?php echo Mage::getBaseUrl('skin')?>frontend/ced/default/css/ced/csvendorchat/images/loadingchat.gif"
+								alt="sending..." class="sending" />
+						</div>
+						<div class="form-group">
+							<textarea id="compose-textarea" name="text_email" placeholder="Message Content"
+								class="form-control" style="height: 300px" value=""></textarea>
+						</div>
+						<div class="box-footer">
+							<div class="pull-right">
+								<button class="btn btn-primary" id="btn-chat">
+									<i class="fa fa-envelope-o"></i> Send
+								</button>
+							</div>
+						</div>
+						<!-- /.box-footer -->
+					</form>
+				</div>
+				<!-- /.col -->
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+			<!-- /.row -->
+	</section>
+	
+	<!-- /.content -->
+</div>
+</div>
+<!-- /.content-wrapper -->
+<script>
+function setId(data)
+{
+	new Ajax.Request("<?php echo $this->getUrl('csvendorchat/index/vendor') ?>", {
+	    method: 'Post',
+	    parameters: {"vendor_id":data},
+	    onComplete: function(transport) {
+		$('input[name="vendor_id"]').val(transport.responseText);
+		//alert(transport.responseText);
+		
+	    }
+	});
+}
+<?php 
+$collection= Mage::getModel('csmarketplace/vendor')->getCollection()->addAttributeToSelect('*');
+foreach ($collection as $name)
+ {
+    //$vendorName[]=$name->getPublicName().'<'.$name->getEmail().'>';
+   $vendorName[]=$name->getPublicName().'('.$name->getEmail().')';
+    //$vendorName[]=$name->getEmail();
+   // $vendorName[]='shop:'.$name->getShopUrl();
+   //$name[] = $name->getPublicName();
+ }
+$availableTags=json_encode($vendorName);
+		?>
+$(function() {
+	var availableTags=<?php echo $availableTags;?>
+	
+$( "#tags" ).autocomplete({
+source: availableTags
+});
+});
+</script>
+		

@@ -1,0 +1,59 @@
+.groupgifts-progress-bar {
+    background: url("../images/new/bkg_divider1.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    margin-top: 10px;
+    padding-top: 10px;
+}
+strong {
+    font-weight: bold;
+}
+.price {
+    white-space: nowrap !important;
+}
+.meter-wrap {
+    background: url("../images/new/bkg_feature_bar.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+}
+.meter-wrap, .meter-value, .meter-text {
+    height: 20px;
+}
+.meter-wrap {
+    position: relative;
+}
+.meter-value {
+    background: url("../images/new/feature_progress.gif") repeat-x scroll 0 0 rgba(0, 0, 0, 0);
+    margin-left: 1px;
+}
+.meter-text {
+    color: #fff;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+.outer-part {
+    padding: 15px 5px;
+}
+.input-button {
+    padding-bottom: 15px;
+}
+.groupgift-validate-price{
+    width: 40% !important;
+}
+td {
+    padding: 5px;
+}
+table {
+    width: 100%;
+}
+.outer-part .validation-advice {
+margin-left : 40px;
+float: left;
+}
+#add {
+	background-color: #f18200;
+    color: white;
+    cursor: pointer;
+}
+.guest_count > input {
+    width: 31%;
+}	

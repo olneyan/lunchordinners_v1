@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectreview
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<modules>
+		<Ced_Mobiconnectreview>
+			<version>0.0.1</version>
+       
+			<author>Cedcoss</author> 
+		</Ced_Mobiconnectreview>
+	</modules>                
+    <frontend>
+        <routers>
+            <mobiconnectreview>
+                <use>standard</use>
+                <args>
+                    <module>Ced_Mobiconnectreview</module>
+                    <frontName>mobiconnectreview</frontName>
+                </args>
+            </mobiconnectreview>
+        </routers>
+    </frontend>    
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mobiconnectreview translate="title">
+                                            <title>Ced App Advance Review Config</title>
+                                            <sort_order>999</sort_order>
+                                       </mobiconnectreview>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>    
+    <global>
+    	<models>
+			<mobiconnectreview>
+				<class>Ced_Mobiconnectreview_Model</class>
+			</mobiconnectreview>
+    	</models>
+    	<helpers>
+    		<mobiconnectreview>
+    			<class>Ced_Mobiconnectreview_Helper</class>
+    		</mobiconnectreview>
+    	</helpers>
+        <!-- <routers>
+            <mobiconnect>
+                <rewrite>
+                    <category>
+                        <to>mobiconnectreview/index</to>
+                        <override_actions>true</override_actions>
+                        <actions>
+                            <categoryproducts>
+                                <to>mobiconnectreview/index/categoryProducts</to>
+                            </categoryproducts>
+                        </actions>
+                    </category>
+                </rewrite>
+            </mobiconnect>
+        </routers> -->
+        <events>
+            <change_product_data>
+                <observers>
+                    <ced_mobiconnectreview_change_product_data_observer>
+                        <type>singleton</type>
+                        <class>mobiconnectreview/observer</class>
+                        <method>productReview</method>
+                    </ced_mobiconnectreview_change_product_data_observer>
+                </observers>
+            </change_product_data>
+        </events>
+    </global>
+    <default>
+            <mobiconnectreview>
+                <review>
+                    <activation>1</activation>
+                </review>
+            </mobiconnectreview>
+    </default>
+</config>
+

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<modules>
+		<Ced_Mobiconnect>
+			<version>0.0.7</version>  
+		
+            <author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_Mobiconnect>
+	</modules>
+    <frontend>
+        <routers>
+            <mobiconnect>
+                <use>standard</use>
+                <args>
+                    <module>Ced_Mobiconnect</module>
+                    <frontName>mobiconnect</frontName>
+                </args>
+            </mobiconnect>
+        </routers>
+        <layout>
+			<updates>
+				<mobiconnect>
+					<file>mobiconnect.xml</file>
+				</mobiconnect>
+			</updates>
+		</layout>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                   <modules>
+						<mobiconnect after="Mage_Adminhtml">Ced_Mobiconnect</mobiconnect>
+					</modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all> 
+			    <admin>
+			        <children>
+			            <system>
+			                <children>
+			                    <config>
+			                        <children>
+			                            <mobiconnect translate="title">
+			                                <title>Ced App Config</title>
+			                                <sort_order>100</sort_order>
+			                           </mobiconnect>
+			                           <cedcore translate="title">
+			                                <title>Various Cedcommerce Modules</title>
+			                                <sort_order>100</sort_order>
+			                           </cedcore>
+			                        </children>
+			                    </config>
+			                </children>
+			            </system>
+			            <mobiconnect module="mobiconnect" translate="title">
+							<title>Cedcommerce App</title>
+							<sort_order>20</sort_order>
+							<children>
+					            <connector translate="title" module="mobiconnect">
+					            	<title>Connector Setting</title>
+				                    <sort_order>1</sort_order>
+				                     <children>
+						                <banner translate="title" module="mobiconnect">
+						                    <title>Manage Banner</title>
+						                    <sort_order>1</sort_order>
+						                    <action>adminhtml/adminhtml_index/index</action>
+						                </banner>
+						                <widget translate="title" module="mobiconnect">
+						                    <title>Widgets</title>
+						                    <sort_order>2</sort_order>
+						                    <children>
+						                    	<home_banner translate="title" module="mobiconnect">
+								                    <title>Manage Home Page Banner</title>
+								                    <sort_order>1</sort_order>
+								                    <action>adminhtml/adminhtml_widget/index</action>
+						                		</home_banner>
+						                    </children>
+						                </widget>
+						               <app_config translate="title" module="mobiconnect">
+						                    <title>App Configuration</title>
+						                    <sort_order>5</sort_order>
+						                    <action>adminhtml/system_config/edit/section/mobiconnect</action>
+						               </app_config>
+						            </children>
+					            </connector>
+					            <mobiconnect_support translate="title" module="mobiconnect">
+					            	<title>Mobiconnect Support</title>
+				                    <sort_order>2</sort_order>
+				                    <action>adminhtml/adminhtml_support/support</action>
+	           					</mobiconnect_support>
+            				</children>
+						</mobiconnect>
+			        </children>
+			    </admin>
+			</resources>
+   		</acl>
+		<layout>
+			<updates>
+				<mobiconnect>
+					<file>mobiconnect.xml</file>
+				</mobiconnect>
+			</updates>
+		</layout>
+	</adminhtml>
+    <global>
+    	<models>
+			<mobiconnect>
+				<class>Ced_Mobiconnect_Model</class>
+				<resourceModel>mobiconnect_resource</resourceModel>
+			</mobiconnect>
+	   		<mobiconnect_resource>
+				 <class>Ced_Mobiconnect_Model_Resource</class>
+		                <entities>
+		                    <banner>
+		                    	<table>mobiconnect_banner</table>
+		                    </banner>
+		                    <cmsblock>
+		                    	<table>mobiconnect_cmsblock</table>
+		                    </cmsblock>
+		                    <appblock>
+		                    	<table>mobiconnect_appblock</table>
+		                    </appblock>
+		                    <widget>
+		                    	<table>mobiconnect_widget</table>
+		                    </widget>
+		                    <customerhash>
+		                    	<table>mobiconnect_customerhash</table>
+		                    </customerhash>
+		                </entities>
+	   		</mobiconnect_resource>
+    	</models>
+		<resources>
+			<mobiconnect_setup>
+				<setup>
+				    <module>Ced_Mobiconnect</module>
+				</setup>
+				<connection>
+				    <use>core_setup</use>
+				</connection>
+			</mobiconnect_setup>
+		</resources>
+    	<helpers>
+    		<mobiconnect>
+    			<class>Ced_Mobiconnect_Helper</class>
+    		</mobiconnect>
+    	</helpers>
+    	<template>
+            <email>
+                <mobiconnect_general_support_template translate="label" module="mobiconnect">
+                    <label>Mobiconnect Support Email</label>
+                    <file>ced/support.html</file>
+                    <type>html</type>
+                </mobiconnect_general_support_template>
+            </email>
+        </template>
+    	<events>
+	    	<login_hash_event>
+	      		<observers>
+	        		<ced_mobiconnect_login_hash_event_observer>
+		         		<type>singleton</type>
+		          		<class>mobiconnect/observer</class>
+		         		<method>secureHash</method>
+	        		</ced_mobiconnect_login_hash_event_observer>
+	      		</observers>
+	    	</login_hash_event>
+	    	<controller_action_layout_load_before>
+				<observers>
+                 	<layout_load_before_cedcommerce>
+                  	    <class>mobiconnect/observer</class>
+                        <method>beforeLoadingLayout</method>
+            		</layout_load_before_cedcommerce>
+                </observers>
+			</controller_action_layout_load_before> 
+			<controller_action_predispatch>
+                <observers>
+                    <csmarketplace_feed_start>
+                        <class>mobiconnect/observer</class>
+                        <method>preDispatch</method>
+                    </csmarketplace_feed_start>
+                </observers>
+            </controller_action_predispatch>
+  		</events>
+		<blocks>
+			<mobiconnect>
+			    <class>Ced_Mobiconnect_Block</class>
+			</mobiconnect>
+		</blocks>
+		<rewrite>
+			<cedcommerce_fancy_url>
+				<from><![CDATA[/cedcommerce\/main\/(.*)/i]]></from>
+				<to><![CDATA[mobiconnect/main/$1]]></to>
+				<complete>1</complete>
+			</cedcommerce_fancy_url>
+		</rewrite>
+    </global>
+    <default>
+		<system>
+            <csmarketplace>
+                <feed_url>cedcommerce.com/licensing/log/post</feed_url>
+                <popup_url>widgets.magentocommerce.com/notificationPopup</popup_url>
+                <severity_icons_url>widgets.magentocommerce.com/%s/%s.gif</severity_icons_url>
+                <frequency>72</frequency>
+                <last_update>0</last_update>
+            </csmarketplace>
+			<license>
+				<use_https>0</use_https>
+				<license_url>adminhtml/adminhtml_license/index/</license_url>
+				<activate_url>cedcommerce.com/licensing/validate/</activate_url>
+			</license>
+        </system>
+        <mobiconnect>
+        	<general>
+        		<enable>1</enable>
+        	</general>
+        	<banners>
+        		<banner_homepage>1</banner_homepage>
+        		<new_arrival>1</new_arrival>
+        		<most_view>1</most_view>
+        		<best_seller>1</best_seller>
+        		<limit_product>5</limit_product>
+        	</banners>
+        </mobiconnect>
+	</default>
+</config>

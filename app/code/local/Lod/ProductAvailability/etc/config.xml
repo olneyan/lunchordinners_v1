@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Lod_ProductAvailability>
+            <version>1.0.0.0</version>
+        </Lod_ProductAvailability>
+    </modules>
+    <global>
+        <helpers>
+            <lod_product_availability>
+                <class>Lod_ProductAvailability_Helper</class>
+            </lod_product_availability>
+        </helpers>
+        <models>
+            <lod_product_availability>
+                <class>Lod_ProductAvailability_Model</class>
+            </lod_product_availability>
+        </models>
+        <events>
+            <catalog_product_is_salable_before>
+                <observers>
+                    <lod_product_availability>
+                        <class>lod_product_availability/observer</class>
+                        <method>isAvailableNow</method>
+                    </lod_product_availability>
+                </observers>
+            </catalog_product_is_salable_before>
+        </events>
+    </global>
+</config>

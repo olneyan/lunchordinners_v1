@@ -1,0 +1,81 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<div class="dashboard">
+	<?php if($this->getVendorId()) { ?>
+		<div class="page-title">
+			<h1><?php echo Mage::helper('csmarketplace')->__('Vendor Status') ?></h1>
+		</div>
+		<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+		<div class="welcome-msg">		
+			<p class="hello"><strong><?php echo Mage::helper('csmarketplace')->__('Hello, %s!', $this->escapeHtml($this->getVendor()->getName())) ?></strong>
+			
+			<span class="review_vendor" title="Under Review!"><i class="fa fa-eye fa-3"></i> Under Review!
+			</span>
+			</p>
+			<p><?php echo $this->getApprovalMessage(); ?></p>	
+		</div>
+	<?php } else { ?>
+		<div class="page-title">
+			<h1><?php echo Mage::helper('csmarketplace')->__('Send Approval Request') ?></h1>
+		</div>
+		<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+		<div class="welcome-msg">	
+			<p class="hello"><strong><?php echo Mage::helper('csmarketplace')->__('Hello, %s!', $this->escapeHtml($this->getCustomer()->getName())) ?></strong></p>
+			<p><?php echo $this->getApprovalMessage(); ?></p>
+			<form id="form-validate" class="scaffold-form" enctype="multipart/form-data" method="post" action="<?php echo $this->getUrl('*/*/approvalPost',array('_secure'=>true)); ?>">
+				<div class="fieldset">
+					<ul class="form-list">
+						<?php echo $this->getChildHtml('vendorAfterRegForm'); ?>
+					</ul>
+				</div>
+				<div class="buttons-set">
+					<p class="required"><?php echo $this->__('* Required Fields') ?></p>
+					<p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+					<button onclick="vendorDataValidate();" type="button" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+				</div>
+			</form>
+			 <script type="text/javascript">
+				//<![CDATA[
+					var dataForm = new VarienForm('form-validate', true);
+					function vendorDataValidate() {
+						var cslabels = document.getElementById('is_vendor').parentNode.parentNode.childNodes;
+						if(document.getElementById('is_vendor').checked) {
+							for(i=0;i<cslabels.length;i++){
+								if (cslabels[i].nodeName == 'LABEL') {
+									cslabels[i].style.border = '';
+									break;
+								}
+							}
+							dataForm.submit();
+						}else {
+							for(i=0;i<cslabels.length;i++){
+								if (cslabels[i].nodeName == 'LABEL') {
+									cslabels[i].style.border = 'thin dashed red';
+									break;
+								}
+							}
+						}
+					}
+				//]]>
+			</script>
+		</div>
+	<?php } ?>
+</div>

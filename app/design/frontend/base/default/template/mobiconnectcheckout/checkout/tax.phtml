@@ -1,0 +1,78 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+/**
+ * @var $this Mage_Tax_Block_Checkout_Tax
+ * @see Mage_Tax_Block_Checkout_Tax
+ */
+?>
+<?php
+    $_value = $this->getTotal()->getValue();
+    $_style = $this->getTotal()->getStyle();
+?>
+<?php global $taxIter; $taxIter++; ?>
+<?php if ($this->helper('tax')->displayFullSummary() && $_value!=0): ?>
+<?php $isTop = 1; ?>
+    <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
+        <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
+        <?php $percent = $info['percent']; ?>
+        <?php $amount = $info['amount']; ?>
+        <?php $rates = $info['rates']; ?>
+        <?php $isFirst = 1; ?>
+
+        <?php foreach ($rates as $rate): ?>
+        <ul class="tax_title1 summary-details-<?php echo $taxIter; ?> summary-details<?php if ($isTop): echo ' summary-details-first'; endif; ?>" style="display:none;">
+            <li class="tax_title" style="<?php echo $_style ?>" colspan="<?php echo $this->getColspan(); ?>">
+                <?php echo $this->escapeHtml($rate['title']); ?>
+                <?php if (!is_null($rate['percent'])): ?>
+                    (<?php echo (float)$rate['percent']; ?>%)
+                <?php endif; ?>
+                <br />
+            </li>
+            <?php if ($isFirst): ?>
+                <li style="<?php echo $_style ?>" class="tax_val" rowspan="<?php echo count($rates); ?>">
+                    <?php echo $this->helper('checkout')->formatPrice($amount); ?>
+                </li>
+            <?php endif; ?>
+        </ul>
+        <?php $isFirst = 0; ?>
+        <?php $isTop = 0; ?>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+    <?php $weees = $this->getAllWeee(); ?>
+    <?php foreach ($weees as $weeeTitle => $weeeAmount): ?>
+    <ul class="tax_title1 summary-details-<?php echo $taxIter; ?> summary-details<?php if ($isTop): echo ' summary-details-first'; endif; ?>" style="display:none;">
+        <li class="tax_title" style="<?php echo $_style ?>" colspan="<?php echo $this->getColspan(); ?>">
+            <?php echo $this->escapeHtml($weeeTitle); ?>
+            <br />
+        </li>
+        <li style="<?php echo $_style ?>" class="tax_val" rowspan="1">
+            <?php echo $this->helper('checkout')->formatPrice($weeeAmount); ?>
+        </li>
+    </ul>
+    <?php endforeach; ?>
+<?php endif;?>
+<ul <?php if ($this->helper('tax')->displayFullSummary() && $_value!=0) { ?> class="tax_title1 summary-total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php } else { ?> class="tax_title1"<?php }?>>
+    <li style="<?php echo $_style ?>" class="tax_title" colspan="<?php echo $this->getColspan(); ?>">
+        <?php if ($this->helper('tax')->displayFullSummary()): ?>
+            <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
+        <?php else: ?>
+            <?php echo $this->getTotal()->getTitle() ?>
+        <?php endif;?>
+    </li>
+    <li style="<?php echo $_style ?>" class="tax_val"><?php echo $this->helper('checkout')->formatPrice($_value) ?></li>
+</ul>

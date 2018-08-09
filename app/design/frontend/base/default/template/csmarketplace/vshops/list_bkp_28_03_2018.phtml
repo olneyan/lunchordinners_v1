@@ -1,0 +1,315 @@
+<style>
+    ul#toolbar {
+        font-weight: bold; 
+        padding: 3px 10px 3px 3px;
+        background-color: #aa3a2f;
+        
+    }
+    
+    ul#toolbar li {
+        margin-right: 15px; 
+        display: inline-block;
+    }
+    
+    ul#toolbar li a {
+        display: block; 
+        padding: 4px 10px; 
+        cursor: pointer; 
+        color: #fff;
+        border: 1px solid #f6f6f6;
+        font-size: 14px;
+    }
+    ul#toolbar li a:hover, a.active {
+        background-color: #333;
+    }
+    
+    ul#toolbar li h3 {
+        font-size: 14px;
+        color: #fff; 
+        padding: 5px 10px; 
+        font-weight: bold; 
+        margin-bottom: 0;
+        border: 1px solid #f6f6f6;
+        background-color: #333;
+    }
+    
+</style>
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<?php
+//echo get_class($this);
+$vendorsArray = $this->getVendorCollection();
+
+$vendors = $vendorsArray['vendor'];
+if ($vendors)
+    $vendors->addAttributeToSort('sponsored', 'desc');
+$distance = $vendorsArray['distance'];
+//	print_r($distance); die("jkg");
+$helper = Mage::helper('csmarketplace/tool_image');
+$title = Mage::getStoreConfig('ced_vshops/general/vshoppage_title', Mage::app()->getStore()->getId()) ? Mage::getStoreConfig('ced_vshops/general/vshoppage_title', Mage::app()->getStore()->getId()) : "CsMarketplace";
+// banner
+$width = (int) Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_width', Mage::app()->getStore()->getId());
+$height = (int) Mage::getStoreConfig('ced_vshops/general/vshoppage_banner_image_height', Mage::app()->getStore()->getId());
+$img = Mage::getStoreConfig("ced_vshops/general/vshoppage_banner", Mage::app()->getStore()->getId()) ? "ced/csmarketplace/" . Mage::getStoreConfig("ced_vshops/general/vshoppage_banner", Mage::app()->getStore()->getId()) : '';
+$width = $width ? $width : 800;
+$height = $height ? $height : 200;
+?>
+<?php if (Mage::helper('csmarketplace/acl')->isEnabled()) { ?>
+
+
+    
+    <?php
+    $currentUrl = Mage::getUrl('*/*/*');
+    $queries = Mage::app()->getRequest()->getQuery();
+    $sortParams = [
+//        'entity_id' => "Entity ID", 
+        'public_name' => "Vendor Name", 
+        'distance' => "Distance", 
+        'delivery_fee' => 'Delivery Fee',  
+//        'min_freeship', 
+//        'created_at'
+    ];
+    ?>
+    <ul id="toolbar">
+    <?php
+    $currentSortBy = isset($queries['sortby']) ? $queries['sortby'] : 'distance';
+    $currentSortDir = isset($queries['sortdir']) ? $queries['sortdir'] : 'asc';
+    ?>
+        <li><h3>Sort By: </h3></li>
+    <?php
+    foreach ($sortParams as $sortBy => $sortValue) {
+        if ($currentSortBy == $sortBy) {
+            $queries['sortdir'] = ($queries['sortdir'] === 'asc') ? 'desc' : 'asc';
+        } else {
+            $queries['sortdir'] = $currentSortDir;
+        }
+        $queries['sortby'] = $sortBy;
+    ?>    
+        <li>
+            <a href="<?php echo $currentUrl . '?' . http_build_query($queries); ?>" <?php if ($currentSortBy == $sortBy) { echo 'class="active"'; } ?>  >
+                   <?php echo $sortValue ?>&nbsp;&nbsp;
+                   <?php if ($currentSortBy == $sortBy) { ?>
+                   <span style="font-weight: 200; font-size: 14px;">
+                   <?php if($queries['sortdir'] == 'asc') { ?>&DownArrow;
+                   <?php } else { ?>&UpArrow;<?php }} ?>
+                   </span>
+            </a>
+        </li>
+    <?php
+    }
+    ?>
+    </ul>
+     
+    <?php 
+    if (!$vendors || !$vendors->count()) {
+    ?>
+    <div class="remove_vendors_wrap">
+        <p><?php echo $this->__('Sorry!! No Records available.') ?></p>
+        <p><a href='/' style="color: #333; cursor: pointer">Change Location</a></p>
+    </div>
+    <?php
+    } else {
+        $url = $this->getBaseUrl();
+        if (!Mage::registry('got_geo_codes')) {
+    ?>
+    <div class="">
+        <b>
+            <p class="note-msg" style="font-size: 12px">
+                Could not get geo codes but you can try these.
+            </p>
+        </b>
+    </div>
+    <?php
+        } else { 
+    ?>
+    <div class="">
+        <b><font size="3px"><p class="note-msg"><?php echo $vendors->count() . " restaurants deliver to " . $this->getRequest()->getParam('rest') . ". <a href='$url'>Change Location</a> " ?></p></font></b>
+    </div>
+    <?php
+        }
+    ?>
+
+
+        <?php
+        $width = (int) Mage::getStoreConfig('ced_vshops/general/list_image_width', Mage::app()->getStore()->getId());
+        $height = (int) Mage::getStoreConfig('ced_vshops/general/list_image_height', Mage::app()->getStore()->getId());
+        $width = $width ? $width : 135;
+        $height = $height ? $height : 135;
+        ?>
+        <div class="vendor_list_page">
+
+            <?php
+            $i = 0;
+            $day = Mage::getSingleton('core/date')->date('w');
+            foreach ($vendors as $vendor) {
+                for ($j = 0; $j < count($distance); $j++) {
+                    if ($distance[$j]['id'] == $vendor->getEntityId()) {
+                        $diff = $distance[$j]['distance'];
+                    } else {
+                        continue;
+                    }
+                }
+
+
+                if ($day == 0) {
+                    $value = $vendor->getSunCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getSunOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 1) {
+                    $value = $vendor->getMonCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getMonOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 2) {
+
+                    $value = $vendor->getTueCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getTueOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 3) {
+
+                    $value = $vendor->getWedCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getWedOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 4) {
+                    $value = $vendor->getThuCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getThuOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 5) {
+                    $value = $vendor->getFriCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getFriOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                } elseif ($day == 6) {
+                    $value = $vendor->getSatCloseTime();
+                    $value = explode(',', $value);
+                    $value = implode(':', $value);
+
+                    $Openvalue = $vendor->getSatOpenTime();
+                    $Openvalue = explode(',', $Openvalue);
+                    $Openvalue = implode(':', $Openvalue);
+                }
+                ?><ol>
+                    <li class="logo">
+                        <a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" class="product-image vendor-logo-image"><img src="<?php echo $helper->init($vendor->getData('company_logo'))->keepFrame(false)->resize($width, $height); ?>" alt="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>" /></a>
+                    </li>
+                    <li class="name"><a href="<?php echo $vendor->getVendorShopUrl() ?>" title="<?php echo $this->stripTags($vendor->getPublicName(), null, true) ?>"<font size="4px"><?php echo $vendor->getPublicName(); ?></font></a><span class="value"> <?php echo $vendor->getAddress(); ?></span>
+                        <?php $rest = $this->getRequest()->getParam('rest');
+                        if ($rest) {
+                            ?>
+                            <span><?php echo $this->__("Approx. Distance: ");
+                                echo $diff;
+                            ?></span>
+                        <!--<p>Sql Calulated Distance: <?php // echo $vendor->getData('distance'); ?></p>-->
+                        <?php } ?> 
+                    </li>
+                    <li class="open_time">
+                        <?php $todayPrefix = date("Y-m-d", Mage::getModel('core/date')->timestamp(now())); ?>
+                        <label><?php echo __('Starts At'); ?></label>
+                        <span class="value">
+                            <?php echo nl2br(date("Y-m-d h:i:s a", strtotime($todayPrefix . " " . $Openvalue))); ?>
+                        </span>
+                    </li>
+                    <?php
+                    $openingAt = intval(substr($Openvalue, 0, 2));
+                    $closingAt = intval(substr($value, 0, 2));
+                    $diff = $closingAt - $openingAt;
+                    ?>
+                    <li class="open_time">
+                        <label><?php echo __('Open Until'); ?></label>
+                    <?php if ($diff <= 0) { ?>
+                        <span class="value">
+                            <?php echo nl2br(date("Y-m-d h:i:s a", strtotime(date("Y-m-d h:i:s a", strtotime($todayPrefix . " " . $value)) . " +24 hour"))); ?>
+                        </span>
+                    <?php } else { ?>
+                        <span class="value">
+                            <?php echo nl2br(date("Y-m-d h:i:s a", strtotime($todayPrefix . " " . $value))); ?>
+                        </span>
+                    <?php } ?>
+                    </li>
+                    <?php
+                    if ($diff <= 0) {
+                        $value = date("Y-m-d h:i:s", strtotime($todayPrefix . " " . $value)) . " +24 hour";
+                    } else {
+                        $value = date("Y-m-d h:i:s", strtotime($todayPrefix . " " . $value));
+                    }
+                    ?>
+                    <li  class="open_time" <?php if ($diff <= 0) { ?>style="background: transparent" <?php } ?>>
+                      <?php
+                        $formatedOpeningTime = date('Y-m-d H:i:s', strtotime($todayPrefix . " " . $Openvalue));
+                        $formatedClosingTime = date('Y-m-d H:i:s', strtotime($value));
+                        $now = Mage::getModel('core/date')->timestamp(now());
+                        $diff1 = strtotime(date("Y-m-d H:i:s", $now)) - strtotime($formatedOpeningTime);
+                        $diff2 = strtotime($formatedClosingTime) - strtotime(date("Y-m-d H:i:s", $now));
+                        $isOpen = ( ($diff1 >= 0) && ($diff2 >= 0) ) ? "OPEN" : "CLOSED";
+                        ?>
+                        <label><?php echo $isOpen; ?></label>
+                        <span class="value"><?php echo date("Y-m-d h:i:s a", $now); ?></span>
+                    </li>
+
+                    <li class="rating"><?php echo __('Rating'); ?><span class="value"> <?php echo $this->getReviewsSummaryHtml($vendor); ?></span> </li>
+                    <li class="min_amount"><?php echo __('Minimum delivery order'); ?><span class="value"> <?php
+                if ($vendor->getMinOrderAmount()) {
+                    echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+                }echo $vendor->getMinFreeship();
+            ?></li>
+                    <li class="wait_time"><?php echo __('Wait Time'); ?><span class="value"> <?php echo $vendor->getDeliveryTime(); ?></li>
+                    <li class="delivery">
+                            <?php echo __('Delivery'); ?>
+                        <span class="value">
+                            <?php
+                            if ($vendor->getDeliveryFee()) {
+                                echo $vendor->getDeliveryFeeInRadius($diff);
+                            }
+                            ?>
+                        </span>
+                    </li>
+                    <li class="view_product"><a href="<?php echo $vendor->getVendorShopUrl() ?>"></a></li>
+                </ol>
+                <?php
+            }
+            ?>
+        </div>
+    <?php
+    }
+}
+?>
+

@@ -1,0 +1,146 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    design
+ * @package     rwd_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<?php
+//var_dump($this->getRequest()->getControllerName());
+//var_dump($this->getRequest()->getActionName());
+//var_dump($this->getRequest()->getRouteName());
+//var_dump($this->getRequest()->getModuleName());
+//var_dump($this->getRequest()->getControllerModule());
+?>
+<div class="page-title category-title">
+    <h1><?php echo $this->__('Menu') ?></h1>
+</div>
+<div class="catagory-product-listing">
+
+    <?php
+    $proArray = [];
+    $_productCollection = $this->getProductCollection();
+
+    foreach ($_productCollection as $key => $val) {
+        $proArray[$val->getData('category_id')][] = $val->getData();
+    }
+
+    $indx = 0;
+    foreach ($proArray as $k => $v) {
+
+        $_category = Mage::getModel('catalog/category')->load($k);
+        ?>
+        <div class="ced-shop-menu-wrapper">
+
+            <div class="ced-shop-menu-category <?php
+            if ($indx === 0) {
+                echo 'active';
+            }
+            ?>" id="<?php echo "cat" . $k; ?>" onclick="toggledata(this);">
+                <h3><?php echo $_category->getName(); ?></h3>
+            </div>
+            <div class="ced-shop-menu-content-wrap <?php
+            if ($indx === 0) {
+                echo 'active';
+            }
+            ?>" style="display: none">
+                 <?php if ($_category->hasDescription()) { ?>
+                    <p style="text-align: center;"><?php echo $_category->getDescription(); ?></p>
+                <?php } ?>
+                <div class="ced-shop-menu-container">
+                    <?php
+                    for ($i = 0; $i < count($v); $i++) {
+                        $product = Mage::getModel('catalog/product')->load($v[$i]['entity_id']);
+                        if ($product->getHasOptions()) {
+                            $onlick = "fun(jQuery(this).data('id'));";
+                        } else {
+                            $onlick = "submitForm(jQuery(this).data('id'));";
+                        }
+                        ?>
+                        <?php if ($product->isSaleable()) { ?>
+                        <div id="<?php echo $v[$i]['entity_id']; ?>"    class="ced-shop-menu-content">
+                            <div class="card">
+                                <div class="left">
+                                    <h4><?php echo $v[$i]['name']; ?></h4>
+                                    <?php if (isset($v[$i]['description'])) { ?>
+                                        <p><?php echo $v[$i]['description']; ?></p>
+                                    <?php } ?>
+                                    <?php
+                                    $RatingOb = Mage::getModel('rating/rating')->getEntitySummary($v[$i]['entity_id']);
+                                    $ratings = '';
+                                    if ($RatingOb->getCount()) {
+                                        $ratings = $RatingOb->getSum() / $RatingOb->getCount();
+                                    }
+                                    ?>
+                                    <?php if ($ratings): ?>
+                                        <div class="ratings">
+                                            <div class="rating-box">
+                                                <div class="rating" style="width:<?php echo $ratings; ?>%"></div>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="pull-right addToCart" data-id="<?php echo $v[$i]['entity_id']; ?>" onclick="<?php echo $onlick; ?>">
+                                    <?php if ($product->getHasOptions()) { ?>
+                                        <span class="price" style="font-size: 13px">
+                                            <?php echo "From: " . Mage::helper('core')->currency($v[$i]['price'], true, false); ?>
+                                            <span class="plus">+</span>
+                                        </span>
+                                    <?php } else { ?>
+                                        <span class="price">
+                                            <?php echo Mage::helper('core')->currency($v[$i]['price'], true, false); ?>
+                                            <span class="plus">+</span>
+                                        </span>
+                                    <?php } ?>
+                                </div>
+                                
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
+                </div>
+            </div>
+        </div>
+        <?php
+        $indx++;
+    }
+    ?>
+</div>
+<script>
+                function toggledata(e) {
+                    if (jQuery(e).hasClass('active')) {
+                        jQuery(e).removeClass('active');
+                        jQuery('.ced-shop-menu-content-wrap.active').slideUp(300).removeClass('active');
+                    } else {
+                        jQuery('.ced-shop-menu-category.active').removeClass('active');
+                        jQuery(e).addClass('active');
+                        jQuery('.ced-shop-menu-content-wrap.active').slideUp(300);
+                        jQuery(e).next('.ced-shop-menu-content-wrap').slideDown(300, function () {
+                            jQuery('body,html').animate({
+                                scrollTop: jQuery(e).offset().top
+                            }, 300);
+                            return false;
+                        }).addClass('active');
+                    }
+                }
+
+                jQuery(document).ready(function ($) {
+                    $('.ced-shop-menu-content-wrap:eq(0)').slideDown(300);
+                });
+
+
+</script>
+

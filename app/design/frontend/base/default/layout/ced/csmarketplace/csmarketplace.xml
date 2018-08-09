@@ -1,0 +1,169 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+Supported layout update handles (action):
+- csmarketplace_vshops_index
+
+Supported layout update handles (special):
+- default
+
+-->
+<layout version="0.1.0">
+
+    <!--
+    Default layout, loads most of the pages
+    -->
+
+    <default>
+        <!-- Ced_CsMarketplace -->
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="csmarketplace" ifconfig="ced_vshops/general/vshoppage_top_enabled">
+                <label helper="csmarketplace/getCsMarketplaceTitle"/>
+                <url helper="csmarketplace/getCsMarketplaceUrl"/>
+                <title helper="csmarketplace/getCsMarketplaceTitle"/>
+                <prepare/>
+                <urlParams/>
+                <position>7</position>
+            </action>
+            <action method="addLink" translate="label title" module="csmarketplace" ifconfig="ced_vshops/general/vshoppage_vendor_enabled">
+                <label helper="csmarketplace/getIAmAVendorTitle"/>
+                <url helper="csmarketplace/getVendorUrl"/>
+                <title helper="csmarketplace/getIAmAVendorTitle"/>
+                <prepare/>
+                <urlParams/>
+                <position>8</position>
+            </action>
+            <action method="addLink" translate="label title">
+                <label>Help</label>
+                <url>help</url>
+                <title>Help</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>10</position>
+            </action>
+        </reference>
+    </default>
+    
+	
+    <!--
+    Vendors Shop List
+    --> 
+    <csmarketplace_vshops_index translate="label">
+        <label>CsMarketplace</label>
+        <!-- Ced_CsMarketplace_Vshops_Index -->
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/vendorsearch.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/font-awesome/css/font-awesome.min.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+		
+        <reference name="content">
+            <block type="csmarketplace/vshops_list" name="csmarketplace_vshops_list" as="vlist" template="csmarketplace/vshops/list.phtml">
+                <block type="checkout/cart_shipping" name="country_filter" as="country_filter" template="csmarketplace/vshops/country_filter.phtml"/>
+            </block>
+        </reference>
+    </csmarketplace_vshops_index>
+    
+    <!--
+    Vendor's Shop Page
+    --> 
+    <csmarketplace_vshops_view translate="label">
+        <label>CsMarketplace</label>
+        <!-- Ced_CsMarketplace_Vshops_View -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/font-awesome/css/font-awesome.min.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="left">
+            <remove name="left.newsletter"/>
+            <remove name="left.reports"/>
+            <remove name="catalog.compare.sidebar" />
+            <action method="unsetChild">
+                <name>left.permanent.callout</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.reports.product.viewed</name>
+            </action>
+            <action method="unsetChild">
+                <name>tags_popular</name>
+            </action>
+            <action method="unsetChild">
+                <name>cart_sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>wishlist</name>
+            </action>
+            <action method="unsetChild">
+                <name>sale.reorder.sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.poll</name>
+            </action>
+           
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view" as="vview" template="csmarketplace/vshops/view.phtml"/>
+            <block type="csmarketplace/vshops_left" name="csmarketplace.vshops.category.filter" template="csmarketplace/vshops/left.phtml"/>
+            <block type="csmarketplace/vshops_layer_view" name="csmarketplace.vshops.leftnav" template="catalog/layer/view.phtml">
+                <block type="core/text_list" name="catalog.leftnav.state.renderers" as="state_renderers" />
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_banner" as="vbanner"  template="csmarketplace/vshops/banner.phtml"/>
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_about" as="vabout" template="csmarketplace/vshops/about.phtml"/>
+ 		
+            <block type="csmarketplace/vshops_catalog_product_list" name="vendors.homepage.list" template="csmarketplace/vshops/catalog/product/list.phtml">
+                <block type="core/text_list" name="product_list.name.after" as="name.after" />
+                <block type="core/text_list" name="product_list.after" as="after" />
+                <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                </block>
+                <action method="setToolbarBlockName">
+                    <name>product_list_toolbar</name>
+                </action>
+                <action method="setColumnCount">
+                    <count>4</count>
+                </action>
+            </block>
+        </reference>
+    </csmarketplace_vshops_view>
+
+    <!--
+    Vendor's description on Product page
+    --> 
+    <catalog_product_view>
+        <reference name="alert.urls"> 
+            <block type="catalog/product_view"  name="vendor_info" template="csmarketplace/vproducts/vendor_info.phtml" />  
+        </reference>
+    </catalog_product_view>
+	
+</layout>

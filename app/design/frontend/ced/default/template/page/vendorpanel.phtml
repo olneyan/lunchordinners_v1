@@ -1,0 +1,101 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php $helper = Mage::helper('csmarketplace'); ?>
+<?php echo $this->getChildHtml('head') ?>
+<style type="text/css">
+	.23navbar-static-top .navbar-header .logo strong {
+		font-size: 0;
+		height: 0;
+		left: -999em;
+		line-height: 0;
+		overflow: hidden;
+		position: absolute;
+		text-indent: -999em;
+		top: -999em;
+		width: 0;
+	}
+	.user-panel > .info {
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 1;
+		padding: 5px 5px 5px 15px;
+	}
+	.user-panel > .info > a {
+		font-size: 11px;
+		font-weight: normal;
+		margin-top: 3px;
+		padding-right: 5px;
+		text-decoration: none;
+	}
+<?php echo $helper->getCustomCSS(); ?>
+</style>
+</head>
+<body id="html-body" <?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<div id="wrapper" class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<?php if ($helper->getIsDashboard()): ?>
+					<a style="padding: 2px 8px 4px;" class="logo navbar-brand panel-title" href="#" title="<?php echo $helper->getLogoAlt(); ?>" class="logo"><img src="<?php echo $helper->getLogoSrc(); ?>" alt="<?php echo $helper->getLogoAlt(); ?>" width="43px" /></a>
+				<?php else: ?>
+					<a style="padding: 2px 8px 4px;" href="<?php echo $helper->getVendorUrl(); ?>" title="<?php echo $helper->getLogoAlt(); ?>" class="logo navbar-brand panel-title"><img src="<?php echo $helper->getLogoSrc(); ?>" alt="<?php echo $helper->getLogoAlt(); ?>" width="43px" /></a>
+				<?php endif ?>
+				<a style="font-size:24px; padding: 15px 15px 15px 0;" class="navbar-brand panel-title" href="#"><?php echo $helper->getLogoAlt(); ?></a>
+			</div>
+			<?php echo $this->getChildHtml('header') ?>
+			<?php echo $this->getChildHtml('left') ?>
+		</nav>
+        <div id="page-wrapper">
+			<?php echo $this->getChildHtml('global_messages') ?>
+			<?php echo $this->getChildHtml('content') ?>
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">
+					<b><?php echo $this->__('Version'); ?></b> <?php echo $helper->getMarketplaceVersion(); ?>
+				</div>
+				<?php echo $helper->getVendorFooterText(); ?>
+			</footer>
+		</div>
+		<div id="loading-mask" style="display:none">
+    		<p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('css/ced/csmarketplace/fancybox_loading.gif') ?>" alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/></p>
+		</div>
+		
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

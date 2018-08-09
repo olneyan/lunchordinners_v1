@@ -1,0 +1,75 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head head-compilation"><?php echo $this->getHeader() ?></h3></td>
+            <td class="form-buttons">
+            <?php echo $this->getSaveButtonHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+<form name="request_form" id="request_form" method="post" action="<?php echo $this->getSaveFormAction(); ?>">
+<?php echo $this->getBlockHtml('formkey')?>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('mobiconnect')->__('Mobiconnect Contact Form') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('mobiconnect')->__('Mobiconnect Contact Form') ?></legend>
+        <table cellspacing="0" class="form-list" style="width:100%">
+            <tr>
+                <td class="label"><label ><?php echo Mage::helper('mobiconnect')->__('Name')?><span class="required">*</span></label></td>
+                <td class="value">
+                    <input style="width:70%" class="required-entry" type="text" name="email" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo Mage::helper('mobiconnect')->__('Admin Email')?><span class="required">*</span></label></td>
+                <td class="value">
+                    <input style="width:70%" class="required-entry validate-email" type="text" name="email" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo Mage::helper('mobiconnect')->__('Subject')?><span class="required">*</span></label></td>
+                <td class="value">
+                   <input type="text" style="width:70%" class="required-entry" name="subject" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo Mage::helper('mobiconnect')->__('Domain')?><span class="required">*</span></label></td>
+                <td class="value">
+                   <input type="text" style="width:70%" class="required-entry" name="domain" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo Mage::helper('mobiconnect')->__('Message')?><span class="required">*</span></label></td>
+                <td class="value">
+                	<textarea class="required-entry" name="message" style="width:70%" cols="5" rows="3"></textarea>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+</div>
+<script type="text/javascript">
+    requestForm = new varienForm('request_form');
+</script>
+

@@ -1,0 +1,68 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php $helper=Mage::helper('csmarketplace');?>
+<div class="box-head panel-heading" style="margin:0">
+	<h3 class="panel-title"><i class="fa fa-map-marker"></i> <?php echo $helper->__('Country Wise Orders'); ?></h3>
+</div>
+<div class="box-content panel-body">
+	<div id="vmap" style="width: 100%; height: 500px;"></div>
+</div>
+<script type="text/javascript"><!--
+jced(document).ready(function() {
+	jced.ajax({
+		url: '<?php echo $this->getUrl('*/*/map',array('_secure'=>true)); ?>',
+		dataType: 'json',
+		success: function(json) {
+			data = [];
+						
+			for (i in json) {
+				data[i] = json[i]['total'];
+			}
+					
+			jced('#vmap').vectorMap({
+				map: 'world_en',
+				backgroundColor: '#FFFFFF',
+				borderColor: '#FFFFFF',
+				color: '#E2E2E2',
+				hoverOpacity: 0.7,
+				selectedColor: '#E2E2E2',
+				enableZoom: true,
+				showTooltip: true,
+				values: data,
+				normalizeFunction: 'polynomial',
+				scaleColors: ['#2C7AA8', '#3B8DBD'],
+				onLabelShow: function(event, label, code) {
+					if (json[code]) {
+						//alert(label.html());
+						//alert(label.parentNode.ParentNode.parentNode.ParentNode.innerHTML);
+					
+						label.html('<strong>' + label.text() + '</strong><br />' + 'Orders ' + json[code]['total'] + '<br />' + 'Sales ' + json[code]['amount']);
+						
+					}
+				}
+			});			
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});			
+});
+//--></script> 

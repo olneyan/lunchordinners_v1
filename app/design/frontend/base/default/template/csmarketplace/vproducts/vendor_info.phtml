@@ -1,0 +1,42 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+ 
+?>
+<?php
+$_product = $this->getProduct();
+$vproduct = Mage::getModel("csmarketplace/vproducts");
+$vid = (int) $vproduct->getVendorIdByProduct($_product);
+if($vid>0){
+	$vendor = Mage::getModel("csmarketplace/vendor")->load($vid);
+	if($vendor && $vendor->getId()){
+?>
+<?php if (Mage::getStoreConfig('ced_csmarketplace/general/shopurl_active')) {?>
+		<strong>
+		Seller:
+			<a href="<?php echo $vendor->getVendorShopUrl(); ?>" target="_blank"><?php echo $vendor->getPublicName(); ?></a>
+		</strong>
+<?php }else { ?>
+<strong>
+		Seller:	<?php echo $vendor->getPublicName(); ?>
+</strong>
+<?php
+}
+}
+}
+?>			

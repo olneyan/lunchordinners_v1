@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<sections>
+		   <mobiconnectcheckout translate="label" module="mobiconnectcheckout">
+		       <label>Mobiconnect Checkout</label>
+		       <tab>mobiconnect</tab>
+		       <frontend_type>text</frontend_type>
+		       <sort_order>299</sort_order>
+		       <show_in_default>1</show_in_default>
+		       <show_in_website>1</show_in_website>
+		       <show_in_store>1</show_in_store>
+			<groups>
+				<mobicheckout translate="label">
+				    <label>Enable Advance Checkout App </label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>1</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<activation translate="label">
+							<label>Enable Advance Checkout</label>
+							<frontend_type>select</frontend_type>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</activation>
+                    </fields>
+				</mobicheckout>
+				<mobicheckout_theme translate="label">
+				    <label>Checkout Color Scheme </label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>2</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<active_header_tab translate="label">
+							<label> Color Of Tabs Of Steps Completed </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of checkout tabs which are completed successfully</comment>
+							<sort_order>0</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</active_header_tab>
+						<active_header_text translate="label">
+							<label> Color Of Text Of Steps Completed </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of checkout tabs which are completed successfully</comment>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</active_header_text>
+						<completed_header_tab translate="label">
+							<label>Color Of Tabs of Current Active Step </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color Of Currently Opened tab in Checkout. </comment>
+							<sort_order>2</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</completed_header_tab>
+						<completed_header_text translate="label">
+							<label>Color Of Text Of Current Active Step </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color Of Currently Opened tab in Checkout. </comment>
+							<sort_order>3</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</completed_header_text>
+						<remaining_header_tab translate="label">
+							<label> Color Of Tabs Of Steps Remains To Complete </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>4</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</remaining_header_tab>
+						<remaining_header_text translate="label">
+							<label> Color Of Text Of Steps Remains To Complete </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>5</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</remaining_header_text>
+						
+						<continue_button_text translate="label">
+							<label> Continue Button Text Color</label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>7</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</continue_button_text>
+						<continue_button_color translate="label">
+							<label> Continue Button color </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>6</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</continue_button_color>
+						<newaddress_button_color translate="label">
+							<label> New Address Button Color </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>5</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</newaddress_button_color>
+						<newaddress_button_text translate="label">
+							<label> New Address Button Text Color </label>
+							<frontend_type>text</frontend_type>
+							<validate>color</validate>
+							<comment>Color of remaining tabs need to be Fill. </comment>
+							<sort_order>5</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</newaddress_button_text>
+                    </fields>
+				</mobicheckout_theme>
+			</groups>
+		</mobiconnectcheckout>
+	</sections>
+</config>

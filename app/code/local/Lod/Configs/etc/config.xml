@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Lod_Configs>
+            <version>1.0.0.0</version>
+        </Lod_Configs>
+    </modules>
+    <global>
+        <helpers>
+            <lod_configs>
+                <class>Lod_Configs_Helper</class>
+            </lod_configs>
+        </helpers>
+    </global>
+</config>

@@ -1,0 +1,205 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+		$helper = Mage::helper('csmarketplace');
+		$groupCollection = $this->getVendorAttributeInfo();
+		$vendor_info = $this->_vendor->load($this->getVendorId());
+		$percent = 0.00;
+		if($this->_totalattr) {
+			$percent = round(($this->_savedattr * 100)/$this->_totalattr);
+		}
+		$image = Mage::helper('csmarketplace/tool_image');
+?>
+<div class="dashboard">
+	<div class="page-title">
+		<h1>
+			<i class="fa fa-user fa-fw"></i><?php echo $helper->__('Vendor Profile View') ?>
+			<button style="line-height: 1.2em; float: right;" class="button" onclick="setLocation('<?php echo Mage::getUrl('csmarketplace/vendor/profile'); ?>');" title="Edit" type="button">
+				<span>
+					<span><?php echo $helper->__('Edit') ?></span>
+				</span>
+			</button>
+		</h1>
+		<div style="clear:both"></div>
+	</div>
+	<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+	<div class="welcome-msg">
+		<p class="hello">
+			<strong><?php echo $helper->__('Hello') ?>,<?php echo ' '.$vendor_info->getName() ?>!</strong>
+			<span class="approved_vendor" title="Approved Vendor!"><i class="fa fa-check-square-o"></i>Approved Vendor!</span>
+		</p>		
+		
+	</div>
+	<?php /*
+	<div class="progress_bar">
+		<strong>
+			<span class="meter-price"><?php echo $helper->__('Your Profile is '.round($percent, 2).' % completed') ?></span>
+		</strong>
+		<div id="meter-wrap" class="meter-wrap">
+			<div id="meter-value" class="meter-value" style="width:<?php echo round($percent, 2) ?>%">
+				<div id="meter-text" class="meter-text"><?php echo round($percent, 2) ?>%</div>
+			</div>
+		</div>
+	</div> */ ?>
+	<div class="my-account">
+	<div class="col2-set addresses-list">
+		<?php
+			$imageAttributes = array('profile_picture');
+			$phtml = '';
+			$ihtml = '';
+			foreach($imageAttributes as $imageAttr) {
+				if($imageAttr == 'profile_picture') {
+					$imgUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$vendor_info->getData($imageAttr);			
+					$phtml .= '<a onclick="imagePreview(\''.$imageAttr.'\'); return false;" href="'.$image->init($vendor_info->getData($imageAttr))->resize(200,150).'"><img style="display: inline;" width="50%" class="small-image-preview v-middle" alt="Profile Picture" title="Profile Picture" id="'.$imageAttr.'" src="'.$image->init($vendor_info->getData($imageAttr))->resize(200,150).'"></a><br /><br />';				
+				} else if ($imageAttr == 'company_logo') {
+					$imgUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$vendor_info->getData($imageAttr);			
+					$ihtml .= '<a onclick="imagePreview(\''.$imageAttr.'\'); return false;" href="'.$imgUrl.'"><img style="display: inline;" width="25%" class="small-image-preview v-middle" alt="Company Logo" title="Company Logo" id="'.$imageAttr.'" src="'.$imgUrl.'"></a><br /><br />';				
+				} else if ($imageAttr == 'company_banner') {
+					$imgUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$vendor_info->getData($imageAttr);			
+					$ihtml .= '<a onclick="imagePreview(\''.$imageAttr.'\'); return false;" href="'.$imgUrl.'"><img style="display: inline;" width="25%" class="small-image-preview v-middle" alt="Company Banner" title="Company Banner" id="'.$imageAttr.'" src="'.$imgUrl.'"></a><br /><br />';				
+				}
+			}
+		?>
+		<?php if(0 && strlen($phtml)) {?>
+			<div class="col-1 addresses-primary">		
+				<ol>
+					<li class="item">
+						<h3><?php echo $helper->__('Profile'); ?></h3>
+						<?php echo $phtml; ?>
+					</li>
+				</ol>
+			</div>
+		<?php } ?>
+		<?php if(0 && strlen($ihtml)) {?>
+			<div class="col-2 addresses-primary">		
+				<ol>
+					<li class="item">
+						<h3><?php echo $helper->__('Logo & Banner'); ?></h3>
+						<?php echo $ihtml; ?>
+					</li>
+				</ol>
+			</div>
+		<?php } ?>
+	</div>
+	<div class="col2-set addresses-list">
+	<?php 
+		$cnt = 0;
+		$groupWiseFieldsOdd = array();
+		$groupWiseFieldsEven = array();
+		//$groupWiseFieldsOdd[''] = $phtml;
+		foreach($groupCollection as $group) {
+			$attributes = $this->_vendor->getAttributes($group->getId(), true);
+			if (count($attributes)==0) {
+				continue;
+			}
+			$att_cnt = 0;
+			$html = $phtml;
+			$phtml = '';
+			foreach ($attributes as $attr){
+				$attribute = Mage::getModel('csmarketplace/vendor_attribute')->setStoreId(0)->load($attr->getid());
+				if(!$attribute->getisVisible()) continue;
+				$att_cnt++;
+				if($vendor_info->getData($attr->getAttributeCode()) && !in_array($attr->getAttributeCode(),Ced_CsMarketplace_Model_Form::$VENDOR_PROFILE_RESTRICTED_ATTRIBUTES)){
+					if(in_array($attr->getAttributeCode(),$imageAttributes)) { continue; }
+					$html .= '<strong>'.$attr->getFrontend()->getLabel().'</strong> : ';
+					
+					switch($attr->getAttributeCode()) {
+						case 'profile_picture':
+						case 'company_logo': $html .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+						case 'company_banner':
+						$imgUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).
+											$vendor_info->getData($attr->getAttributeCode());
+						
+						$html .= '<a onclick="imagePreview(\''.$attr->getAttributeCode().'\'); return false;" href="'.$imgUrl.'"><img style="display: inline;" width="22" height="22" class="small-image-preview v-middle" alt="'.$attr->getFrontend()->getLabel().'" title="'.$attr->getFrontend()->getLabel().'" id="'.$attr->getAttributeCode().'" src="'.$imgUrl.'"></a><br /><br />';
+						
+							break;
+						case 'shop_url' :										
+							$html .= '<a target="_blank" href="'.$this->getVendor()->getVendorShopUrl().'">'.$vendor_info->getData($attr->getAttributeCode()).'</a><br/>';
+							break;
+						case 'email' :
+							$html .= '<a href="mailto:'.$vendor_info->getData($attr->getAttributeCode()).'">'.$vendor_info->getData($attr->getAttributeCode()).'</a><br/>';
+							break;
+						case 'created_at' :
+							$html .= Mage::helper('core')->formatDate($vendor_info->getData($attr->getAttributeCode()), 'medium', true).'<br/>';
+							break;
+						default :
+							if($attr->usesSource()){
+								$data = $attr->getSource()->getOptionText($vendor_info->getData($attr->getAttributeCode()));
+								 if(is_array($data)){
+									$data = implode(', ',$data);
+								} 
+								$html .= $data.'<br>';
+							}else{
+								if($attr->getData('frontend_input') == 'file') {
+							        if ($vendor_info->getData($attr->getAttributeCode())) {
+							        	$url = Mage::getBaseUrl('media').$vendor_info->getData($attr->getAttributeCode());
+							    		$html .='<span class="attribute-value"><a href="'.$url.'" target="_blank" >'.$lable.' '.$helper->__('Download').'</a></span><br/>';
+							        }
+							    } else {
+							        $html .='<span class="attribute-value">'. $vendor_info->getData($attr->getAttributeCode()).'</span><br/>';
+							        }
+							    }
+							}	  
+					}
+				}
+			}
+			if($att_cnt) {
+				if($cnt % 2 == 1 || $cnt == 2) {
+					$groupWiseFieldsEven[$group->getAttributeGroupName()] = $html;
+				} else {
+					$groupWiseFieldsOdd[$group->getAttributeGroupName()] = $html;
+				}
+				$cnt++;
+			}
+	   }
+	?>
+	<div class="col-1 addresses-primary">		
+		<ol>
+		<?php foreach($groupWiseFieldsOdd as $groupName=>$html) { ?>
+			<li class="item">
+				<h3><?php echo $helper->__($groupName); ?></h3>
+				<?php if(strlen($html)){ ?>
+					<?Php echo $html; ?>
+				<?php } else { ?>
+					<?php echo $helper->__("You have not saved any information in this group."); ?>
+				<?php } ?>
+			</li>
+		<?php } ?>
+		</ol>
+	</div>
+	<div class="col-2 addresses-primary">		
+		<ol>
+		<?php foreach($groupWiseFieldsEven as $groupName=>$html) { ?>
+			<li class="item">
+				<h3><?php echo $helper->__($groupName); ?></h3>
+				<?php if(strlen($html)){ ?>
+					<?Php echo $html; ?>
+				<?php } else { ?>
+					<?php echo $helper->__("You have not saved any information in this group."); ?>
+				<?php } ?>
+			</li>
+		<?php } ?>
+		</ol>
+	</div>
+</div></div></div>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $helper->__('Back') ?></a></p>
+</div>

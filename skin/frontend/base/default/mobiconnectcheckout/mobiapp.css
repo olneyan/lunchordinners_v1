@@ -1,0 +1,352 @@
+@font-face {
+  font-family: 'robotobold';
+  src: url('fonts/roboto-bold-webfont.eot');
+  src: url('fonts/roboto-bold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/roboto-bold-webfont.woff2') format('woff2'),
+       url('fonts/roboto-bold-webfont.woff') format('woff'),
+       url('fonts/roboto-bold-webfont.ttf') format('truetype'),
+       url('fonts/roboto-bold-webfont.svg#robotobold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'robotolight';
+  src: url('fonts/roboto-light-webfont.eot');
+  src: url('fonts/roboto-light-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/roboto-light-webfont.woff2') format('woff2'),
+       url('fonts/roboto-light-webfont.woff') format('woff'),
+       url('fonts/roboto-light-webfont.ttf') format('truetype'),
+       url('fonts/roboto-light-webfont.svg#robotobold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'robotoregular';
+  src: url('fonts/roboto-regular-webfont.eot');
+  src: url('fonts/roboto-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('fonts/roboto-regular-webfont.woff2') format('woff2'),
+       url('fonts/roboto-regular-webfont.woff') format('woff'),
+       url('fonts/roboto-regular-webfont.ttf') format('truetype'),
+       url('fonts/roboto-regular-webfont.svg#robotobold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+.mobicheckout li.active.allow .step-title,.mobicheckout li.active.allow .step-title:hover{
+  background: #273238 none repeat scroll 0 0 !important !important;
+  border-color: #273238 !important;
+}
+.mobicheckout li.active .step-title .number, .mobicheckout li.allow .step-title .number {
+  background: transparent none repeat scroll 0 0 !important;
+  color: #fff !important;
+  font-family: Roboto;
+  font-size: 16px;
+}
+.mobicheckout li.active .step-title > h2, .mobicheckout li.allow .step-title > h2 {
+  color: #fff !important;
+  font-family: Roboto;
+  font-size: 15px;
+}
+
+
+
+.mobicheckout li.allow .step-title,.mobicheckout li.allow .step-title:hover{
+  background: #0d8755 none repeat scroll 0 0 !important;
+  border-color: #0D8755 !important;
+}
+
+
+
+
+.mobicheckout .step-title, .mobicheckout .step-title:hover {
+  background: #e7e7e7 none repeat scroll 0 0 !important;
+  border-color: #e7e7e7 !important;
+  border-radius: 2px;
+}
+.mobicheckout .step-title {
+  margin-top: 10px;
+}
+.mobicheckout .step-title .number {
+  background: transparent none repeat scroll 0 0 !important;
+  font-size: 18px;
+  color: #333 !important;
+   font-family: Roboto
+}
+.mobicheckout .step-title > h2 {
+  color: #333 !important;
+  font-family: Roboto;
+  font-size: 15px !important;
+}
+
+
+
+.mobicheckout .step {
+  
+  padding: 5px 15px 15px !important;
+}
+.mobicheckout .step-title > a {
+  background-image: url("images/checkout-edit.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 21px auto;
+  overflow: hidden;
+  padding: 0 !important;
+  text-indent: -44px;
+  width: 35px;
+}
+.mobicheckout .custom-address-wrapper .address-item {
+  background: #fafafa none repeat scroll 0 0;
+  border-radius: 2px;
+  box-shadow: 0 0 2px 1px #e0e0e0;
+  line-height: 25px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  padding: 0px;
+}
+.mobicheckout .custom-address-wrapper .address-item label {
+  display: block !important;
+  padding: 10px;
+}
+.mobicheckout .custom-address-wrapper .address-item.active {
+  box-shadow: 0 0 2px 1px #545454;
+  color: #3a3a3a;
+  font-family: Roboto;
+}
+.mobicheckout .custom-address-wrapper .address-item label, .mobicheckout label {
+  display: inline-block;
+  font-family: Roboto;
+  color: #909090;
+  font-size: 13px !important;
+}
+
+
+.mobicheckout .sp-methods dt {
+  background: #d3d3d3 none repeat scroll 0 0;
+  font-family: Roboto;
+  margin-bottom: 0 !important;
+  margin-top: 10px;
+  padding: 10px 8px;
+}
+.mobicheckout .sp-methods dd {
+  background: #f5f5f5 none repeat scroll 0 0;
+  border: 1px solid #e7e7e7;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.mobicheckout .sp-methods dd ul li {
+  background: #f5f5f5 none repeat scroll 0 0;
+  margin: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+.mobicheckout .sp-methods dd ul li label, .mobicheckout .sp-methods dd ul li label:hover {
+  background: transparent none repeat scroll 0 0 !important;
+  font-family: Roboto;
+  font-size: 13px;
+}
+.mobicheckout button.button {
+  background: #273238 none repeat scroll 0 0 !important;
+  border-radius: 4px;
+  margin: 0 !important;
+}
+.mobicheckout button.button span {
+  font-family: Roboto;
+  font-size: 14px;
+}
+.mobicheckout .form-list label,.mobicheckout .form-list label:hover{
+  background: transparent !important;
+}
+.new-address {
+  background: #2b2b2b none repeat scroll 0 0;
+  border-radius: 2px;
+  box-shadow: 0 0 2px 1px #c2c2c2;
+  font-family: Roboto;
+  margin: 0 auto;
+  padding: 8px 15px;
+  text-align: center;
+  width: 50%;
+}
+.form-list .control label {
+  float: none;
+  font-family: Roboto;
+}
+.new-address label {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+}
+.mobicheckout .input-box {
+  margin-bottom: 10px;
+  width: 100% !important;
+}
+.mobicheckout .field {
+  width: 100% !important;
+}
+.buttons-set .button {
+  float: right !important;
+}
+.mobicheckout .input-box input {
+  background-color: #f1f1f1;
+  background-image: linear-gradient(rgb(0, 150, 136), rgb(0, 150, 136)), linear-gradient(rgb(210, 210, 210), rgb(210, 210, 210));
+  background-position: center bottom, center calc(100% - 0px);
+  background-repeat: no-repeat;
+  background-size: 0 2px, 100% 1px;
+  border: 0 none;
+  height: 45px;
+  margin-top: 5px;
+  padding-left: 0;
+  padding-right: 0;
+  transition: background 0s ease-out 0s;
+  width: 100% !important;
+}
+.mobicheckout .input-box input:focus{
+background-image: linear-gradient(rgb(0, 150, 136), rgb(0, 150, 136)), linear-gradient(rgb(210, 210, 210), rgb(210, 210, 210));
+    background-size: 100% 2px, 100% 1px;
+    
+    outline: medium none;
+    transition-duration: 0.3s;
+    box-shadow: none;
+    }
+.mobicheckout .input-box select {
+  border: 1px solid #e4e4e4;
+  height: 35px;
+  max-width: 100% !important;
+  padding: 5px 10px;
+  width: 100% !important;
+}
+
+.mobicheckout #co-payment-form dd, .mobicheckout #co-payment-form dt {
+  line-height: 25px;
+  padding-bottom: 0;
+  padding-top: 8px;
+}
+.mobicheckout .step-title > a{
+        color: #fff !important;
+}
+#checkout-review-table thead th {
+  color: #333;
+  font-weight: bold;
+}
+
+.product-order-details {
+ 
+  width: 100%;
+}
+.order_item {
+  border: 1px solid #d9d9d9;
+  margin-bottom: 10px;
+}
+.product-order-details > li {
+  background: #eaeaea none repeat scroll 0 0;
+  margin-bottom: 1px;
+  padding: 2px;
+}
+.product-order-details li span {
+  float: left;
+  font-family: Roboto;
+  padding: 3px;
+}
+
+.product-order-details .prod_name_title, .product-order-details .price_title, .product-order-details .prod_qty, .product-order-details .subtotal_title {
+  font-family: Roboto;
+  font-size: 14px;
+  margin-right: 5px;
+  width: 38%;
+}
+.product-order-details .product_name, 
+.product-order-details .cart-price, 
+.product-order-details .qty,
+.product-order-details .cart-price,
+.product-order-details .item-options dt,
+.product-order-details .item-options dd {
+  font-family: Roboto;
+  font-size: 13px;
+  width: 50%;
+}
+.product-name {
+  font-family: Roboto !important;
+  font-size: 13px !important;
+  text-transform: capitalize !important;
+}
+.mobicheckout .custom-address-wrapper .address-item label,.form-list label {
+
+  float: none !important;
+}
+
+.product-order-details .item-options dt {
+  font-style: normal;
+  font-weight: bold;
+}
+.product-order-details .item-options dt::after {
+  margin-left: 2px;
+}
+.clear{
+  clear: both;
+}
+
+.serial-number {
+  font-family: Roboto;
+  width: 20px;
+}
+.serial-number::after {
+  content: ".";
+}
+.subt_title,.shipping_title,.grandtotal_title{
+
+}
+.subt_title, .shipping_title, .grandtotal_title,.tax_title1 {
+  background: #d7d7d7 none repeat scroll 0 0;
+  margin-bottom: 1px;
+  padding: 5px 7px;
+}
+.subt_title::after,.shipping_title::after,.grandtotal_title::after,.tax_title1::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.subt_title .app_title, .subt_title .discount, .shipping_title .ship_title, .grandtotal_title .grand_title ,.tax_title1 .tax_title {
+  color: #333;
+  float: left;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  width: 67%;
+}
+.subt_title .app_val, .subt_title .discount, .shipping_title .ship_val, .grandtotal_title .grand_val, .tax_title1 .tax_val {
+  float: right;
+  text-align: right;
+  width: 30%;
+}
+.mobicheckout .section .step{
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.mobiconnectcheckout-onepage-index .opc.mobicheckout .section.allow.saved .step-title .number{
+  /*background-color: #AA3A2F !important;*/
+}
+
+
+@media (max-width: 767px){
+  .product-order-details .product_name {
+    margin-top: 15px;
+    width: 100%;
+  }
+  .product-order-details .product_name .item-options dt {
+    margin-bottom: 12px;
+    width: 30%;
+  }
+  .product-order-details .product_name, .product-order-details .cart-price, .product-order-details .qty, .product-order-details .cart-price, .product-order-details .item-options dt, .product-order-details .item-options dd {
+    font-family: Roboto;
+    font-size: 13px;
+    width: 70%;
+  }
+  .product-order-details .product_name .truncated .item-options dt, .product-order-details .product_name .truncated .item-options dd {
+    padding-left: 0;
+    width: 100%;
+  }
+}

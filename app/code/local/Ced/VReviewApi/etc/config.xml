@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     VReviewApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+
+
+<config>
+	<modules>
+		<Ced_VReviewApi>
+			<version>1.0</version>
+			
+            <author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_VReviewApi>
+	</modules>
+	<frontend>
+		<routers>
+			<vreviewapi>
+				<use>standard</use>
+				<args>
+					<module>Ced_VReviewApi</module>
+					<frontName>vreviewapi</frontName>
+				</args>
+			</vreviewapi>
+		</routers>
+	</frontend>
+	<global>
+		<models>
+			<vreviewapi>
+				<class>Ced_VReviewApi_Model</class>
+			</vreviewapi>
+		</models>
+		<helpers>
+			<vreviewapi>
+				<class>Ced_VReviewApi_Helper</class>
+			</vreviewapi>
+		</helpers>
+		<events>
+            <get_vendor_review>
+                <observers>
+                    <ced_vreviewapi_get_vendor_review_observer>
+                        <type>singleton</type>
+                        <class>vreviewapi/observer</class>
+                        <method>vendorReview</method>
+                    </ced_vreviewapi_get_vendor_review_observer>
+                </observers>
+            </get_vendor_review>
+        </events>
+	</global>
+</config>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_MobiconnectCms
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<modules>
+		<Ced_MobiconnectCms>
+			<version>0.0.1</version>
+        
+			<author>Cedcoss</author> 
+		</Ced_MobiconnectCms>
+	</modules>                
+    <frontend>
+        <routers>
+            <mobiconnectcms>
+                <use>standard</use>
+                <args>
+                    <module>Ced_MobiconnectCms</module>
+                    <frontName>mobiconnectcms</frontName>
+                </args>
+            </mobiconnectcms>
+        </routers>
+        <layout>
+            <updates>
+                <mobiconnectcms>
+                    <file>ced/mobiconnectcms/mobiconnectcms.xml</file>
+                </mobiconnectcms>
+            </updates>
+        </layout>
+    </frontend>  
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                   <modules>
+                        <mobiconnectcms after="Mage_Adminhtml">Ced_MobiconnectCms</mobiconnectcms>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>  
+    <adminhtml>
+        <menu>
+            <mobiconnect>
+                <children>
+                    <connector>
+                         <children>
+                            <cms translate="title" module="mobiconnectcms">
+                                <title>Manage CMS Page</title>
+                                <sort_order>4</sort_order>
+                                <action>adminhtml/adminhtml_cmsblock/index</action>
+                            </cms>
+                        </children>
+                    </connector>
+                </children>
+                <depends><config>mobiconnect/general/enable</config></depends>
+            </mobiconnect>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mobiconnectcms translate="title">
+                                            <title>Mobiconnect Cms App Config</title>
+                                            <sort_order>999</sort_order>
+                                       </mobiconnectcms>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <mobiconnect>
+                            <children>
+                                <connector>
+                                     <children>
+                                        <cms translate="title" module="mobiconnectcms">
+                                            <title>Manage CMS Page</title>
+                                            <sort_order>4</sort_order>
+                                            <action>adminhtml/adminhtml_cmsblock/index</action>
+                                        </cms>
+                                    </children>
+                                </connector>
+                            </children>
+                            <depends><config>mobiconnectcms/cms/activation</config></depends>
+                        </mobiconnect>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <mobiconnectcms>
+                    <file>ced/mobiconnectcms/mobiconnectcms.xml</file>
+                </mobiconnectcms>
+            </updates>
+        </layout>
+    </adminhtml>    
+    <global>
+    	<models>
+			<mobiconnectcms>
+				<class>Ced_MobiconnectCms_Model</class>
+                <resourceModel>mobiconnectcms_resource</resourceModel>
+			</mobiconnectcms>
+            <mobiconnectcms_resource>
+                <class>Ced_MobiconnectCms_Model_Resource</class>
+                <entities>
+                    <cmsblock>
+                        <table>mobiconnectcms_cmsblock</table>
+                    </cmsblock>
+                </entities>
+            </mobiconnectcms_resource>
+    	</models>
+        <resources>
+            <mobiconnectcms_setup>
+                <setup>
+                    <module>Ced_MobiconnectCms</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mobiconnectcms_setup>
+        </resources>
+    	<helpers>
+    		<mobiconnectcms>
+    			<class>Ced_MobiconnectCms_Helper</class>
+    		</mobiconnectcms>
+    	</helpers>
+        <blocks>
+            <mobiconnectcms>
+                <class>Ced_MobiconnectCms_Block</class>
+            </mobiconnectcms>
+        </blocks>
+        <events>
+            <change_product_data>
+                <observers>
+                    <ced_mobiconnectcms_change_product_data_observer>
+                        <type>singleton</type>
+                        <class>mobiconnectcms/observer</class>
+                        <method>cmsPage</method>
+                    </ced_mobiconnectcms_change_product_data_observer>
+                </observers>
+            </change_product_data>
+        </events>
+    </global>
+    <default>
+            <mobiconnectcms>
+                <cms>
+                    <activation>1</activation>
+                </cms>
+            </mobiconnectcms>
+    </default>
+</config>

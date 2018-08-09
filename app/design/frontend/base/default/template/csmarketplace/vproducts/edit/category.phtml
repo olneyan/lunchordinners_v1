@@ -1,0 +1,238 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php 
+$helper = Mage::helper ( 'csmarketplace' );
+$_product=Mage::registry('current_product');
+$category_ids=$_product->getCategoryIds();
+if(!$_product->getId() && Mage::getSingleton('customer/session')->getFormError()==true){
+	$productformdata=Mage::getSingleton('customer/session')->getProductFormData();
+	$category_ids=isset($productformdata['category_ids'])?explode(',',$productformdata['category_ids']):array();
+}
+if(is_array($category_ids) && empty($category_ids)){
+	$category_ids=array();
+}
+?>
+<script type="text/javascript">
+var categoryids=<?php echo json_encode($category_ids)?>;
+jced(document).ready(function(){
+	jced(".category_ids").val(categoryids);
+});
+</script>
+<li class="wide">
+							<label><?php echo $helper->__('Product Categories') ?>:</label>
+							<div class="field category">
+								<input class="category_ids" name="category_ids" id="product_categories" type="hidden" value=""/>
+								<div class="for_validation">
+			            <?php		$groups=array();
+			             			$allowed_categories=array();
+			             			$category_mode=0;
+									$category_helper = Mage::helper("csmarketplace/vproducts_category");
+									$category_model = Mage::getModel("catalog/category")->setStoreId($this->getRequest()->getParam('store',0));
+									if(Mage::helper('csmarketplace')->isSharingEnabled()){
+										$groups=Mage::getModel('core/store_group')->getCollection()->addFieldToFilter('group_id',array('neq'=>0))->setOrder('website_id','ASC');
+									}else {
+										$vendor=Mage::getModel('csmarketplace/vendor')->load(Mage::getSingleton('customer/session')->getVendorId());
+										if($vendor && $vendor->getId())
+											$websiteId=$vendor->getWebsiteId();
+										$websiteId=Mage::app()->getWebsite()->getId();
+										$groups=Mage::getModel('core/store_group')->getCollection()->addFieldToFilter('website_id',$websiteId)->setOrder('group_id','ASC');
+									}
+									
+									$rootCategories=array();
+									$groupNames=array();
+									if($this->getRequest()->getParam('store'))
+										$groups->addFieldToFilter('default_store_id',$this->getRequest()->getParam('store'));
+																	
+									$category_mode = Mage::getStoreConfig('ced_vproducts/general/category_mode',0);
+									if($category_mode)
+										$allowed_categories = explode(',',Mage::getStoreConfig('ced_vproducts/general/category',0));
+									$groups->getData();
+									foreach ($groups as $group){
+										if(isset($groupNames[$group->getRootCategoryId()]))
+											$groupNames[$group->getRootCategoryId()][]=$group->getName();
+										else{ 
+											$groupNames=array();
+											$groupNames[$group->getRootCategoryId()][]=$group->getName();
+										}
+											$rootCategories[$group->getRootCategoryId()]=$groupNames;
+									}
+									foreach ($rootCategories as $rootCategory=>$cat_group){
+										if(is_array($cat_group[$rootCategory]))
+											$groupname=implode(',',$cat_group[$rootCategory]);
+										$activeCategories=$category_model->getResource()
+															->getChildrenCategories($category_model->load($rootCategory));
+										if($category_mode){
+											$storeflag=false;
+											foreach ($activeCategories as $row){
+												if(in_array($row->getEntityId(),$allowed_categories)){
+													$storeflag=true;
+													break;
+												}
+											}
+										}
+										else{
+											$storeflag=true;
+										}
+										if(count($activeCategories)> 0 && $storeflag){										
+											?>
+											<div><label style="font-weight:bold;font-size: 14px;"><?php echo $this->escapeHtml($groupname) ?></label></div><div style="clear:both"></div>
+										<?php 
+										}
+										
+										$_categories = $category_helper->getStoreCategories($rootCategory);
+											foreach($_categories as $_category)	{
+												if($category_mode && !in_array($_category['entity_id'], $allowed_categories))
+													continue;
+												if($category_mode)
+													$childrens=count(array_intersect($category_model->getResource()->getAllChildren($category_model->load($_category['entity_id'])),$allowed_categories))-1;
+												else 
+													$childrens=count($category_model->getResource()->getAllChildren($category_model->load($_category['entity_id'])))-1;
+												$_category=$category_model->load($_category['entity_id']);
+											 if($childrens > 0){
+										?>
+												<div class="cat_container" style="margin-left:0px;">
+												<span class="plus">
+												</span><span class="foldersign"></span>
+												<input class="elements" type="checkbox" name="category[]" <?php echo in_array($_category['entity_id'],$category_ids)?'checked':'' ?> value='<?php echo $_category['entity_id'] ?>'/>
+												<span class="elements cat_name"><?php echo $_category->getName()." (".Mage::getModel('csmarketplace/vproducts')->getProductCount($_category['entity_id']).")" ?></span>
+												<div style="clear:both;"></div>
+												</div>
+												
+											<?php	 
+											 }
+											 else 
+											     {
+											 ?><div class="cat_container">
+												</span><span class="foldersign"></span>
+												<input class="elements" type="checkbox" name="category[]" <?php echo in_array($_category['entity_id'],$category_ids)?'checked':'' ?> value='<?php echo $_category['entity_id'] ?>'/>
+												<span class="elements cat_name"><?php echo $_category->getName()." (".Mage::getModel('csmarketplace/vproducts')->getProductCount($_category['entity_id']).")" ?></span>
+												<div style="clear:both;"></div>
+												</div> 
+										   <?php }
+										   }                                  									   
+									}				
+                                   ?>								 
+								</div>
+							</div>
+						</li>
+<script>
+jced("#bodymain").delegate('.plus ,.plusend,.minus, .minusend ',"click",function(){
+	var current=jced(this);	
+	if(current.hasClass("plus") || current.hasClass("plusend")){
+		if(current.hasClass("plus"))
+			current.removeClass('plus').addClass('plus_click');
+		if(current.hasClass("plusend"))
+			current.removeClass('plusend').addClass('plusend_click');
+		current.prepend("<span class='node_loader'></span>");
+		jced.ajax({
+			url  	:   "<?php echo $this->getUrl('csmarketplace/vproducts/categorytree/',array('store'=>$this->getRequest()->getParam('store',0)));?>",
+			type 	:   "POST",
+			data 	:   {cd:current.siblings("input").val(),
+						ml:current.parent(".cat_container").css("margin-left").replace("px","")},
+			dataType:   "html",
+			success :   function(content){
+				var newdata=  jced.parseJSON(content);
+				len= newdata.length;
+				var pxl= parseInt(current.parent(".cat_container").css("margin-left").replace("px",""))+20;
+				current.find(".node_loader").remove();
+				if(current.attr("class") == "plus")
+				current.attr("class","minus");
+				if(current.attr("class") == "plusend")
+					current.attr("class","minusend");
+				if(current.attr("class") == "plus_click")
+					current.attr("class","minus");
+				if(current.attr("class") == "plusend_click")
+					current.attr("class","minusend");
+			    for(i=0;i<len; i++){     
+					id=newdata[i].id;
+					nam=newdata[i].name;
+					product_count=newdata[i].product_count;
+					if(categoryids.indexOf(id)!=-1){
+						var check="checked";
+					}
+					if(newdata[i].counting ==0){
+						current.parent(".cat_container").after('<div class="removable cat_container" style="display:none;margin-left:'+pxl+'px;"><span  class="no"></span><span class="foldersign"></span><input class="elements" type="checkbox" name="category[]" '+ check+' value='+ id +'><span class="elements cat_name">'+ nam +" ("+product_count+")"+'</span><div style="clear:both;"></div></div>');
+						
+					}else{
+						current.parent(".cat_container").after('<div class="removable cat_container" style="display:none;margin-left:'+pxl+'px;"><span  class="plusend"></span><span class="foldersign"></span><input class="elements" type="checkbox" name="category[]" '+ check+' value='+ id +'><span class="elements cat_name">'+ nam +" ("+product_count+")"+'</span><div style="clear:both;"></div></div>');
+					}
+				}
+			    jced( ".elements" ).click(function() {
+			    	if(jced(this).is(':checked')==true){
+			    		 	var ids = document.getElementById('product_categories').value.split(',');
+			    		    ids.push(jced(this).val());
+			    		    document.getElementById('product_categories').value = ids.join(',');
+			    	}
+			    	else{
+			    		 var ids = document.getElementById('product_categories').value.split(',');
+			    		    // bug #7654 fixed
+			    		    while (-1 != ids.indexOf(jced(this).val())) {
+			    		        ids.splice(ids.indexOf(jced(this).val()), 1);
+			    		    }
+			    		    document.getElementById('product_categories').value = ids.join(',');
+			    	} 
+			    });
+				current.parent(".cat_container").nextAll().slideDown(300);
+			}
+		});			
+	}
+	if(current.hasClass("minus") || current.hasClass("minusend")){
+		if(current.attr("class") == "minus")
+			current.attr("class","plus");
+		if(current.attr("class") == "minusend")
+			current.attr("class","plusend");
+		var thiscategory = current.parent(".cat_container");
+		var marg= parseInt(thiscategory.css("margin-left").replace("px",""));
+		while(thiscategory.next().hasClass("removable")){
+		  
+		if(parseInt(thiscategory.next().css("margin-left").replace("px",""))>marg)
+			thiscategory.next().slideUp("slow",function(){jced(this).remove();});
+			thiscategory = thiscategory.next();	
+			if(typeof thiscategory.next().css("margin-left")!= "undefined"){
+				if( marg==thiscategory.next().css("margin-left").replace("px",""))
+				{
+				  break;
+				}
+			}
+		}
+	}		
+});
+jced( ".elements" ).click(function() {
+	if(jced(this).is(':checked')==true){
+		 	var ids = document.getElementById('product_categories').value.split(',');
+		    ids.push(jced(this).val());
+		    document.getElementById('product_categories').value = ids.join(',');
+	}
+	else{
+		 var ids = document.getElementById('product_categories').value.split(',');
+		    // bug #7654 fixed
+		while (-1 != ids.indexOf(jced(this).val())) {
+		    ids.splice(ids.indexOf(jced(this).val()), 1);
+		}
+		document.getElementById('product_categories').value = ids.join(',');
+	} 
+});
+</script>
+<style>
+input.elements{
+	float:left;
+}
+</style>

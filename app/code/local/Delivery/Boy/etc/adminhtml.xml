@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Delivery
+ * @package     Delivery_Service
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <delivery_boy translate="title" module="delivery_boy">
+                        <children>
+                            <boys translate="title" module="delivery_boy">
+                                <title>Delivery Boys</title>
+                                <sort_order>200</sort_order>
+                            </boys>
+                        </children>
+                    </delivery_boy>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <delivery_boy translate="title" module="delivery_boy">
+            <title>Delivery Boys</title>
+            <sort_order>80</sort_order> 
+            <children>
+                <boys translate="title" module="delivery_boy">
+                    <title>Boys</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/delivery_boy</action>
+                </boys>
+            </children>
+        </delivery_boy>
+    </menu>
+</config>

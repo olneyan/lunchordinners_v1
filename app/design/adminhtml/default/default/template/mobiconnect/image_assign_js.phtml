@@ -1,0 +1,76 @@
+<?php
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+<div class="no-display">
+    <input type="hidden" name="home_banner" id="in_home_banner" value="" />
+</div>
+   
+<script type="text/javascript">
+    var categoryProducts = $H(<?php echo $this->getProductsJson() ?>);
+    $('in_home_banner').value = categoryProducts.toQueryString();
+
+    function registerCategoryBanner(grid, element, checked){
+        if(checked){
+                categoryProducts.set(element.value, 1);
+        }
+        else{
+            categoryProducts.unset(element.value);
+        }
+        $('in_home_banner').value = categoryProducts.toQueryString();
+        grid.reloadParams = {'selected_deals[]':categoryProducts.keys()};
+    }
+    function categoryBannerRowClick(grid, event){
+        var trElement = Event.findElement(event, 'tr');
+        var isInput   = Event.element(event).tagName == 'INPUT';
+        if(trElement){
+            var checkbox = Element.getElementsBySelector(trElement, 'input');
+            if(checkbox[0]){
+                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
+                mobiconnectGridJsObject.setCheckboxChecked(checkbox[0], checked);
+            }
+        }
+    }
+    function positionChange(event){
+        var element = Event.element(event);
+        if(element && element.checkboxElement && element.checkboxElement.checked){
+            categoryProducts.set(element.checkboxElement.value, element.value);
+            $('in_home_banner').value = categoryProducts.toQueryString();
+        }
+    }
+
+    var tabIndex = 1000;
+    function categoryBannerRowInit(grid, row){
+        
+        var checkbox = $(row).getElementsByClassName('checkbox')[0];
+        var position = $(row).getElementsByClassName('input-text')[0];
+        if(checkbox && position){
+            checkbox.positionElement = position;
+            position.checkboxElement = checkbox;
+            position.disabled = !checkbox.checked;
+            position.tabIndex = tabIndex++;
+            Event.observe(position,'keyup',positionChange);
+        }
+    }
+
+
+    mobiconnectGridJsObject.rowClickCallback = categoryBannerRowClick;
+    mobiconnectGridJsObject.initRowCallback = categoryBannerRowInit;
+   mobiconnectGridJsObject.checkboxCheckCallback = registerCategoryBanner;
+    mobiconnectGridJsObject.rows.each(function(row){categoryBannerRowInit(mobiconnectGridJsObject, row)});
+//]]>
+</script>

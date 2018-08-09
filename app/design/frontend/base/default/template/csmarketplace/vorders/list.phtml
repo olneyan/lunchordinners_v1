@@ -1,0 +1,248 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php $collection = $this->getVorders(); 
+$statusArray=Mage::getModel('sales/order_invoice')->getStates();
+$params = Mage::getSingleton('core/session')->getData('order_filter');
+$paymentarray=Mage::getModel('csmarketplace/vorders')->getStates();
+?>
+<div class="page-title">
+    <h1><i class="fa fa-shopping-cart"></i> <?php echo $this->__('Orders List') ?></h1>
+</div>
+<form
+	action=""
+	enctype="multipart/form-data" id="payment_form" method="post"
+	>
+	<div class="vendor-button-set buttons-set">
+		
+		<button  style="margin:2px" onClick="filterPayment(0);" class="button" title="<?php echo $this->__('Filter') ?>" type="submit" id="Filter"	>
+			<span><span><?php echo $this->__('Filter') ?></span></span>
+		</button> 
+		<button  style="margin:2px" onClick="filterPayment(1);" class="button" title="<?php echo $this->__('Reset Filter') ?>" type="button" id="Filter"	>
+			<span><span><?php echo $this->__('Reset Filter') ?></span></span>
+		</button>
+		
+		<?php if(count($collection)>0): ?>
+		<button onClick="window.location='<?php echo $this->getUrl('*/*/exportCsv',array('_nosid'=>true)); ?>'" class="button" title="Export Orders" style="margin:2px; float:left;">
+					<span><span><?php echo $this->__('Export') ?></span></span>
+		</button>
+	<?php endif ?>
+	</div>	
+	
+	
+<?php echo $this->getPagerHtml(); ?>
+<div style="clear:both"></div>
+<div class="order-items order-details">
+	<table class="data-table orders " id="my-orders-table">
+	    <col width="1"/>
+	    <col width="1"/>
+	    <col/>
+	    <col/>
+	    <col width="1"/>
+	    <col width="1"/>
+	    <col width="1"/>
+	    <thead>
+	        <tr>
+		        <th class="number"><?php echo $this->__('Order Id #') ?>
+		        	<div class="list_filter"><input type="text" name="increment_id"   value="<?php echo (isset($params['increment_id']) && urldecode($params['increment_id'])!="")?urldecode($params['increment_id']):""; ?>" /></div>
+		        </th>
+	        	<th class="status"><?php echo $this->__('Purchased On') ?>
+	        		<div class="list_filter">
+	        		<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" class="v-middle" id="date_from_trig" />
+					<input type="text" id="created_at_from" name="created_at[from]" value="<?php echo (isset($params['created_at']['from']) && urldecode($params['created_at']['from'])!="")?urldecode($params['created_at']['from']):""; ?>" /></div>
+					<div class="list_filter">
+					<img src="<?php echo $this->getSkinUrl('images/calendar.gif') ?>" class="v-middle" id="date_to_trig" />
+					<input type="text"  id="created_at_to" name="created_at[to]"  value="<?php echo (isset($params['created_at']['to']) && urldecode($params['created_at']['to'])!="")?urldecode($params['created_at']['to']):""; ?>"  /></div>
+	        	</th>
+	            <th class="status"><?php echo $this->__('Bill To Name') ?>
+	            	<div class="list_filter"><input type="text" name="billing_name"   value="<?php echo (isset($params['billing_name']) && urldecode($params['billing_name'])!="")?urldecode($params['billing_name']):""; ?>" /></div>
+	            </th> 
+				<th class="date"><?php echo $this->__('G.T.') ?>
+					<div class="list_filter"><input type="text" name="order_total[from]"   value="<?php echo (isset($params['order_total']['from']) && urldecode($params['order_total']['from'])!="")?urldecode($params['order_total']['from']):""; ?>" /></div>
+				<div class="list_filter"><input type="text" name="order_total[to]"  value="<?php echo (isset($params['order_total']['from']) && urldecode($params['order_total']['to'])!="")?urldecode($params['order_total']['to']):""; ?>"  /></div>
+				</th>
+				<th class="date"><div><?php echo $this->__('Commission') ?></div>
+				 <div><?php echo $this->__('Fee') ?></div>
+					<div class="list_filter"><input type="text" name="shop_commission_fee[from]"   value="<?php echo (isset($params['shop_commission_fee']['from']) && urldecode($params['shop_commission_fee']['from'])!="")?urldecode($params['shop_commission_fee']['from']):""; ?>" /></div>
+				<div class="list_filter"><input type="text" name="shop_commission_fee[to]"  value="<?php echo (isset($params['shop_commission_fee']['to']) && urldecode($params['shop_commission_fee']['to'])!="")?urldecode($params['shop_commission_fee']['to']):""; ?>"  /></div>
+				</th>
+				<th class="date"><?php echo $this->__('Net Earned') ?>
+					<div class="list_filter"><input type="text" name="net_vendor_earn[from]"   value="<?php echo (isset($params['net_vendor_earn']['from']) && urldecode($params['net_vendor_earn']['from'])!="")?urldecode($params['net_vendor_earn']['from']):""; ?>" /></div>
+				<div class="list_filter"><input type="text" name="net_vendor_earn[to]"  value="<?php echo (isset($params['net_vendor_earn']['to']) && urldecode($params['net_vendor_earn']['to'])!="")?urldecode($params['net_vendor_earn']['to']):""; ?>"  /></div>
+				</th>
+				<th class="number"><div><?php echo $this->__('Order') ?></div>
+	            <div><?php echo $this->__('Payment') ?></div>
+	            <div><?php echo $this->__('Status') ?></div>
+					<div class="product-list-filter">
+					<select style="width:56px" type="text" name="order_payment_state" class="input-select-small product-list-checkstatus" value="">
+	            	<option value=""></option>
+	           		<?php foreach($statusArray as $val=>$label) { ?>
+								<option <?php echo (isset($params['order_payment_state']) && urldecode($params['order_payment_state'])==$val)?"selected":"";?> value="<?php echo $val; ?>"><?php echo $this->__($label); ?></option>
+							<?php } ?>
+	            	</select></div>
+				</th>
+	            <th class="number"><div><?php echo $this->__('Vendor') ?></div>
+	            <div><?php echo $this->__('Payment') ?></div>
+	            <div><?php echo $this->__('Status') ?></div>
+					<div class="product-list-filter">
+					<select style="width:56px" type="text" name="payment_state" class="input-select-small product-list-checkstatus" value="">
+	            	<option value=""></option>
+	           		<?php foreach($paymentarray as $val=>$label) { ?>
+								<option <?php echo (isset($params['payment_state']) && urldecode($params['payment_state'])==$val)?"selected":"";?> value="<?php echo $val; ?>"><?php echo $this->__($label); ?></option>
+							<?php } ?>
+	            	</select></div>
+				</th>
+	        </tr>
+	    </thead>
+	    <?php if(count($collection)>0): ?>
+	    <tbody>
+	        <?php $_odd = ''; ?>
+	        <?php foreach ($collection as $_order):
+			?>
+	        <tr>
+	            <td class="number"><a  title="Click to view Order Details" href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $_order->getIncrementId() ?></a></td>
+	            <td class="status"><?php echo  Mage::helper('core')->formatDate( $_order->getCreatedAt() , 'medium', true);	 ?></td>
+				<td class="status"><?php echo $_order->getBillingName() ?></td>   
+				<td class="date">
+					<?php 
+					echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getOrderTotal()) ?>
+				</td>
+				<td class="date">
+					<?php 
+					echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getShopCommissionFee()) ?>
+				</td>
+				<td class="date">
+					<?php 
+					echo Mage::app()->getLocale()->currency($_order->getCurrency())->toCurrency($_order->getNetVendorEarn()) ?>
+				</td>
+				<td class="number"><?php echo $this->__($statusArray[$_order->getOrderPaymentState()]) ?></td>
+				<td class="number"><?php echo $this->__($paymentarray[$_order->getPaymentState()]) ?></td>
+	     		
+	        </tr>
+	        <?php endforeach; ?>
+	        <?php else: ?>
+			<tr>
+				<td colspan="7">
+				<div>
+				<p><?php echo $this->__('No Orders Available'); ?></p>
+				</div>
+				</td>
+			</tr>		
+			<?php endif ?>
+	    </tbody>
+	</table>
+</div>
+</form>
+<style>
+.list_filter input{
+padding: 2px;
+width:100%;
+}
+
+#created_at_from, #created_at_to{
+width:78%;
+}
+</style>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+
+<script type="text/javascript">// <![CDATA[
+setTimeout(function(){
+Calendar.setup({
+    inputField : 'created_at_from',
+    ifFormat : '%m/%e/%y',
+    button : 'date_from_trig',
+    align : 'Bl',
+    singleClick : true
+});
+
+Calendar.setup({
+    inputField : 'created_at_to',
+    ifFormat : '%m/%e/%y',
+    button : 'date_to_trig',
+    align : 'Bl',
+    singleClick : true
+});
+}, 500);
+// ]]></script>
+<script type="text/javascript">
+<?php if($this->getRequest()->getActionName()=='index'){ ?>
+	filterPayment(2);
+  <?php } ?>
+  
+	jced(document).ready(function(){
+	  jced("#payment_form").submit(function() {
+				return false;
+			});
+	});
+
+
+function filterPayment(reset){
+		var params ;
+		if(reset==2)
+        	reset=0;
+		jced('#activity-loading').show();
+		if(reset==1)
+			params ='{reset_order_filter:1}';
+		else
+			params = jced("#payment_form").serialize();
+
+		new Ajax.Request("<?php 
+		$urlParams['_nosid'] = true;
+		if(Mage::app()->getStore()->isCurrentlySecure()){
+			$urlParams['_secure'] = true;
+		}
+		echo   $this->getUrl('csmarketplace/vorders/filter',$urlParams) ?>", {
+           method: 'Post',
+           parameters:params,
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+
+           }
+       });
+   }
+   
+   
+  function setLocation(url){
+	  jced('#activity-loading').show();
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+           }
+       });
+   }
+   
+	jced('.pages a').click(function(e){
+		jced('#activity-loading').show();
+		e.preventDefault();
+		var url = jced(this).attr('href');
+		new Ajax.Request(url, {
+           method: 'Get',
+           onComplete: function(transport) {
+               jced('.vendor-dashboard').html(transport.responseText);
+               jced('#activity-loading').hide();
+           }
+       });
+	}); 
+ 
+</script>

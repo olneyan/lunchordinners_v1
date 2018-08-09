@@ -1,0 +1,49 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */ 
+?>
+<?php 
+$store=Mage::app()->getStore();
+$rootId = $store->getRootCategoryId();
+$category = Mage::getModel('catalog/category')->load($rootId);
+?>
+<style>
+.vshop-left-cat-filter {margin-left:10px;padding: 5px;}
+</style>
+<div class="block block-layered-nav">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Browse By') ?></span></strong>
+    </div>
+    <div class="block-content">
+        <dl id="narrow-by-list2">
+            <dt><?php echo $this->__('Category') ?></dt>
+            <dd>
+                <?php echo $this->getCategoriesHtml($rootId);?>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script>
+	function filterProductsByCategory(element)
+	{
+		if(element.checked == true)
+			setLocation(element.value);
+		else if(element.checked == false)
+			setLocation(element.getAttribute('data-uncheckurl'));
+			
+	}
+</script>

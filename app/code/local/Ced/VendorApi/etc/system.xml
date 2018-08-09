@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     VendorApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+
+<config>
+	<tabs>
+		<vendorapi translate="label" module="vendorapi">
+		    <label>CedCommerce</label>
+		    <sort_order>71</sort_order>
+		</vendorapi>
+    </tabs>
+	<sections>
+		<vendorapi translate="label" module="vendorapi">
+	        <label>Marketplace App</label>
+	        <tab>vendorapi</tab>
+	        <frontend_type>text</frontend_type>
+	        <sort_order>299</sort_order>
+	        <show_in_default>1</show_in_default>
+	        <show_in_website>1</show_in_website>
+	        <show_in_store>1</show_in_store>	
+			<groups>
+				<general translate="label">
+				    <label>General</label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>1</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<enable translate="label">
+							<label>Enable / Disable</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable>
+					</fields>
+					<fields>
+						<key translate="label">
+							<label>API Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</key>
+					</fields>
+				</general>
+			</groups>
+			<groups>
+				<integrate translate="label">
+				    <label>GCM Setting</label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>3</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<enable translate="label">
+							<label>Enable / Disable</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable>
+					</fields>
+					<fields>
+						<secretapi translate="label">
+							<label>Google API Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>2</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</secretapi>
+					</fields>
+				</integrate>
+			</groups>
+		</vendorapi>
+	</sections>
+</config>

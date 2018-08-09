@@ -1,0 +1,118 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ 
+?>
+<?php
+	$helper = Mage::helper('csmarketplace');
+	$isFirst = !count(Mage::getModel('csmarketplace/vproducts')->getVendorProducts('',$this->getVendorId()));
+?>
+<div class="block block-account">
+    <div class="block-title">
+        <strong><i class="fa fa-navicon fa-fw"></i><span style="margin-left : 8px;"><?php echo $this->__('Vendor')." ".$this->__('Panel'); ?></span></strong>
+    </div>
+    <div class="block-content">
+        <ul>
+            <?php $_links = $this->getLinks(); ?>
+            <?php $_index = 1; ?>
+            <?php $_count = count($_links); ?>
+            <?php foreach ($_links as $_link): ?>
+                <?php $_last = ($_index++ >= $_count); ?>
+				<?php if($_link->getName() == 'vendor_commissions' && Mage::app()->getBaseCurrencyCode() != '') $_link->setFontAwesome($_link->getFontAwesome().' fa-'.strtolower(Mage::app()->getBaseCurrencyCode())); ?>
+                <?php if ($this->isActive($_link)): ?>
+					<?php if($_link->getName() == 'vendor_products') $_link->setFontAwesome(str_replace('fa-folder','fa-folder-open',$_link->getFontAwesome())); ?>
+                    <li style="border-bottom:none" class="current<?php echo ($_last ? ' last' : '') ?>"><a href="<?php echo $_link->getUrl() ?>"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><strong style="margin-left : 8px;"><?php echo $_link->getLabel() ?></strong></a></li>
+                <?php else: ?>
+                    <li<?php echo ($_last ? ' class="last"' : '') ?>><a href="<?php echo $_link->getUrl() ?>"><i class="<?php echo $_link->getFontAwesome(); ?>"></i><span style="margin-left : 8px;"><?php echo $_link->getLabel() ?></span></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<?php if($this->getVendorId() && $this->getVendor()->getStatus() == Ced_CsMarketplace_Model_Vendor::VENDOR_APPROVED_STATUS ) { ?>
+	<div class="block block-account">
+		<div class="block-content">
+			<?php echo $this->getChildHtml('csmarketplace_vendor_navigation_statatics'); ?>
+		</div>
+	</div>
+	<?php if(!$this->getVendor()->getProfilePicture()) { ?>
+		<div class="block block-account">
+			<div class="block-content">
+				<ul>
+					<li class="last">
+						<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getUrl('csmarketplace/vendor/profile',array('_secure' => true)); ?>" title="<?php echo $helper->__('Add Profile Picture') ?>"><i class="fa fa-bell fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Add Profile Picture') ?></span></a></span>	
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php } ?>
+	<?php if(!$this->getVendor()->getCompanyLogo()) { ?>
+		<div class="block block-account">
+			<div class="block-content">
+				<ul>
+					<li class="last">
+						<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getUrl('csmarketplace/vendor/profile',array('_secure' => true)); ?>" title="<?php echo $helper->__('Add Company Logo') ?>"><i class="fa fa-bell fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Add Company Logo') ?></span></a></span>	
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php } ?>
+	<?php if(!$this->getVendor()->getCompanyBanner()) { ?>
+		<div class="block block-account">
+			<div class="block-content">
+				<ul>
+					<li class="last">
+						<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getUrl('csmarketplace/vendor/profile',array('_secure' => true)); ?>" title="<?php echo $helper->__('Add Company Banner') ?>"><i class="fa fa-bell fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Add Company Banner') ?></span></a></span>	
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php } ?>
+	
+	<?php if($isFirst) { ?>
+		<div class="block block-account">
+			<div class="block-content">
+				<ul>
+					<li class="last">
+						<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getUrl('csmarketplace/vproducts/new',array('_secure' => true)); ?>" title="<?php echo $helper->__('Add Your First Product') ?>"><i class="fa fa-bell fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Add Your First Product') ?></span></a></span>	
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php } ?>
+	<?php if(!$this->isPaymentDetailAvailable()) { ?>
+		<div class="block block-account">
+			<div class="block-content">
+				<ul>
+					<li class="last">
+						<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getUrl('csmarketplace/vsettings/index',array('_secure' => true)); ?>" title="<?php echo $helper->__('Add your Payment Details') ?>"><i class="fa fa-bell fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Add your Payment Details') ?></span></a></span>	
+					</li>
+				</ul>
+			</div>
+		</div>
+	<?php } ?>
+	<div class="block block-account">
+		<div class="block-content">
+			<ul>
+				<li class="last">
+					<span class="meter-price"><a style="padding: 0;" href="<?php echo $this->getVendor()->getVendorShopUrl(); ?>" title="<?php echo $helper->__('Go to Shop') ?>" target="_blank"><i class="fa fa-external-link fw"></i><span style="margin-left : 8px;"><?php echo $helper->__('Go to Shop') ?></span></a></span>	
+				</li>
+			</ul>
+		</div>
+	</div>
+<?php } ?>

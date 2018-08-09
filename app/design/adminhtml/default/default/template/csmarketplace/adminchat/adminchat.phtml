@@ -1,0 +1,112 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     default_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+ 
+?>
+<?php 
+    $vendor_id=$this->getRequest()->getParam('sender_id');
+    $vendor=Mage::getModel("csmarketplace/vendor")->load($vendor_id);
+    $vendor_name=$vendor->getName();
+    
+    $vendor_pic=$vendor->getProfilePicture();
+    if($vendor_pic==""){
+    	$vendor_pic='ced/csmaketplace/vendor/profile/vendor.png';	
+    	}
+    $receiver_name = Mage::getStoreConfig('trans_email/ident_general/name');
+    $chat_collection=Mage::getModel("csvendorchat/chat")->getCollection();
+	$chat_vendor=$chat_collection->addFieldToFilter('vendor_id',$vendor_id)->addFieldToFilter('role', array('neq' => 'customer'))->addFieldToFilter('receiver_name', array('neq' => 'Vendor_Customer'));
+
+	?>
+<div class="admin_chat">
+	<p>Admin-Vendor Chat Area</p>
+	<div class="panel-body">
+		<ul class="chat">
+		<?php 
+		foreach ($chat_vendor as $vendor=>$chat){
+			$message=$chat->getMessage();
+			$chat_sender_id=$chat->getSender_id();
+			if($chat_sender_id==0){?>
+             <li class="admin_chat"><span class="chat-img pull-right"> <img
+					src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
+					class="img-circle" />
+			</span>
+				<div class="chat-body clearfix">
+					<div class="header">
+						<strong class="pull-right primary-font"><?php echo $receiver_name;?></strong>
+					</div>
+					<p><?php echo $message;?>
+					</p>
+				</div></li>
+          <?php  
+             }
+            else{?>
+              <li class="vendor_chat"><span class="chat-img pull-left">
+					<img width="50px" height="50px"
+					src="<?php echo Mage::getBaseUrl('media').$vendor_pic?>"
+					alt="User Avatar" class="img-circle" />
+			</span>
+				<div class="chat-body clearfix">
+					<div class="header">
+						<strong class="vendor_name"><?php echo $vendor_name;?></strong>
+					</div>
+					<p><?php echo $message;?>
+					</p>
+				</div></li>
+          <?php   } 
+		}
+		?>
+		</ul>
+		<form
+			action="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/adminhtml_admin/adminchatsubmit")?>"
+			method="post" id="adminchatform" enctype="multipart/form-data">
+			<div class="comment-box">
+				<div class="input-group">
+					<input id="btn-input" type="text" value="" name="messageadmin"
+						class="form-control input-sm chatmsg"
+						placeholder="Type your message here..." /> <input type="hidden"
+						name="vendor_id" value="<?echo $vendor_id; ?>" /> <input
+						type="hidden" name="form_key"
+						value="<?echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+					
+					<span class="input-group-btn">
+						<button class="btn btn-warning btn-sm msgsend" id="btn-chat"">
+							Send</button>
+					</span>
+					<div class="admin_vendor_email">
+					<input type="checkbox" name="sentmail" value="1" />	
+					 <label>Email this message to vendor </label>
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+ /*     var container =jQuery('ul .chat'),
+     scrollTo = jQuery('.chat:last-child');
+     container.animate({
+	 scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+	});
+    jQuery('#view_all').click(function() {
+    	jQuery("html, body").animate({ scrollTop: jQuery('.chat:last-child').height() }, 1000);
+        }); */
+
+</script>

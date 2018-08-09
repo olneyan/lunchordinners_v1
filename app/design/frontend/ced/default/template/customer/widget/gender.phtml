@@ -1,0 +1,44 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     ced_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<!--
+<div class="form-group">
+	<label>Inline Radio Buttons</label>
+	<label class="radio-inline">
+		<input type="radio" checked="" value="option1" id="optionsRadiosInline1" name="optionsRadiosInline">1
+	</label>
+	<label class="radio-inline">
+		<input type="radio" value="option2" id="optionsRadiosInline2" name="optionsRadiosInline">2
+	</label>
+	<label class="radio-inline">
+		<input type="radio" value="option3" id="optionsRadiosInline3" name="optionsRadiosInline">3
+	</label>
+</div> -->
+<div class="form-group">
+	<label><?php echo $this->__('Gender') ?></label>
+	<?php $options = Mage::getResourceSingleton('customer/customer')->getAttribute('gender')->getSource()->getAllOptions();?>
+	<?php $value = $this->getGender();?>
+	<?php foreach ($options as $option):?>
+		<?php if($option['value']) { ?>
+			<label class="radio-inline">
+				<!-- <i class="fa fa-<?php echo strtolower($option['label']); ?>"> </i> --> <input type="radio" <?php if ($option['value'] == $value) echo ' checked="checked"' ?> value="<?php echo $option['value'] ?>" id="optionsRadiosInline1" name="<?php echo $this->getFieldName('gender')?>"><?php echo $option['label'] ?>
+			</label>
+		<?php } ?>
+	<?php endforeach;?>
+</div>

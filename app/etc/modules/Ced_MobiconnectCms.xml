@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <modules>
+    <Ced_MobiconnectCms>
+      <active>true</active>
+      <codePool>local</codePool>
+     <depends>
+		<Ced_Mobiconnect/>
+      </depends>
+    </Ced_MobiconnectCms>
+  </modules>
+</config>
+

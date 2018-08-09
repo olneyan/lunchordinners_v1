@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_MobiconnectAdvCart
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<modules>
+		<Ced_MobiconnectAdvCart>
+			<version>0.0.4</version>
+          
+			<author>Cedcoss</author> 
+		</Ced_MobiconnectAdvCart>
+	</modules>                
+    <frontend>
+        <routers>
+            <mobiconnectadvcart>
+                <use>standard</use>
+                <args>
+                    <module>Ced_MobiconnectAdvCart</module>
+                    <frontName>mobiconnectadvcart</frontName>
+                </args>
+            </mobiconnectadvcart>
+        </routers>
+    </frontend> 
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                   <modules>
+                        <mobiconnectadvcart after="Mage_Adminhtml">Ced_MobiconnectAdvCart</mobiconnectadvcart>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>  
+    <adminhtml>
+        <menu>
+            <mobiconnect >
+                <children>
+                    <connector>
+                        <children>
+                            <widget>
+                                <children>
+                                    <layouts>
+                                        <title>Home Page Layout</title>
+                                        <sort_order>1</sort_order>
+                                        <action>adminhtml/adminhtml_layout/index</action>
+                                    </layouts>
+                                    <category_banner>
+                                        <title>Manage Category Banner</title>
+                                        <sort_order>2</sort_order>
+                                        <action>adminhtml/adminhtml_category/index</action>
+                                    </category_banner>
+                                </children>
+                            </widget>
+                        </children>
+                    </connector>
+                </children>
+                <depends><config>mobiconnectadvcart/general/enable</config></depends>
+            </mobiconnect>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mobiconnectadvcart translate="title">
+                                            <title>Ced App Advance Cart Config</title>
+                                            <sort_order>999</sort_order>
+                                       </mobiconnectadvcart>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <mobiconnect >
+                            <children>
+                                <connector>
+                                    <children>
+                                        <widget>
+                                            <children>
+                                                <layouts>
+                                                    <title>Home Page Layout</title>
+                                                    <sort_order>1</sort_order>
+                                                    <action>adminhtml/adminhtml_layout/index</action>
+                                                </layouts>
+                                                <category_banner>
+                                                    <title>Manage Category Banner</title>
+                                                    <sort_order>2</sort_order>
+                                                    <action>adminhtml/adminhtml_category/index</action>
+                                                </category_banner>
+                                            </children>
+                                        </widget>
+                                    </children>
+                                </connector>
+                            </children>
+                            <depends><config>mobiconnectadvcart/advancecart/activation</config></depends>
+                        </mobiconnect>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <mobiconnectadvcart>
+                    <file>mobiconnectadv/mobiconnectadv.xml</file>
+                </mobiconnectadvcart>
+            </updates>
+        </layout>
+    </adminhtml>    
+    <global>
+    	<models>
+			<mobiconnectadvcart>
+				<class>Ced_MobiconnectAdvCart_Model</class>
+                <resourceModel>mobiconnectadvcart_resource</resourceModel>
+			</mobiconnectadvcart>
+	        <mobiconnectadvcart_resource>
+                <class>Ced_MobiconnectAdvCart_Model_Resource</class>
+                <entities>
+                    <categorybanner>
+                        <table>ced_mobiconnectadvcart_categorybanner</table>
+                    </categorybanner>
+                    <layouts>
+                        <table>mobiconnectadv_homelayout</table>
+                    </layouts>
+                </entities>
+            </mobiconnectadvcart_resource>
+        </models>
+        <resources>
+            <mobiconnectadvcart_setup>
+                <setup>
+                    <module>Ced_MobiconnectAdvCart</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </mobiconnectadvcart_setup>
+        </resources>
+    	<helpers>
+    		<mobiconnectadvcart>
+    			<class>Ced_MobiconnectAdvCart_Helper</class>
+    		</mobiconnectadvcart>
+    	</helpers>
+        <blocks>
+            <mobiconnectadvcart>
+                <class>Ced_MobiconnectAdvCart_Block</class>
+            </mobiconnectadvcart>
+        <!--  <mobiconnect>
+            <rewrite>
+                <adminhtml_mobiconnect_edit_tab_bannerinfo>Ced_MobiconnectAdvCart_Block_Adminhtml_Mobiconnect_Edit_Tab_Bannerinfo</adminhtml_mobiconnect_edit_tab_bannerinfo>
+            </rewrite>
+        </mobiconnect>   -->
+        </blocks>
+        <routers>
+            <mobiconnect>
+                <rewrite>
+                    <checkout>
+                        <to>mobiconnectadvcart/checkout</to>
+                        <override_actions>true</override_actions>
+                        <actions>
+                            <addtocart>
+                                <to>mobiconnectadvcart/checkout/addtocart</to>
+                            </addtocart>
+                        </actions>
+                    </checkout>
+                    <category>
+                        <to>mobiconnectadvcart/category</to>
+                        <override_actions>true</override_actions>
+                        <actions>
+                            <getmaincategories>
+                                <to>mobiconnectadvcart/category/getmaincategories</to>
+                            </getmaincategories>
+                            <productView>
+                                <to>mobiconnectadvcart/category/productView</to>
+                            </productView>
+                            <categoryProducts>
+                                <to>mobiconnectadvcart/category/categoryProducts</to>
+                            </categoryProducts>
+                            <productSearch>
+                                <to>mobiconnectadvcart/category/productSearch</to>
+                            </productSearch>
+                        </actions>
+                    </category>
+                    <index>
+                        <to>mobiconnectadvcart/index</to>
+                        <override_actions>true</override_actions>
+                        <actions>
+                            <getHomePageNewArrival>
+                                <to>mobiconnectadvcart/index/getHomePageNewArrival</to>
+                            </getHomePageNewArrival>
+                            <getHomePageMostView>
+                                <to>mobiconnectadvcart/index/getHomePageMostView</to>
+                            </getHomePageMostView>
+                            <getHomePageBestSelling>
+                                <to>mobiconnectadvcart/index/getHomePageBestSelling</to>
+                            </getHomePageBestSelling>
+                            <getHomePageFeaturedProduct>
+                                <to>mobiconnectadvcart/index/getHomePageFeaturedProduct</to>
+                            </getHomePageFeaturedProduct>
+                        </actions>
+                    </index>
+                </rewrite>
+            </mobiconnect>
+        </routers>
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <event_column_append>
+                        <type>model</type>
+                        <class>Ced_MobiconnectAdvCart_Model_Observer</class>
+                        <method>addField</method>
+                    </event_column_append>
+                </observers>
+            </adminhtml_block_html_before> 
+            <banner_save_before>
+                <observers>
+                    <banner_save_observer>
+                       <type>singleton</type>
+                       <class>Ced_MobiconnectAdvCart_Model_Observer</class>
+                       <method>bannerSaveBefore</method>
+                    </banner_save_observer>
+                </observers>
+            </banner_save_before>
+        </events>
+    </global>
+    <default>
+            <mobiconnectadvcart>
+                <advancecart>
+                    <activation>1</activation>
+                </advancecart>
+            </mobiconnectadvcart>
+    </default>
+</config>

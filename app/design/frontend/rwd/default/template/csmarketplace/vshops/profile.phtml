@@ -1,0 +1,563 @@
+<?php
+$vendor = $this->getVendor();
+
+//Zend_Debug::dump($vendor->getData('address'));
+//Zend_Debug::dump($vendor->getData('company_address'));
+//Zend_Debug::dump($vendor->getData('public_name'));
+//Zend_Debug::dump($vendor->getData('delivery_fee'));
+//Zend_Debug::dump($vendor->getData('min_freeship'));
+//Zend_Debug::dump($vendor->getData('delivery_time'));
+//Zend_Debug::dump($vendor->getData('support_number'));
+//Zend_Debug::dump($vendor->getData());
+?>
+
+
+<?php if (Mage::helper('csmarketplace/acl')->isEnabled()) { ?>
+    <?php
+    $venId = $this->getVendor()->getId();
+    $vendortime = Mage::getModel('csmarketplace/vendor')->load($venId)->toArray();
+
+    $day = Mage::getSingleton('core/date')->date('w');
+
+        if ($day == 0) {
+            $openTime = $vendortime ['sun_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['sun_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 1) {
+            $openTime = $vendortime ['mon_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['mon_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 2) {
+
+            $openTime = $vendortime ['tue_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['tue_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 3) {
+            $openTime = $vendortime ['wed_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['wed_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 4) {
+            $openTime = $vendortime ['thu_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['thu_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 5) {
+            $openTime = $vendortime ['fri_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['fri_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        } elseif ($day == 6) {
+            $openTime = $vendortime ['sat_open_time'];
+            $openTime = explode(',', $openTime);
+            $openTime = implode(':', $openTime);
+            $openTime = date("H:i", strtotime($openTime));
+
+            $closeTime = $vendortime ['sat_close_time'];
+            $closeTime = explode(',', $closeTime);
+            $closeTime = implode(':', $closeTime);
+            $closeTime = date("H:i", strtotime($closeTime));
+        }
+        //echo $openTime;
+      //  echo "<br/>";
+       // echo $closeTime;
+    // $day = Mage::getSingleton('core/date')->date('w');
+    // $days = [0 => 'Sun', 1 => 'Mon', 2 => 'Tue', 3 => 'Wed', 4 => 'Thu', 5 => 'Fri', 6 => 'Sat'];
+    // $methodOpenTime = "get{$days[$day]}OpenTime";
+    // $methodCloseTime = "get{$days[$day]}OpenTime";
+    // $Openvalue = str_replace(',', ':',  $openTime);
+    // $Closevalue = str_replace(',', ':', $closeTime);
+    //$todayPrefix = date("Y-m-d", Mage::getModel('core/date')->timestamp(now()));
+    //$openingAt = intval(substr($Openvalue, 0, 2));
+    //$closingAt = intval(substr($Closevalue, 0, 2));
+    //$diff = $closingAt - $openingAt;
+    //if ($diff <= 0) {
+        //$Closevalue = date("Y-m-d h:i:s", strtotime($todayPrefix . " " . $Closevalue)) . " +24 hour";
+    //} else {
+        //$Closevalue = date("Y-m-d h:i:s", strtotime($todayPrefix . " " . $Closevalue));
+   // }
+    //echo $formatedOpeningTime = date('Y-m-d H:i:s', strtotime($todayPrefix . " " . $Openvalue));
+   // echo "<br/>";
+   // echo $formatedClosingTime = date('Y-m-d H:i:s', strtotime($Closevalue));
+	//echo "<br/>";
+    $formatedOpeningTime = $openTime;
+    $formatedClosingTime = $closeTime;
+    $now = Mage::getModel('core/date')->timestamp(now());
+
+    $day = Mage::getSingleton('core/date')->date('w');
+    $offset=4*60*60; //converting 4 hours to seconds.
+    $dateFormat="H:i"; //set the date format
+    $timeNdate=gmdate($dateFormat, time()-$offset);
+
+    //$diff1 = strtotime(date("Y-m-d H:i:s", $now)) - strtotime($formatedOpeningTime);
+    //$diff2 = strtotime($formatedClosingTime) - strtotime(date("Y-m-d H:i:s", $now));
+
+    $diff1 = strtotime($timeNdate) - strtotime($formatedOpeningTime);
+    $diff2 = strtotime($formatedClosingTime) - strtotime($timeNdate);
+    $isOpen = ( ($diff1 >= 0) && ($diff2 >= 0) ) ? "OPEN" : "CLOSED";
+//    echo date('Y-m-d H:i:s', $now);
+    ?>
+
+
+
+    <div style="background-color: #f6f6f6; color: #000; padding: 15px; border-radius: 3px;">
+
+        <h2><?php echo $this->escapeHtml($vendor->getData('public_name')) ?></h2>
+        <p>
+            <?php echo $this->escapeHtml($vendor->getData('address')) ?> 
+            <?php if (!empty($vendor->getData('support_number'))) { ?>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <?php echo $this->escapeHtml($vendor->getData('support_number')) ?>
+            <?php } ?>
+        </p>
+
+       <p>
+           <span style="font-weight: bold; color: <?php
+            if ($isOpen === 'OPEN') {
+                echo 'green';
+            } else {
+                echo 'red';
+            }
+            ?>">
+                Now <?php echo $isOpen; ?>
+            </span>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <?php echo Mage::helper('core')->currency($vendor->getData('delivery_fee'), true, false) ?> Delivery
+        </p>
+    </div>
+
+   <div class="seller_info">
+        <div style="line-height: 0;" class="col-sm-12 col-md-6">
+            <p class="row pull-left">
+                Minimum Delivery Order  : $ 10 <?php //echo Mage::helper('core')->currency($vendor->getData('min_freeship'), true, false) ?> 
+            </p>
+        </div>
+        <div style="line-height: 0" class="col-sm-12 col-md-6">
+            <p class="row pull-right pull-small">
+                Estimated Delivery: <?php echo $this->escapeHtml($vendor->getData('delivery_time')) ?> minutes
+            </p>
+        </div>
+    </div>
+
+<?php } ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="success-add-to-cart">
+    <div class="success-add-to-cart-inner">
+        <span class="close">x</span>
+        <p><?php echo $this->__("You have added item in cart.") ?></p>
+    </div>
+</div>
+
+<?php
+$venId = $this->getVendor()->getId();
+$eligible = Mage::helper('csmarketplace')->eligible($venId);
+?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('.success-add-to-cart .close').click(function () {
+            jQuery('.success-add-to-cart').removeClass('active');
+        });
+    });
+</script>
+
+<script>
+    jQuery('#product_addtocart_form').removeAttr('action');
+
+    jQuery(".btn-cart").attr("onclick", 'fun(this.id);');
+    var cartaddzz = 'no';
+    function fun(id)
+    {
+        debugger;
+        jQuery("#product-price-" + id).attr("id", "product-price-00-" + id);
+
+        var eligible = "<?php echo $eligible['name']; ?>";
+
+        var shopUrl = "<?php
+if (isset($eligible['shop'])) {
+    echo $eligible['shop'];
+}
+?>";
+
+        if (eligible == "success" || cartaddzz == "yes")
+        {
+
+            var url = "<?php
+echo $this->getUrl('csmarketplace/product/view', [
+    '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+])
+?>";
+            //gGift.fancybox.showLoading();
+            var myForm = new VarienForm('product_addtocart_form', true);
+            var value = {
+                "product": id,
+                "qty": 1
+
+            };
+            var data = {"product": id,
+                "qty": 1};
+            var overlay = jQuery('<div id="overlay" style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%;background-color: #000; filter:alpha(opacity=50); -moz-opacity:0.5;-khtml-opacity: 0.5;opacity: 0.5; z-index: 10000; display: block;"> </div>');
+
+            var loader = jQuery(' <div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+            var formData = jQuery('#product_addtocart_form').serializeArray();
+            loader.appendTo(document.body);
+
+            jQuery.ajax({
+                type: 'POST',
+                url: url,
+                data: data,
+            })
+                    .success(function (result) {
+//                                                        debugger;
+                        loader.delay(3000).remove();
+                        //overlay.appendTo(document.body);
+                        //overlay.remove();
+
+
+                        if (gGift('.fancybox-inner')[0]) {
+                            gGift('.fancybox-inner').html(result);
+                            jQuery(".tabs").remove();
+                            jQuery(".extra-info").remove();
+                            jQuery(".additional-info").remove();
+                            jQuery(".add-to-links").remove();
+                            jQuery(".product-img-box").remove();
+                            jQuery(".addthis_toolbox").remove();
+                            jQuery(".breadcrumbs").remove();
+
+                        } else {
+                            gGift.fancybox({
+                                'minWidth': 300,
+                                'maxWidth': 600,
+                                'content': result,
+                            });
+                            jQuery(".tabs").remove();
+                            jQuery(".product-img-box").remove();
+                            jQuery(".addthis_toolbox").remove();
+                            jQuery(".extra-info").remove();
+                            jQuery(".additional-info").remove();
+                            jQuery(".add-to-links").remove();
+                            jQuery(".breadcrumbs").remove();
+                            jQuery(".fancybox-overlay-fixed"); //.addClass('design');
+                            jQuery(".btn-cart").attr("onclick", 'submitForm(this.id);');
+                            jQuery("li").attr("onclick", 'price(this);');
+                            jQuery(".price-notice").attr("style", 'display:none');
+                            jQuery("dd").attr('class', 'dd');
+                            jQuery("dd").addClass('change-font');
+                        }
+                        jQuery(".fancybox-mobile").addClass('cart-form');
+                    });
+        }
+        else {
+            gGift.fancybox({
+                'content': "\n\
+                            <div style='padding: 15px'>\n\
+                                You were shopping at " + eligible + "<br>Mixing of orders from different stores is not allowed<br><br>Either go to the same store or empty the cart and go to new vendor<br><button class='go-previous' type='button' onclick='goprevious(\"" + shopUrl + "\")' >Go to Previous</button><button class='empty-cart' type='button' onclick='emptycart(" + id + ");'>Empty Cart & Add</button>\n\
+                            </div>\n\
+                            ",
+            });
+        }
+    }
+
+    function goprevious(url)
+    {
+        debugger;
+        window.location.href = url;
+    }
+
+    function emptycart(id)
+    {
+
+        debugger;
+        var url = "<?php
+echo $this->getUrl('csmarketplace/product/remove', [
+    '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+])
+?>";
+
+        jQuery.ajax({url: url, type: "POST", data: {id: id}, success: function (result) {
+
+                // jQuery(".fancybox-overlay").remove();
+                gGift.fancybox({
+                    'content': '',
+                });
+                if (result == "no")
+                {
+                    window.cartaddzz = 'yes';
+                    submitForm(id);
+
+                }
+                else {
+                    cartadd(id);
+                }
+
+
+            }});
+
+
+
+    }
+
+    function  cartadd(id)
+    {
+        debugger;
+        var url = "<?php
+echo $this->getUrl('csmarketplace/product/view', [
+    '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+])
+?>";
+        //gGift.fancybox.showLoading();
+        var myForm = new VarienForm('product_addtocart_form', true);
+        var value = {
+            "product": id,
+            "qty": 1
+
+        };
+        var data = {"product": id,
+            "qty": 1};
+        var overlay = jQuery('<div id="overlay" style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%;background-color: #000; filter:alpha(opacity=50); -moz-opacity:0.5;-khtml-opacity: 0.5;opacity: 0.5; z-index: 10000; display: block;"> </div>');
+        var loader = jQuery(' <div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+        loader.appendTo(document.body);
+        //overlay.appendTo(document.body);
+        var formData = jQuery('#product_addtocart_form').serializeArray();
+        jQuery.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+        })
+                .success(function (result) {
+                    window.cartaddzz = 'yes';
+                    //overlay.remove();
+
+                    loader.delay(3000).remove();
+                    if (gGift('.fancybox-inner')[0]) {
+                        gGift('.fancybox-inner').html(result);
+                        jQuery(".tabs").remove();
+                        jQuery(".extra-info").remove();
+                        jQuery(".additional-info").remove();
+                        jQuery(".add-to-links").remove();
+                        jQuery(".product-img-box").remove();
+                        jQuery(".addthis_toolbox").remove();
+                        jQuery(".breadcrumbs").remove();
+
+                    } else {
+                        gGift.fancybox({
+                            'content': result,
+                        });
+                        jQuery(".tabs").remove();
+                        jQuery(".product-img-box").remove();
+                        jQuery(".addthis_toolbox").remove();
+                        jQuery(".extra-info").remove();
+                        jQuery(".breadcrumbs").remove();
+                        jQuery(".additional-info").remove();
+                        jQuery(".add-to-links").remove();
+                        jQuery(".fancybox-overlay-fixed").addClass('design');
+                        jQuery(".btn-cart").attr("onclick", 'submitForm(this);');
+                        jQuery("li").attr("onclick", 'price(this);');
+                        jQuery(".price-notice").attr("style", 'display:none');
+                        jQuery("dd").attr('class', 'dd');
+                        jQuery("dd").addClass('change-font');
+                    }
+                    jQuery(".fancybox-mobile").addClass('cart-form');
+                });
+
+    }
+
+    function submitForm(id) {
+        debugger;
+        var loader = jQuery('<div id="pizza-loading"> <div id="loading-center"> <div id="loading-center-absolute"><div id="object"></div></div></div></div>');
+//                                        loader.appendTo(document.body);
+        if (jQuery('#product_addtocart_form').is(":visible"))
+        {
+            var url = jQuery('#product_addtocart_form').attr('action');
+            url = url.replace("checkout", "lodmarketplace");
+        }
+        else {
+
+            var eligible = "<?php echo $eligible['name']; ?>";
+
+            var shopUrl = "<?php
+if (isset($eligible['shop'])) {
+    echo $eligible['shop'];
+}
+?>";
+
+            if (eligible == "success" || cartaddzz == "yes")
+            {
+
+                var url = "<?php
+echo $this->getUrl('csmarketplace/cart/add', [
+    'qty' => 1,
+    '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+]);
+?>";
+
+                url = url + 'product/' + id;
+
+            }
+            else {
+                // loader.delay( 3000 ).remove();
+                gGift.fancybox({
+                    'content': " \n\
+                                <div style='padding: 15px'>\n\
+                                    You were shopping at " + eligible + "<br>Mixing of orders from different stores is not allowed<br><br>Either go to the same store or empty the cart and go to new vendor<br><button class='go-previous' type='button' onclick='goprevious(\"" + shopUrl + "\")' >Go to Previous</button><button class='empty-cart' type='button' onclick='emptycart(" + id + ");'>Empty Cart & Add</button>\n\
+                                </div>\n\
+                                ",
+                });
+
+                return;
+            }
+        }
+        jQuery(".fancybox-overlay").attr("style", 'display:none');
+
+        var pickup = "<?php
+echo $this->getUrl('checkout/onepage/', [
+    'pickup' => 'true',
+    '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+]);
+?>";
+//                                        alert(url);
+        jQuery.ajax({
+            url: url,
+            type: "POST",
+            showLoader: true,
+            async: false,
+            data: jQuery("#product_addtocart_form").serialize(),
+            dataType: 'json',
+            success: function (data) {
+                //  loader.delay( 3000 ).remove();
+                if (data.status == "SUCCESS")
+                {
+                    jQuery("#header-cart").html(data.cart_sidebar);
+                    jQuery('.main').find('.block-cart').replaceWith(data.sidebar);
+                    //loader.delay( 3000 ).remove();
+                    jQuery(".success-add-to-cart").addClass('active');
+                    var intervalSuccessAddToCart = setInterval(function () {
+                        jQuery('.success-add-to-cart .close').click();
+                        clearInterval(intervalSuccessAddToCart);
+                    }, 500);
+
+
+                    var minicartOptions = {
+                        formKey: "<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"
+                    }
+                    var Mini = new Minicart(minicartOptions);
+                    Mini.init();
+
+
+                    gGift.fancybox({
+                        'content': '',
+                    });
+
+                    jQuery('#header').after('<ul id="msg" class="messages"><li class="success-msg"><ul><li><span>' + data.message + '</span></li></ul></li></ul>');
+                    jQuery(".fancybox-overlay").remove();
+                    //  loader.delay( 3000 ).remove();
+
+                    jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+
+                    jQuery('#msg').delay(500).fadeOut();
+                    jQuery(".btn-cart").attr("onclick", 'fun(this.id);');
+
+                    jQuery(".block-cart-inner").html(data.cart_sidebar);
+                    jQuery(".count").html(data.qty);
+
+
+                }
+                if (data.status == "ERROR")
+                {
+
+                    jQuery('#header').after('<ul id="msg" class="messages"><li class="error-msg"><ul><li><span>' + data.message + '</span></li></ul></li></ul>');
+                    jQuery(".fancybox-overlay").remove();
+                    jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+                    jQuery('#msg').delay(500).fadeOut();
+                    jQuery(".btn-cart").attr("onclick", 'fun(this.id);');
+                    //   loader.delay( 3000 ).remove();
+
+
+
+                }
+            },
+            error: function (data) {
+
+                jQuery('#header').after('<ul id="msg" class="messages"><li class="error-msg"><ul><li><span>' + data.message + '</span></li></ul></li></ul>');
+                jQuery(".fancybox-overlay").remove();
+                jQuery("#top").removeClass('fancybox-margin fancybox-lock');
+                jQuery('#msg').delay(500).fadeOut();
+                jQuery(".btn-cart").attr("onclick", 'fun(this.id);');
+                //loader.delay( 3000 ).remove();
+            }
+        });
+
+    }
+
+    function price(id) {
+        debugger;
+        jQuery(".price-notice").attr("style", 'display:none');
+        var checked_button = jQuery('input[type="radio"]:checked');
+        checked_button.each(function () {
+
+            jQuery(this).parent().find(".price-notice").show();
+        });
+        var checked_checkbox = jQuery('input[type="checkbox"]:checked');
+        checked_checkbox.each(function () {
+
+            jQuery(this).parent().find(".price-notice").show();
+            ;
+        });
+        jQuery(id).find(".price-notice").show();
+
+
+    }
+
+</script>

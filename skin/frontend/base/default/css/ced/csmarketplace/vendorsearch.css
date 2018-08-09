@@ -1,0 +1,111 @@
+/*========================================================*/
+/*========================26-11===================*/
+.cleared{
+	clear:both;
+}
+.vendor_list_page .search_vendor {
+  padding-right: 10px;
+  padding-top: 5px;
+  width: 190px;
+  margin-top: 10px;
+}
+.vendor-address-form .input-text{
+	width:73% !important;
+	margin-top: 0 !important;
+}
+.csmarketplace-vshops-index .vendor-address-form .form-list select {
+    width: 75%;
+}
+.input-box > select#country {
+    margin-top: 0;
+}
+.vendor_list_page .category-products {
+  width: 74%;
+}
+.csmarketplace-vshops-index .col1-layout .products-grid {
+    margin: 0 auto;
+    width: 637px;
+}
+.search_vendor label{
+	text-transform: capitalize!important;
+}
+.vendor_list_page .currently_search{
+  border-bottom: 1px solid rgb(210, 210, 210);
+  display: block;
+  margin-bottom: 5px;
+  padding: 8px 0;
+}
+.vendor_list_page .currently_search > span {
+  display: block;
+  line-height: 27px;
+}
+.vendor_list_page .currently_search .remove {
+  float: right;
+}
+.vendor_list_page .search_by_keyword .active::after {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.vendor_list_page .search_by_keyword .active {
+  display: inline-block;
+  font-size: 17px;
+  font-weight: bold;
+  height: 28px;
+  position: relative;
+  text-align: center;
+  width: 22px;
+}
+.vendor_list_page .search_by_keyword .active > a{
+  color: #000;
+}
+.search_vendor,.remove_vendors_wrap {
+    background: #f2f2f2 none repeat scroll 0 0;
+    padding: 15px !important;
+	margin-bottom: 15px;
+}
+.search_vendor .form-list {
+    width: 100% !important;
+}
+.search_vendor .form-list > li {
+    margin: 5px 0 !important;
+    width: 100% !important;
+}
+.vendor-address-form .buttons-set button {
+    margin: 10px 0 !important;
+    width: 100%;
+}
+.search_vendor .shipping h2 {
+    font-size: 15px;
+}
+.remove_vendors_wrap .note-msg {
+    font-size: 16px;
+	float:left;
+}
+.currently_search{
+	float:right;
+}
+.remove {
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none !important;
+}
+@media (max-width: 1009px) {
+.vendor_list_page .category-products {
+  width: 100% !important;
+}
+.vendor_list_page .search_vendor {
+  padding-right: 10px;
+  padding-top: 5px;
+  width: 100% !important;
+  margin-top: 10px;
+}
+.csmarketplace-vshops-index .vendor-address-form .form-list select {
+    width: 100% !important;
+}
+}

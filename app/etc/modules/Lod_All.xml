@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+    <modules>
+        <Lod_Configs>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Lod_Configs>
+        <Lod_ProductAvailability>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Lod_ProductAvailability>
+    </modules>
+</config>

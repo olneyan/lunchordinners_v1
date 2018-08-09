@@ -1,0 +1,64 @@
+<?php 
+
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorReview
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+
+	$_items = $this->getReviews();
+	$_votes = Mage::getModel('csvendorreview/rating')->getCollection();		
+		
+?>
+<div class="product-collateral">
+<div class="box-collateral box-reviews" id="customer-reviews">
+    <?php if (count($_items)):?>
+        <h2><?php echo $this->__('Customer Reviews') ?></h2>
+        <?php  echo $this->getChildHtml('toolbar') ?>
+        <dl>
+        <?php foreach ($_items as $_review):?>
+            <dt>
+                <?php echo $this->__('Review by <span>%s</span>', $_review->getCustomerName()) ?>
+            </dt>
+            <dd>                
+                <?php if (count($_votes)): ?>
+                <table class="ratings-table">
+                    <col width="1" />
+                    <col />
+                    <tbody>
+                        <?php foreach ($_votes as $_vote): ?>
+						<?php if($_review[$_vote->getRatingCode()] > 0){ ?>
+                        <tr>
+                            <th><?php echo $_vote->getRatingLabel() ?></th>
+                            <td>
+                                <div class="rating-box">
+                                    <div class="rating" style="width:<?php echo $_review[$_vote->getRatingCode()] ?>%;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php } endforeach; ?>
+                    </tbody>
+                </table>
+                <?php endif; ?>
+                <?php echo $_review->getReview(); ?>
+                <small class="date"><?php echo $this->__('(Posted on %s)', $this->formatDate($_review->getCreatedAt()), 'long') ?></small>
+            </dd>
+			<br>
+        <?php endforeach; ?>
+        </dl>
+        <?php echo $this->getChildHtml('toolbar') ?>
+    <?php endif;?>
+</div>
+<?php echo $this->getChildHtml('vendor_rating_form') ?>
+</div>

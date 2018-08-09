@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectcheckout
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<!--
+One page checkout main layout
+-->
+<layout>
+    <!--
+    One page checkout main
+    -->
+    
+    <mobiconnectcheckout_onepage_index translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+          <!--   <action method="removeItem"><type>skin_js</type><name>js/jquery.simplr.smoothscroll.min.js</name></action> -->
+        </reference>
+        <label>One Page Checkout</label>
+        <remove name="left"/>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/onepage" name="mobiconnectcheckout.onepage" template="mobiconnectcheckout/onepage.phtml">
+                <block type="mobiconnectcheckout/onepage_billing" name="mobiconnectcheckout.onepage.billing" as="billing" template="mobiconnectcheckout/onepage/billing.phtml"/>
+                <block type="mobiconnectcheckout/onepage_shipping" name="mobiconnectcheckout.onepage.shipping" as="shipping" template="mobiconnectcheckout/onepage/shipping.phtml"/>
+                <block type="checkout/onepage_shipping_method" name="mobiconnectcheckout.onepage.shipping_method" as="shipping_method" template="mobiconnectcheckout/onepage/shipping_method.phtml">
+                    <block type="checkout/onepage_shipping_method_available" name="mobiconnectcheckout.onepage.shipping_method.available" as="available" template="mobiconnectcheckout/onepage/shipping_method/available.phtml"/>
+                    <block type="checkout/onepage_shipping_method_additional" name="mobiconnectcheckout.onepage.shipping_method.additional" as="additional" template="mobiconnectcheckout/onepage/shipping_method/additional.phtml"/>
+                </block>
+                <block type="checkout/onepage_payment" name="mobiconnectcheckout.onepage.payment" as="payment" template="mobiconnectcheckout/onepage/payment.phtml">
+                    <block type="checkout/onepage_payment_methods" name="mobiconnectcheckout.payment.methods" as="methods" template="mobiconnectcheckout/onepage/payment/methods.phtml">
+                        <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                    </block>
+                </block>
+                <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="mobiconnectcheckout/onepage/review.phtml"/>
+            </block>
+        </reference>
+    </mobiconnectcheckout_onepage_index>
+    <!--
+    One page checkout billing
+    -->
+    <mobiconnectcheckout_onepage_billing>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+         <label>One Page Checkout</label>
+        <remove name="left"/>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/onepage" name="mobiconnectcheckout.onepage" template="mobiconnectcheckout/onepage.phtml">
+                <block type="mobiconnectcheckout/onepage_billing" name="checkout.onepage.billing" as="billing" template="mobiconnectcheckout/onepage/billing.phtml"/>
+            </block>
+        </reference>
+    </mobiconnectcheckout_onepage_billing>
+    <!--
+    One page checkout shipping
+    -->
+    <mobiconnectcheckout_onepage_shipping>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+         <label>One Page Checkout</label>
+        <remove name="left"/>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="checkout/onepage" name="mobiconnectcheckout.onepage" template="mobiconnectcheckout/onepage.phtml">
+                <block type="mobiconnectcheckout/onepage_shipping" name="mobiconnectcheckout.onepage.shipping" as="shipping" template="mobiconnectcheckout/onepage/shipping.phtml"/>
+            </block>
+        </reference>
+    </mobiconnectcheckout_onepage_shipping>
+    <!--
+    One page checkout progress block
+    -->
+
+    <!--
+    One page checkout payment methods block
+    -->
+    <mobiconnectcheckout_onepage_paymentmethod>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_payment_methods" name="root" output="toHtml" template="mobiconnectcheckout/onepage/payment/methods.phtml">
+            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+        </block>
+    </mobiconnectcheckout_onepage_paymentmethod>
+
+
+<!--
+One page checkout shipping methods block
+-->
+
+    <mobiconnectcheckout_onepage_shippingmethod>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_shipping_method_available" name="root" output="toHtml" template="mobiconnectcheckout/onepage/shipping_method/available.phtml"/>
+    </mobiconnectcheckout_onepage_shippingmethod>
+
+    <mobiconnectcheckout_onepage_additional>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/onepage_shipping_method_additional" name="root" output="toHtml" template="mobiconnectcheckout/onepage/shipping_method/additional.phtml">
+            <action method="setDontDisplayContainer"><param>1</param></action>
+        </block>
+    </mobiconnectcheckout_onepage_additional>
+
+<!--
+One page checkout order review block
+-->
+
+    <mobiconnectcheckout_onepage_review translate="label">
+        <label>One Page Checkout Overview</label>
+        <!-- Mage_Checkout -->
+        <remove name="left"/>
+        <remove name="right"/>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <block type="checkout/onepage_review_info" name="root" output="toHtml" template="mobiconnectcheckout/onepage/review/info.phtml">
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>mobiconnectcheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>mobiconnectcheckout/onepage/review/item.phtml</template></action> 
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>mobiconnectcheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>mobiconnectcheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>mobiconnectcheckout/checkout/onepage/review/item.phtml</template></action>
+            <block type="mobiconnectcheckout/onepage_totals" name="mobiconnectcheckout.onepage.review.info.totals" as="totals" template="mobiconnectcheckout/onepage/review/totals.phtml"/>
+            <block type="checkout/agreements" name="mobiconnectcheckout.onepage.agreements" as="agreements" template="mobiconnectcheckout/onepage/agreements.phtml"/>
+            <block type="core/template" name="mobiconnectcheckout.onepage.review.button" as="button" template="mobiconnectcheckout/onepage/review/button.phtml"/>
+        </block>
+    </mobiconnectcheckout_onepage_review>
+
+    <mobiconnectcheckout_onepage_success translate="label">
+        <label>One Page Checkout Success</label>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="content">
+            <block type="checkout/onepage_success" name="mobiconnectcheckout.success" template="mobiconnectcheckout/success.phtml"/>
+        </reference>
+    </mobiconnectcheckout_onepage_success>
+    <mobiconnectcheckout_onepage_failure translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><file>mobiconnectcheckout/mobiapp.css</file></action>
+        </reference>
+        <label>One Page Checkout Failure</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="content">
+            <block type="checkout/onepage_failure" name="mobiconnectcheckout.failure" template="mobiconnectcheckout/onepage/failure.phtml"/>
+        </reference>
+    </mobiconnectcheckout_onepage_failure>
+    <block type="core/list" name="additional.product.info"/>
+</layout>

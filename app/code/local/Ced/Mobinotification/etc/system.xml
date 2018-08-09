@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobinotification
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+	<sections>
+		   <mobinotification translate="label" module="mobinotification">
+		       <label>Mobiconnect Notification</label>
+		       <tab>mobiconnect</tab>
+		       <frontend_type>text</frontend_type>
+		       <sort_order>299</sort_order>
+		       <show_in_default>1</show_in_default>
+		       <show_in_website>1</show_in_website>
+		       <show_in_store>1</show_in_store>
+			<groups>
+				<mobinotify translate="label">
+				    <label>Enable Notification </label>
+				    <frontend_type>text</frontend_type>
+				    <sort_order>3</sort_order>
+				    <show_in_default>1</show_in_default>
+				    <show_in_website>1</show_in_website>
+				    <show_in_store>1</show_in_store>
+				    <fields>
+						<activation translate="label">
+							<label>Enable </label>
+							<frontend_type>select</frontend_type>
+							<comment></comment>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</activation>
+						<gcmregid translate="label">
+							<label>GOOGLE API KEY </label>
+							<frontend_type>text</frontend_type>
+							<comment>Enter your registration key obtain from google developer console.</comment>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</gcmregid>
+                    </fields>
+				</mobinotify>
+			</groups>
+		</mobinotification>
+	</sections>
+</config>

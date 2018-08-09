@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnectdeals
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config>
+    <menu>
+            <mobiconnect module="mobiconnectdeals">            
+                <children>
+                    <groups module="mobiconnectdeals">
+                        <title>Manage Deal Groups </title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/adminhtml_groups/index</action>
+                    </groups>
+                </children>
+                <children>
+                    <deals module="mobiconnectdeals">
+                        <title>Manage Deals</title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/adminhtml_deals/index</action>
+                    </deals>
+                </children>
+            </mobiconnect>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mobiconnectdeals>
+                                            <title>Mobinotification </title>
+                                        </mobiconnectdeals>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <mobiconnect module="mobiconnectdeals">            
+                          <children>
+                              <groups module="mobiconnectdeals">
+                                  <title>Manage Deal Groups </title>
+                                  <sort_order>0</sort_order>
+                                  <action>adminhtml/adminhtml_groups/index</action>
+                              </groups>
+                          </children>
+                          <children>
+                              <deals module="mobiconnectdeals">
+                                  <title>Manage Deals</title>
+                                  <sort_order>0</sort_order>
+                                  <action>adminhtml/adminhtml_deals/index</action>
+                              </deals>
+                          </children>
+                        </mobiconnect>
+                     </children>
+                 </admin>
+            </resources>
+         </acl>               
+</config>

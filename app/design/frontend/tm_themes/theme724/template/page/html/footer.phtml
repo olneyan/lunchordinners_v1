@@ -1,0 +1,194 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<style>
+.footericon{
+    width: 18%;
+    margin-top: -19px;
+}
+@media only screen and (max-width: 600px) and (min-width: 350px)  {
+.footericon{
+    width: 60%;
+    margin-top: -10px;
+}
+}
+</style>
+<?php //echo $this->getChildHtml('ced_hssocialmedia_index');   ?>
+<div class="footer-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="footer">
+                    <p id="back-top"><a href="#top"><span></span></a> </p>
+                    <div class="footer-cols-wrapper row">
+                        <div class="col-lg-3 col-md-3 col-sm-6">
+                            <div class="footer-col-inner">
+                                <?php echo $this->getChildHtml('contact_footer_block'); ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6">
+                            <div class="footer-col-inner">
+                                <div class="footer-col become_vendor_block">
+                                    <h4>
+                                        <?php echo $this->__('Become Partner'); ?>
+                                    </h4>
+                                    <div class="footer-col-content">
+                                        <p>
+                                            <?php echo $this->__('Want to become an partner ?') ?>
+                                        </p>
+                                        <div class="become-an-vendor">
+                                            <a href="<?php echo $this->getUrl('csmarketplace/account/login'); ?>">
+                                                <img alt="become vendor" src="<?php echo $this->getSkinUrl('images/footer-become-vendor.png'); ?>">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 footer-col">			
+                            <div class="footer-col-content1">
+                                <h4>Important links</h4>
+                                <div class="footer-col-content">
+                                    <?php echo $this->getChildHtml('cms_footer_links') ?>
+                                    <?php echo $this->getChildHtml('footer_links') ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 footer-col">
+                            <div class="footer-col-content1">
+                                <h4>Newsletter</h4>
+                                <div class="footer-col-content">
+                                    <p>
+                                        Subscribe our newsletter for getting update and offers. 
+                                    </p>
+                                    <?php echo $this->getChildHtml('footer.newsletter'); ?>
+                                </div>
+                                <?php //echo $this->getChildHtml('tm_facebook_like_footer') ?>
+                                <?php //echo $this->getChildHtml('tm_instagram_user') ?>
+                                <?php // echo $this->getChildHtml('paypal.partner.right.logo'); ?>
+                            </div>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+
+                    <div class="bottom-footer">
+                        <?php echo $this->getChildHtml('footer_list') ?>
+                        
+                        
+                        <?php //echo $this->getLayout()->createBlock('cms/block')->setBlockId('facebook_fanbox')->toHtml() ?>
+                    </div>
+                    <address>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 footeraddresstext">
+                        <img class="footericon" src="<?php echo "https://lunchordinners.com/skin/frontend/tm_themes/theme724/images/logo.png"?>" alt="<?php echo Mage::getStoreConfig('design/header/logo_alt');?>">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 footeraddresstext copyrightfont">
+                            <?php echo '© Lunchordinners ' . date("Y"); ?>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 footeraddresstext ">
+                            <div style="float: right;">
+                                <ul>
+                                    <li class="socialicon"><i class="fa fa-facebook" aria-hidden="true"></i></li>
+                                    <li class="socialicon"><i class="fa fa-pinterest" aria-hidden="true"></i></li>
+                                    <li class="socialicon"><i class="fa fa-instagram" aria-hidden="true"></i></li>
+                                    <li class="socialicon"><i class="fa fa-twitter" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </address>
+                    <?php echo $this->getChildHtml('store_switcher') ?>
+                    <?php
+                    $current_page = Mage::app()->getFrontController()->getRequest()->getRouteName();
+                    if ($current_page == 'cms'):
+                    //echo 'More Magento Food Store Templates at <a rel="nofollow" href="http://www.templatemonster.com/category/food-store-magento-themes/" target="_blank">TemplateMonster.com</a>';
+                        endif;
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var ww = jQuery(window).width();
+        if (ww < 768) {
+            jQuery('.footer-col-content').css('display', 'none');
+            jQuery('.footer h4').on('click', function (e) {
+                jQuery(this).toggleClass('active');
+                if (jQuery(this).siblings('.footer-col-content').hasClass('open')) {
+                    jQuery('.footer-col-content').slideUp();
+                    jQuery('.footer-col-content').removeClass('open');
+                } else {
+                    jQuery('.footer-col-content').slideUp();
+                    jQuery(this).siblings('.footer-col-content').slideToggle('slow');
+                    jQuery(this).siblings('.footer-col-content').addClass('open');
+                }
+            });
+        }
+        jQuery(window).resize(function () {
+            footersocialshare();
+        });
+        footersocialshare();
+    });
+    function footersocialshare() {
+        var ww1 = jQuery(window).width();
+        if (ww1 < 768) {
+            jQuery('.social-icons').appendTo('.footer-share-social');
+        }
+    }
+</script>
+<!-- script to remove fix-me and fix-me-two class when footer comes-->
+<script type="text/javascript">
+    var remfix = jQuery('.footer-container').offset().top; //initial position from top
+    jQuery(window).scroll(function () {
+        var getscroll = jQuery(window).scrollTop(); //get current scroll position
+        if (getscroll >= remfix - "500") {
+            jQuery('.block-layered-nav').removeClass("fix-me");
+            jQuery('.ced-block-layered-sticky').removeClass("fix-me-two");
+        }
+    });
+</script>
+<!--End script-->
+<style type="text/css">
+    .footer-share-social .social-icons {
+        position: static;
+        width: auto ;
+    }
+    .footer-share-social .social-icons .socialitems {
+        display: inline-block;
+    }
+    .footer-share-social .social-icons .social-icon {
+        float: none;
+        padding-right: 10px;
+        width: auto !important;
+    }
+    .remove_vendors_wrap::after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+</style>

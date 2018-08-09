@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     VendorApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+
+
+<config>
+	<modules>
+		<Ced_VendorApi>
+			<version>1.0</version>
+			
+            <author>CedCommerce Magento Core Team (magentocoreteam@cedcommerce.com)</author>
+		</Ced_VendorApi>
+	</modules>
+	<frontend>
+		<routers>
+			<vendorapi>
+				<use>standard</use>
+				<args>
+					<module>Ced_VendorApi</module>
+					<frontName>vendorapi</frontName>
+				</args>
+			</vendorapi>
+		</routers>
+		<events>
+	    	<sales_order_save_after>
+                <observers>
+                    <Ced_VendorApi_Vorder_Notification>
+                      <type>singleton</type>
+                      <class>vendorapi/observer</class>
+                      <method>sendOrderNotification</method>
+                   </Ced_VendorApi_Vorder_Notification>
+                </observers>
+            </sales_order_save_after>
+  		</events>
+	</frontend>
+	<global>
+		<models>
+			<vendorapi>
+				<class>Ced_VendorApi_Model</class>
+				<resourceModel>vendorapi_resource</resourceModel>
+			</vendorapi>
+			<vendorapi_resource>
+				<class>Ced_VendorApi_Model_Resource</class>
+				<entities>
+					<vapisession>
+						<table>vendor_api_session</table>
+					</vapisession>
+					<vendorhash>
+		                <table>vendor_api_vendorhash</table>
+		            </vendorhash>
+		            <vendordevices>
+                        <table>vendor_api_devices</table>
+                    </vendordevices>
+				</entities>
+			</vendorapi_resource>
+		</models>
+		<resources>
+			<vendorapi_setup>
+				<setup>
+					<module>Ced_VendorApi</module>
+				</setup>
+			</vendorapi_setup>
+		</resources>
+		<helpers>
+			<vendorapi>
+				<class>Ced_VendorApi_Helper</class>
+			</vendorapi>
+		</helpers>
+		<events>
+	    	<vlogin_hash_event>
+	      		<observers>
+	        		<ced_vendorapi_vlogin_hash_event_observer>
+		         		<type>singleton</type>
+		          		<class>vendorapi/observer</class>
+		         		<method>secureHash</method>
+	        		</ced_vendorapi_vlogin_hash_event_observer>
+	      		</observers>
+	    	</vlogin_hash_event>
+  		</events>
+	</global>
+	 <adminhtml>
+		<acl>
+			<resources>
+			    <admin>
+			        <children>
+			            <system>
+			                <children>
+			                    <config>
+			                        <children>
+			                            <vendorapi translate="title">
+			                                <title>Marketplace App Config</title>
+			                                <sort_order>100</sort_order>
+			                           </vendorapi>
+			                        </children>
+			                    </config>
+			                </children>
+			            </system>
+			        </children>
+			    </admin>
+			</resources>
+   		</acl>
+	</adminhtml>
+	<default>
+		<vendorapi>
+			<general>
+				<enable>1</enable>
+			</general>
+		</vendorapi>
+	</default>
+</config>

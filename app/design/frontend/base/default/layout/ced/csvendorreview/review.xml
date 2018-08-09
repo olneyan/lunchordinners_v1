@@ -1,0 +1,58 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVendorReview
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<layout version="0.1.0">
+
+    <csvendorreview_rating_list translate="label">
+        <label>CsVendorReview</label>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+		</reference>
+		
+		<reference name="left">
+			<remove name="left.newsletter"/>
+       		<remove name="left.reports"/>
+       		<remove name="catalog.compare.sidebar" />
+	        <action method="unsetChild"><name>left.permanent.callout</name></action>
+	        <action method="unsetChild"><name>left.reports.product.viewed</name></action>
+	       	<action method="unsetChild"><name>tags_popular</name></action>
+	        <action method="unsetChild"><name>cart_sidebar</name></action>
+	        <action method="unsetChild"><name>wishlist</name></action>
+	        <action method="unsetChild"><name>sale.reorder.sidebar</name></action>
+	        <action method="unsetChild"><name>left.poll</name></action>
+			<block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view" as="vview" template="csmarketplace/vshops/view.phtml"/>
+			<block type="csvendorreview/vshops_view" name="csvendorreview_vshops_view" after="csmarketplace_vshops_view" template="csvendorreview/vshops/view.phtml"/>
+        </reference> 
+		
+        <reference name="content">
+            <block type="csvendorreview/rating_list" name="vendorreview_rating_list" as="rating_list" template="csvendorreview/rating/list.phtml">
+				<block type="csvendorreview/rating_form" name="vendor_rating_form" as="vendor_rating_form" template="csvendorreview/rating/form.phtml" />
+            </block>
+        </reference>
+    </csvendorreview_rating_list>
+    
+	<csmarketplace_vshops_view translate="label">
+        <reference name="left">
+			<block type="csvendorreview/vshops_view" name="csvendorreview_vshops_view" after="csmarketplace_vshops_view" template="csvendorreview/vshops/view.phtml"/>
+        </reference>    
+    </csmarketplace_vshops_view>	
+	
+</layout>

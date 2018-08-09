@@ -1,0 +1,453 @@
+<?xml version="1.0"?> 
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     base_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+Supported layout update handles (action):
+- csmarketplace_vshops_index
+
+Supported layout update handles (special):
+- default
+
+-->
+<layout version="0.1.0">
+
+    <!--
+    Default layout, loads most of the pages
+    -->
+
+    <default>
+        <!-- Ced_CsMarketplace -->
+        <reference name="top.links">
+            <action method="addLink" translate="label title" module="csmarketplace" ifconfig="ced_vshops/general/vshoppage_top_enabled">
+                <label helper="csmarketplace/getCsMarketplaceTitle"/>
+                <url helper="csmarketplace/getCsMarketplaceUrl"/>
+                <title helper="csmarketplace/getCsMarketplaceTitle"/>
+                <prepare/>
+                <urlParams/>
+                <position>7</position>
+            </action>
+            <action method="addLink" translate="label title" module="csmarketplace" ifconfig="ced_vshops/general/vshoppage_vendor_enabled">
+                <label helper="csmarketplace/getIAmAVendorTitle"/>
+                <url helper="csmarketplace/getVendorUrl"/>
+                <title helper="csmarketplace/getIAmAVendorTitle"/>
+                <prepare/>
+                <urlParams/>
+                <position>8</position>
+            </action>
+            <action method="addLink" translate="label title">
+                <label>Help</label>
+                <url>help</url>
+                <title>Help</title>
+                <prepare>true</prepare>
+                <urlParams/>
+                <position>10</position>
+            </action>
+        </reference>
+        <reference name="header">
+            <block type="core/template" name="top.search" as="topSearch" template="csmarketplace/customization/search_form.phtml"/>
+        </reference> 
+        <reference name="minicart_content">
+            <action method="setTemplate">
+                <template>csmarketplace/cart/minicart.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/customization/custom.css</stylesheet>
+            </action>
+			
+        </reference>
+        <!--  <reference name="header">
+            <block type="core/template" name="top.search" as="topSearch" template="ced/cssearch/search_form.phtml"/>
+        </reference> -->
+    </default>
+    
+	
+    <!--
+    Vendors Shop List
+    --> 
+    <csmarketplace_vshops_index translate="label">
+        <label>CsMarketplace</label>
+        <!-- Ced_CsMarketplace_Vshops_Index -->
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/vendorsearch.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/font-awesome/css/font-awesome.min.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="csmarketplace/vshops_list" name="csmarketplace_vshops_list" as="vlist" template="csmarketplace/vshops/list.phtml">
+                <block type="checkout/cart_shipping" name="country_filter" as="country_filter" template="csmarketplace/vshops/country_filter.phtml"/>
+            </block>
+        </reference>
+        <reference name="left">
+            <remove name="left.newsletter"/>
+            <remove name="left.reports"/>
+            <remove name="catalog.compare.sidebar" />
+            <action method="unsetChild">
+                <name>left.permanent.callout</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.reports.product.viewed</name>
+            </action>
+            <action method="unsetChild">
+                <name>tags_popular</name>
+            </action>
+            <action method="unsetChild">
+                <name>cart_sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>wishlist</name>
+            </action>
+            <action method="unsetChild">
+                <name>sale.reorder.sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.poll</name>
+            </action>
+            <block type="csmarketplace/layer_view"  name="vshop.fgroup.filter.view" template="csmarketplace/layer/view.phtml"/>
+        </reference>
+       
+    </csmarketplace_vshops_index>
+    
+    <!--
+    Vendor's Shop Page
+    --> 
+    <csmarketplace_vshops_view translate="label">
+        <label>CsMarketplace</label>
+        <!-- Ced_CsMarketplace_Vshops_View -->
+        <reference name="root">
+            <action method="setTemplate">
+                <!--rajeeb.saraswati@gmail.com-->
+                <template>page/3columns.phtml</template>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/ced/csmarketplace/font-awesome/css/font-awesome.min.css</stylesheet>
+            </action>
+	
+            <action method="addJs">
+                <script>custom/jquery-1.10.1.min.js</script>
+            </action> 
+            <action method="addJs">
+                <script>custom/jquery.mousewheel-3.0.6.pack.js</script>
+            </action>
+            <action method="addJs">
+                <script>custom/jquery.fancybox.js?v=2.1.5</script>
+            </action>
+            <action method="addJs">
+                <script>custom/jquery.fancybox.pack.js</script>
+            </action> 
+            <!-- <action method="addJs"><script>custom/main.js</script></action> -->
+            <action method="addCss">
+                <stylesheet>custom/css/jquery.fancybox.css?v=2.1.5</stylesheet>
+            </action>
+			
+            <action method="addItem" ifconfig="mageworx_customoptions/main/enabled">
+                <type>js_css</type>
+                <name>mageworx/lightbox/css/lightbox.css</name>
+                <params/>
+            </action>
+            <action method="addItem" ifconfig="mageworx_customoptions/main/enabled">
+                <type>js_css</type>
+                <name>mageworx/lightbox/css/lightbox-ie.css</name>
+                <params/>
+                <if>lt IE 8</if>
+            </action>
+            <action method="addItem" ifconfig="mageworx_customoptions/main/enabled">
+                <type>js</type>
+                <name>mageworx/lightbox/js/lightbox.js</name>
+                <params/>
+                <if/>
+            </action>
+            <action method="addItem" ifconfig="mageworx_customoptions/main/enabled">
+                <type>js</type>
+                <name>mageworx/tagtip.js</name>
+                <params/>
+                <if/>
+            </action>
+            <action method="addCss" ifconfig="mageworx_customoptions/main/enabled">
+                <stylesheet>css/mageworx/customoptions/customoptions.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="left">
+            <remove name="left.newsletter"/>
+            <remove name="left.reports"/>
+            <remove name="catalog.compare.sidebar" />
+            <action method="unsetChild">
+                <name>left.permanent.callout</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.reports.product.viewed</name>
+            </action>
+            <action method="unsetChild">
+                <name>tags_popular</name>
+            </action>
+            <action method="unsetChild">
+                <name>cart_sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>wishlist</name>
+            </action>
+            <action method="unsetChild">
+                <name>sale.reorder.sidebar</name>
+            </action>
+            <action method="unsetChild">
+                <name>left.poll</name>
+            </action>
+           
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view" as="vview" template="csmarketplace/vshops/view.phtml"/>
+            <block type="csmarketplace/vshops_left" name="csmarketplace.vshops.category.filter" template="csmarketplace/vshops/left.phtml"/> 
+            <!-- <block type="csmarketplace/vshops_layer_view" name="csmarketplace.vshops.leftnav" template="catalog/layer/view.phtml">
+                <block type="core/text_list" name="catalog.leftnav.state.renderers" as="state_renderers" />
+            </block> -->
+            
+
+        </reference>
+        <reference name="right">
+            <block type="checkout/cart_sidebar" template="checkout/cart/sidebar.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_banner" as="vbanner"  template="csmarketplace/vshops/banner.phtml"/>
+            <block type="csmarketplace/vshops_view" name="csmarketplace_vshops_view_about" as="vabout" template="csmarketplace/vshops/about.phtml"/>
+ 		
+            <block type="csmarketplace/vshops_catalog_product_list" name="vendors.homepage.list" template="csmarketplace/vshops/catalog/product/list.phtml">
+                <block type="core/text_list" name="product_list.name.after" as="name.after" />
+                <block type="core/text_list" name="product_list.after" as="after" />
+                <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                    <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                </block>
+                <action method="setToolbarBlockName">
+                    <name>product_list_toolbar</name>
+                </action>
+                <action method="setColumnCount">
+                    <count>4</count>
+                </action>
+            </block>
+        </reference>
+    </csmarketplace_vshops_view>
+
+    <!--
+    Vendor's description on Product page
+    --> 
+    <catalog_product_view>
+        <reference name="alert.urls"> 
+            <block type="catalog/product_view"  name="vendor_info" template="csmarketplace/vproducts/vendor_info.phtml" />  
+        </reference>
+    </catalog_product_view>
+	
+    <!-- Customization for client -->
+    <csmarketplace_product_view>	
+        <update handle="catalog_product_view"/>  
+ 
+        <!-- <block type="catalog/product_view_options" name="custom_block" output="toHtml" template="csmarketplace/customization/view.phtml" />  -->
+        <remove name="header"/>
+        <!-- <remove name="head"/> -->
+
+        <remove name="footer"/>
+ 
+        <reference name="head">
+            <action method="removeItem">
+                <type>js</type>
+                <name>prototype/prototype.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>mage/translate.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>lib/ccard.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>prototype/validation.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>scriptaculous/builder.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>scriptaculous/effects.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>scriptaculous/dragdrop.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>scriptaculous/controls.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>scriptaculous/slider.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/configurable.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>mage/cookies.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>mage/cookies.js</name>
+            </action>
+     
+            <action method="removeItem">
+                <type>js</type>
+                <name>lib/jquery/jquery-1.10.2.min.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>mageworx/tagtip.js</name>
+            </action>
+            <action method="removeItem">
+                <type>js</type>
+                <name>mageworx/lightbox/js/lightbox.js</name>
+            </action>
+    
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/form.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>varien/product.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action> 
+
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/bxslider/jquery.bxslider.min.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/elevatezoom/jquery.elevateZoom-3.0.8.min.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/jquery.simplr.smoothscroll.min.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/front.js</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/owlcarousel/owl.carousel.min.js</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/jquery.mousewheel.min.js</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/bootstrap.js</name>
+            </action>
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/tm-stick-up.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/youama/ajaxlogin/ajaxlogin.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/youama/ajaxlogin/jquery-ui-1-10-4.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/youama/ajaxlogin/jquery-1-11-1.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/tm/productlistgallery/thumbs.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/minicart.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/imagesloaded.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/enquire.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/app.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/matchMedia.addListener.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/matchMedia.js</name>
+            </action> 
+ 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/selectivizr.js</name>
+            </action> 
+            <action method="removeItem">
+                <type>skin_js</type>
+                <name>js/lib/modernizr.custom.min.js</name>
+            </action> 
+
+
+
+        </reference>
+    </csmarketplace_product_view>
+    <checkout_cart_index>
+        <!-- <reference name="checkout.cart.methods.onepage">
+           <action method="setTemplate"><template>csmarketplace/onepage/link.phtml</template></action>
+        </reference> -->
+        <reference name="checkout.cart.methods">
+            <block type="checkout/onepage_link" name="checkout.pickup" before="checkout.cart.methods.multishipping" template="csmarketplace/onepage/link.phtml">
+            </block>
+        </reference>
+        
+       
+    </checkout_cart_index>
+    <checkout_onepage_index>
+        <reference name="checkout.onepage">
+            <action method="setTemplate">
+                <template>csmarketplace/checkout/onepage.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_index>  
+</layout>

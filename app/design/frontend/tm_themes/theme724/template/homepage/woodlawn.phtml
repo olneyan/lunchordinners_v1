@@ -1,0 +1,294 @@
+<style>
+	.slider-block {
+		top: -150px !important;
+	}
+
+	@media (max-width: 767px){
+		.slider-block {
+			top: -297px !important;
+		}
+	}
+
+	@media only screen and (max-width: 991px){
+		.slider-block {
+			margin: 0px 0;
+			top: 0;
+		}
+	}
+	.breadcrumbs {
+		Display: none;
+	}
+	.headingtop {
+		margin-top: 81px;
+		text-align: center;
+	}
+	
+	@media only screen and (max-width: 1100px) and (min-width: 991px){
+		.headingtop {
+			margin-top: 19px;
+			text-align: center;
+		}
+	}
+	@media only screen and (max-width: 991px) and (min-width: 770px){
+		.headingtop {
+			margin-top: -125px;
+			text-align: center;
+		}
+	}
+
+	@media only screen and (max-width: 767px){
+		.headingtop {
+			margin-top: -275px;
+			text-align: center;
+		}
+	}
+	@media only screen and (max-width: 767px){
+		.cms-page-view .std p, .cms-no-route .std p {
+			color: #464646;
+			font-size: 10px;
+			line-height: 24px;
+		}
+	}
+	.storelogo{
+		width: 100%;
+		height: 150px;
+		border-radius: 5px;
+	}
+	@media only screen and (max-width: 767px){
+		.storelogo{
+			width: 100%;
+			height: 100px;
+			border-radius: 5px;
+		}
+	}
+	.post-item:hover {
+		outline: 0px solid transparent;
+		padding: 2px 2px;
+		border: 1px solid #150b09;
+	}
+</style>
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$region = "woodlawn";
+$vendorCollection = Mage::getResourceModel('csmarketplace/vendor_collection')
+->addAttributeToSelect('*')
+->addAttributeToSelect(array(
+	'store_latitude',
+	'store_longitude',
+	'delivery_radius'
+	), 'left');
+$vendorCollection->joinTable(
+	array('vshop'=> 'mg_ced_csmarketplace_vendor_shop'), 
+	'vendor_id=entity_id', 
+	array('shop_disable'=>'shop_disable')
+	);
+$vendorCollection->addFilterToMap('distance', 'e.distance');
+$vendorCollection->addFilterToMap('shop_disable', 'vshop.shop_disable');
+$vendorCollection->addFieldToFilter('shop_disable', array('eq' => 1));
+$rest = $region;
+$validIds = [];
+$disatanceArray = [];
+if (strlen($rest)) {
+	$origin = $rest;
+	$geocodeCacheId = 'geocode_cache';
+	$geocodeCollection = unserialize(Mage::app()->loadCache($geocodeCacheId));
+	if($origin){
+		$origin = urlencode($origin);
+		$address_url = "https://maps.google.com/maps/api/geocode/json?address=$origin&sensor=false&key=AIzaSyCjvXmbMif9YChsxyB9QxMReWZE5SjpUbs";
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $address_url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		$response = curl_exec($ch);
+		curl_close($ch);
+		$response_a = json_decode($response);
+
+		$resp_json = file_get_contents($address_url);
+
+		$resp = json_decode($resp_json, true);
+
+                $tags = array('collections'); //cache tags will be explain later in detail
+                $lifetime = false; //false means infinity, or you can specify number of seconds
+                $priority = 8; // number between 0-9, used by few backend cache models
+                $geocodeCollection[$origin] = array(
+                	'lat' => $resp['results'][0]['geometry']['location']['lat'],
+                	'lon' => $resp['results'][0]['geometry']['location']['lng']
+                	);
+                if ("OK" === $response_a->status) {
+                	Mage::app()->saveCache(serialize($geocodeCollection), $geocodeCacheId, $tags, $lifetime, $priority);
+                }
+            }
+            $response_a = $geocodeCollection[$origin];
+            $lat1 = $response_a['lat'];
+            $lon1 = $response_a['lon'];
+            //die();
+
+            
+            if (!is_null($lat1) && !is_null($lon1)) {
+            	Mage::register('got_geo_codes', true);
+            	$vendorCollection->getSelect()
+            	->columns(array(
+            		'distance' => new Zend_Db_Expr(
+            			"round(((degrees(acos(sin(RADIANS($lat1)) * sin(RADIANS(`at_store_latitude`.`value`)) 
+            			+ cos(RADIANS($lat1)) * cos(RADIANS(`at_store_latitude`.`value`)) 
+                                * cos(RADIANS($lon1 - `at_store_longitude`.`value`)))) * 60 * 1.5515) * 1.609344), 2)"
+            			)
+            		));
+            	$i = 0;
+            	if ($lat1) {
+            		foreach ($vendorCollection->getData() as $val) {
+            			$lat2 = $val['store_latitude'];
+            			$lon2 = $val['store_longitude'];
+
+            			if (!$lat2) { continue; }
+            			$unit = Mage::getStoreConfig('lod_configs/address_search_bar/radius_unit');
+            			$theta = $lon1 - $lon2;
+            			$dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            			$dist = acos($dist);
+                        //echo "   ";
+            			$dist = rad2deg($dist);
+                        //echo "   ";
+            			$miles = $dist * 60 * 1.1515;
+            			$unit = strtoupper($unit);
+
+            			if ($unit == "K") {
+            				$Adist = $miles * 1.609344;
+            				$val['delivery_radius'];
+            				if ($Adist <= $val['delivery_radius']) {
+            					$validIds [] = $val['entity_id'];
+            					$disatanceArray [$i] ['id'] = $val['entity_id'];
+            					$disatanceArray [$i] ['distance'] = round($Adist, 2) . " " . "km";
+            					$i++;
+            				}
+            			} else if ($unit === 'M') {
+
+            				$val['delivery_radius'];
+            				$Adist = $miles;
+            				if ($Adist <= $val['delivery_radius']) {
+            					$validIds [] = $val['entity_id'];
+            					$disatanceArray [$i] ['id'] = $val['entity_id'];
+            					$disatanceArray [$i] ['distance'] = round($Adist, 2) . " " . "miles";
+            					$i++;
+            				}
+                        } else { // defaults to K
+                        	$Adist = $miles * 1.609344;
+
+                        	if ($Adist <= $val['delivery_radius']) {
+                        		$validIds [] = $val['entity_id'];
+                        		$disatanceArray [$i] ['id'] = $val['entity_id'];
+                        		$disatanceArray [$i] ['distance'] = round($Adist, 2) . " " . "km";
+                        		$i++;
+                        	}
+                        }
+                    }
+                }
+                asort($validIds);
+                $vendorCollection->addAttributeToFilter('entity_id', array('in' => $validIds));
+
+
+            } else {
+            	Mage::register('got_geo_codes', false);
+            	$this->_vendorCollection->getSelect()->columns(array('distance' => new Zend_Db_Expr(0)));
+            	$i = 0;
+            	foreach ($this->_vendorCollection->getData() as $val) {
+            		$validIds [] = $val['entity_id'];
+            		$disatanceArray [$i] ['id'] = $val['entity_id'];
+            		$disatanceArray [$i] ['distance'] = "N/A";
+            		$i++;
+            	}
+            	asort($validIds);
+            	$vendorCollection->addFieldToFilter('entity_id', array('in' => $validIds));
+            }
+        } else {
+        	Mage::register('got_geo_codes', false);
+        	$this->_vendorCollection->getSelect()->columns(array('distance' => new Zend_Db_Expr(0)));
+        	asort($validIds);
+        	$this->_vendorCollection->addFieldToFilter('entity_id', array('in' => $validIds));
+        }
+        
+        if (!Mage::helper('csmarketplace')->isSharingEnabled()) {
+        	$this->_vendorCollection->addAttributeToFilter('website_id', array(
+        		'eq' => Mage::app()->getStore()->getWebsiteId()
+        		));
+        }
+        
+        if (strlen($rest) == 1) {
+        	Mage::register('vshop_lists', [
+        		'vendor' => '',
+        		'distance' => $disatanceArray,
+        		'validIds' => $validIds
+        		]);
+        } elseif (strlen($rest) && !count($validIds)) {
+        	Mage::register('vshop_lists', [
+        		'vendor' => '',
+        		'distance' => $disatanceArray,
+        		'validIds' => $validIds
+        		]);
+        } elseif (strlen($rest)) {
+        	Mage::register('vshop_lists', [
+        		'vendor' => $this->_vendorCollection,
+        		'distance' => $disatanceArray,
+        		'validIds' => $validIds
+        		]);
+        } else {
+        	Mage::register('vshop_lists', [
+        		'vendor' => $this->_vendorCollection,
+        		'distance' => $disatanceArray,
+        		'validIds' => $validIds
+        		]);
+        }
+        ?>
+        <?php  if(count($validIds)) { ?>
+        <h1 class="headingtop">List of the restaurant who deliver in woodlawn</h1>
+        <?php } ?>
+        <div class="row">
+        	<?php
+        	//echo "<pre>";
+        	foreach($validIds as $venId){
+        		$vendor = Mage::getModel('csmarketplace/vendor')->load($venId)->toArray();
+        		//print_r($vendor);
+        		if($vendor['is_active']==1){
+        			?>
+        			<div class="col-lg-3 col-sm-6 col-md-6 col-xs-6">
+        				<a href="<?php echo Mage::helper('core/url')->getHomeUrl()."restaurant/". $vendor['shop_url'];?>" >
+        					<img class="storelogo"  src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$vendor['company_logo']; ?>"><br/>
+        					<p class="storename" style="text-align:left;"><span style="font-weight: bold;"><?php echo $vendor['public_name'];?></span><br/>
+        						<?php echo $vendor['address'];?></p>
+
+        					</a>
+        				</div>
+        				<?php }}
+        				?>
+        			</div>
+
+<script>
+jQuery(document).ready(function(){
+    jQuery('#locationbar').on('click', function() { 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showLocation);
+    } else { 
+        jQuery('#location').html('Geolocation is not supported by this browser.');
+    }
+    }); 
+});
+
+function showLocation(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    jQuery.ajax({
+        type:'POST',
+        url:"<?php echo Mage::getUrl('lodmarketplace/vshops/getlocation/'); ?> ",
+        data:'latitude='+latitude+'&longitude='+longitude,
+        success:function(msg){
+            if(msg){
+               jQuery("#rest_names1").val(msg);
+            }else{
+               jQuery("#rest_names1").val('');
+            }
+        }
+    });
+}
+</script>

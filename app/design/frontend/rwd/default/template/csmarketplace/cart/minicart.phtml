@@ -1,0 +1,781 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Shoping cart sidebar
+ *
+ * @var Mage_Checkout_Block_Cart_Minicart $this
+ */
+?>
+
+<?php
+$_cartQty = $this->getSummaryCount();
+if (empty($_cartQty)) {
+    $_cartQty = 0;
+}
+$showNow = 'No';
+?>
+<div id="minicart-error-message" class="minicart-message"></div>
+<div id="minicart-success-message" class="minicart-message"></div>
+
+<div class="minicart-wrapper">
+
+    <p class="block-subtitle">
+        <?php echo $this->__('Recently added item(s)') ?>
+        <a class="close skip-link-close" href="#"
+           title="<?php echo $this->quoteEscape($this->__('Close')); ?>">&times;</a>
+    </p>
+
+    <?php $_items = $this->getRecentItems() ?>
+    <?php $countItems = count($_items); ?>
+    <?php
+    if (!$countItems) {
+
+        Mage::getSingleton('core/session')->unsCartParams();
+    }
+    ?>
+    <?php if ($countItems): ?>
+        <div>
+            <ul id="cart-sidebar" class="mini-products-list">
+                <?php foreach ($_items as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <script type="text/javascript">
+            truncateOptions();
+            decorateList('cart-sidebar', 'none-recursive');
+
+            $j('document').ready(function () {
+                var minicartOptions = {
+                    formKey: "<?php echo $this->getFormKey(); ?>"
+                }
+                var Mini = new Minicart(minicartOptions);
+                Mini.init();
+            });
+            /*
+             // jQuery(".loader").show();
+             jQuery(".ajaxcartremove").click(function () {
+             var cart = this;
+                 
+             jQuery.ajax({
+             type: 'POST',
+             dataType: 'json',
+             data: {form_key: "<?php // echo $this->getFormKey();    ?>"},
+             url: jQuery(this).attr('data'),
+             showLoader: true
+             }).done(function (result) {
+                 
+             // jQuery(".loader").hide();
+             if (result.success) {
+                 
+             jQuery("#header-cart").html(result.content);
+             jQuery('.main').find('.block-cart').replaceWith(result.sidebar_cart);
+             jQuery(".count").html(result.qty);
+             //  cart.updateCartQty(result.qty);
+             //  cart.updateContentOnRemove(result, el.closest('li'));
+             } else {
+             jQuery("#header-cart").html(result);
+             jQuery(".count").html(result.qty);
+             }
+             }).error(function () {
+             //                    jQuery("#header-cart").html(result);
+             //                    jQuery(".count").html(result.qty);
+             //  cart.hideOverlay();
+             //  cart.showError(cart.defaultErrorMessage);
+             });
+             });
+             */
+        </script>
+
+        <div id="minicart-widgets">
+            <?php echo $this->getChildHtml('cart_promotion') ?>
+        </div>
+        <div class="block-content">
+            <p class="subtotal">
+                <?php if ($this->canApplyMsrp()): ?>
+                    <span class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                <?php else: ?>
+                    <span class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?>
+                    <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                        <br />(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                    <?php endif; ?>
+                <?php endif; ?>
+            </p>
+            <?php
+            $cart = Mage::getSingleton('checkout/session')->getQuote();
+            if (!count($cart->getData())) {
+                Mage::getSingleton('core/session')->unsCartParams();
+            }
+            $vid = [];
+            $price = 0;
+            foreach ($cart->getAllVisibleItems() as $item) {
+                $price = $price + $item->getPrice() * $item->getQty();
+                $productId = $item->getProductId();
+                $vproduct = Mage::getModel('csmarketplace/vproducts')->getCollection()->addFieldToFilter('product_id', $productId)->getFirstItem();
+                $vid [] = $vproduct->getVendorId();
+            }
+            $vid = array_unique($vid);
+            if ($vid [0]) {
+
+                $vendor = Mage::getModel('csmarketplace/vendor')->load($vid [0])->toArray();
+
+                $freeShipAmount = $vendor ['min_freeship'];
+            }
+
+            if ($_subtotalInclTax = $this->getSubtotalInclTax()) {
+                $total = $_subtotalInclTax;
+            } else {
+                $total = $this->getSubtotal();
+            }
+
+            $day = Mage::getSingleton('core/date')->date('w');
+
+            if ($day == 0) {
+                $openTime = $vendor ['sun_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['sun_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 1) {
+                $openTime = $vendor ['mon_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['mon_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 2) {
+
+                $openTime = $vendor ['tue_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['tue_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 3) {
+                $openTime = $vendor ['wed_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['wed_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 4) {
+                $openTime = $vendor ['thu_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['thu_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 5) {
+                $openTime = $vendor ['fri_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['fri_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            } elseif ($day == 6) {
+                $openTime = $vendor ['sat_open_time'];
+                $openTime = explode(',', $openTime);
+                $openTime = implode(':', $openTime);
+                $openTime = date("H:i", strtotime($openTime));
+
+                $closeTime = $vendor ['sat_close_time'];
+                $closeTime = explode(',', $closeTime);
+                $closeTime = implode(':', $closeTime);
+                $closeTime = date("H:i", strtotime($closeTime));
+            }
+            ?>
+            <?php $currency = $currency = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol(); ?>
+            <p class="empty"><?php // echo $this->__('Extra '. $currency.$vendor['delivery_fee'].' for orders below '.$currency.$vendor['min_freeship'].' in Case of Home delivery'); ?></p>
+        </div>
+
+        <?php if (!isset($vendor['delivery']) || empty($vendor['delivery'])) { ?>
+            <div class="order_for">
+                <span> <?php echo __('Order For'); ?></span>
+                <div class="delivery-buttons">
+                    <div class="delivery">
+                        <?php if ($vendor ['min_freeship'] <= $total) { ?>
+                        <button class="active" id="delivery" onclick="orderType(this.id);" type="button">
+                            <?php echo __('Delivery'); ?>
+                        </button>
+                        <p>Starts at:<?php echo $openTime; ?></p>
+                        <?php } ?>
+                    </div>
+                    <div class="pickup">
+                        <button class="active" id="pickup" onclick="orderType(this.id);" type="button">
+                            <?php echo __('Pickup'); ?>
+                        </button>
+                        <p>Starts at:<?php echo $openTime; ?></p>
+                    </div>
+                </div>
+                
+            </div>
+            <?php
+        } else {
+            $attribute = Mage::getSingleton('eav/config')->getAttribute('csmarketplace_vendor', 'delivery');
+
+            if ($attribute->usesSource()) {
+                $options = $attribute->getSource()->getAllOptions(false);
+            }
+            $deliveryOption = explode(',', $vendor ['delivery']);
+            if (count($deliveryOption) == count($options)) {
+                ?>
+                <div class="order_for">
+                    <span> <?php echo __('Order For'); ?></span>
+                    <div class="delivery-buttons">
+                        <div class="delivery">
+                            <?php if ($vendor ['min_freeship'] <= $total) { ?>
+                            <button class="active" id="delivery" onclick="orderType(this.id);" type="button">
+                                <?php echo __('Delivery'); ?>
+                            </button>
+                            <p>Starts at:<?php echo $openTime; ?></p>
+                            <?php } ?>
+                        </div>
+                        <div class="pickup">
+                            <button class="active" id="pickup" onclick="orderType(this.id);" type="button">
+                                <?php echo __('Pickup'); ?>
+                            </button>
+                            <p>Starts at:<?php echo $openTime; ?></p>
+                        </div>
+                    </div>
+
+                </div>
+                <?php } elseif (in_array($options [0] ['value'], $deliveryOption)) { ?>
+                <div class="order_for">
+                    <span> <?php echo __('Order For') ?></span>
+                    <div class="delivery-buttons">
+                        <div class="delivery">
+                            <?php if ($vendor ['min_freeship'] <= $total) { ?>
+                                <button class="active" id="delivery" onclick="orderType(this.id);" type="button">
+                                    <?php echo __('Delivery'); ?>
+                                </button>
+                                <p>Starts at:<?php echo $openTime; ?></p>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <?php } elseif (in_array($options [1] ['value'], $deliveryOption)) { ?>
+                <div class="order_for">
+                    <span> <?php echo __('Order For') ?></span>
+                    <div class="delivery-buttons">
+                        <div class="delivery">
+                            <button class="active" id="pickup" onclick="orderType(this.id);" type="button">
+                                <?php echo __('Pickup'); ?>
+                            </button>
+                            <p>Starts at:<?php echo $openTime; ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+            }
+        }
+        ?>
+        <div class="delivery_time">
+            <span> <?php echo __('Delivery Time'); ?></span>
+            <div class="delivery-buttons">
+                <button class="active" id="now" onclick="hideTime(this.id);"
+                        type="button"><?php echo __('Now'); ?></button>
+                <button id="later" onclick="showTime(this.id);" type="button"><?php echo __('Later'); ?></button>
+            </div>
+        </div>
+
+        <?php
+        // print_r($vendor); die("fhjv");
+        $curDate = Mage::getModel('core/date')->date('H:i');
+        // echo $curDate; die("fglk");
+        // $curDate = '11:30';
+
+    $curDate1 = explode(':', $curDate); {
+            if ($curDate1 [0] == '00') {
+                $curDate = "24:" . $curDate1 [1];
+            }
+        }
+    $openTime1 = explode(':', $openTime); {
+            if ($openTime1 [0] == '00') {
+                $openTime = "24:" . $openTime1 [1];
+            }
+        }
+    $closeTime1 = explode(':', $closeTime); {
+            if ($closeTime1 [0] == '00') {
+                $closeTime = "24:" . $closeTime1 [1];
+            }
+        }
+
+        // $curDate = '03:30';
+        $curDate = /* Mage::getModel('core/date')->timestamp */strtotime($curDate);
+        $openTime = /* Mage::getModel('core/date')->timestamp */strtotime($openTime);
+        $closeTime = /* Mage::getModel('core/date')->timestamp */strtotime($closeTime);
+
+        $showNow = 'No';
+        if ($openTime > $closeTime) {
+
+            // if current time is past start time or before end time
+
+            if ($curDate >= $openTime || $curDate < $closeTime) {
+                $showNow = 'Yes';
+            } else {
+                $showNow = 'No';
+            }
+        }
+
+        // else time frame is within same day check if we are between start and end
+        else if ($curDate >= $openTime && $curDate <= $closeTime) {
+            $showNow = 'Yes';
+        }
+
+        // echo $openTime; echo "<br>"; echo $curDate;echo "<br>"; echo $closeTime;die("fk");
+        /*
+         * if(($curDate >= $openTime && $curDate <= $closeTime)) { $showNow = 'Yes'; } else{ $showNow = 'No'; }
+         */
+
+        $timingArray = array(
+            '00:00' => '00:00',
+            '00:15' => '00:15',
+            '00:30' => '00:30',
+            '00:45' => '00:45',
+            '01:00' => '01:00',
+            '01:15' => '01:15',
+            '01:30' => '01:30',
+            '01:45' => '01:45',
+            '02:00' => '02:00',
+            '02:15' => '02:15',
+            '02:30' => '02:30',
+            '02:45' => '02:45',
+            '03:00' => '03:00',
+            '03:15' => '03:15',
+            '03:30' => '03:30',
+            '03:45' => '03:45',
+            '04:00' => '04:00',
+            '04:15' => '04:15',
+            '04:30' => '04:30',
+            '04:45' => '04:45',
+            '05:00' => '05:00',
+            '05:15' => '05:15',
+            '05:30' => '05:30',
+            '05:45' => '05:45',
+            '06:00' => '06:00',
+            '06:15' => '06:15',
+            '06:30' => '06:30',
+            '06:45' => '06:45',
+            '07:00' => '07:00',
+            '07:15' => '07:15',
+            '07:30' => '07:30',
+            '07:45' => '07:45',
+            '08:00' => '08:00',
+            '08:15' => '08:15',
+            '08:30' => '08:30',
+            '08:45' => '08:45',
+            '09:00' => '09:00',
+            '09:15' => '09:15',
+            '09:30' => '09:30',
+            '09:45' => '09:45',
+            '10:00' => '10:00',
+            '10:15' => '10:15',
+            '10:30' => '10:30',
+            '10:45' => '10:45',
+            '11:00' => '11:00',
+            '11:15' => '11:15',
+            '11:30' => '11:30',
+            '11:45' => '11:45',
+            '12:00' => '12:00',
+            '12:15' => '12:15',
+            '12:30' => '12:30',
+            '12:45' => '12:45',
+            '13:00' => '13:00',
+            '13:15' => '13:15',
+            '13:30' => '13:30',
+            '13:45' => '13:45',
+            '14:00' => '14:00',
+            '14:15' => '14:15',
+            '14:30' => '14:30',
+            '14:45' => '14:45',
+            '15:00' => '15:00',
+            '15:15' => '15:15',
+            '15:30' => '15:30',
+            '15:45' => '15:45',
+            '16:00' => '16:00',
+            '16:15' => '16:15',
+            '16:30' => '16:30',
+            '16:45' => '16:45',
+            '17:00' => '17:00',
+            '17:15' => '17:15',
+            '17:30' => '17:30',
+            '17:45' => '17:45',
+            '18:00' => '18:00',
+            '18:15' => '18:15',
+            '18:30' => '18:30',
+            '18:45' => '18:45',
+            '19:00' => '19:00',
+            '19:15' => '19:15',
+            '19:30' => '19:30',
+            '19:45' => '19:45',
+            '20:00' => '20:00',
+            '20:15' => '20:15',
+            '20:30' => '20:30',
+            '20:45' => '20:45',
+            '21:00' => '21:00',
+            '21:15' => '21:15',
+            '21:30' => '21:30',
+            '21:45' => '21:45',
+            '22:00' => '22:00',
+            '22:15' => '22:15',
+            '22:30' => '22:30',
+            '22:45' => '22:45',
+            '23:00' => '23:00',
+            '23:15' => '23:15',
+            '23:30' => '23:30',
+            '23:45' => '23:45'
+        );
+        ?>
+
+        <div style="display: none" id="time">
+            </span><select id="del_date">
+                <?php
+                $curTime = Mage::getModel('core/date')->date('H:i');
+
+                if ($showNow == "Yes") {
+                    $j = 0;
+                } elseif ($showNow == "No" && $curTime < '12:00') {
+                    $j = 0;
+                } else {
+                    $j = 1;
+                }
+                for ($i = $j; $i < $j + 7; $i ++) {
+                    ?>
+                    <option>
+                        <?php
+                        $m = date("m"); // Month value
+
+                        $de = date("d"); // today's date
+
+                        $y = date("Y"); // Year value
+
+                        echo strtoupper(date('d-m-y:D', mktime(0, 0, 0, $m, ($de + $i), $y)));
+                        ?>
+                    </option>
+        <?php
+    }
+    ?>
+            </select>
+
+            <select id="del_time">
+                <?php
+                foreach ($timingArray as $val) {
+                    $now = strtotime($val);
+                    if ($openTime > $closeTime) {
+                        if ($now >= $openTime || $now < $closeTime) {
+                            
+                        } else {
+                            continue;
+                        }
+                    } else if ($now >= $openTime && $now <= $closeTime) {
+                        
+                    } else {
+                        continue;
+                    }
+                    ?>
+                    <option><?php echo date("h:i a", strtotime($val)); ?></option>
+        <?php
+    }
+    ?>
+            </select>
+        </div>
+        <a id="dietary-info" href="javascript:void(0);">
+    <?php echo $this->__('Allergy & dietary information'); ?>
+        </a>
+        <div id="info-text" style="display: none" class="lunchdinner">
+            <div class="lunchdinner-wrap ">
+                <span class="close-pop">x</span>
+
+                <p><?php echo Mage::getStoreConfig('ced_vproducts/general/dietary_info'); ?></p>
+            </div>
+        </div>
+ <div class="minicart-actions">
+<?php 
+//$carturl = Mage::helper('checkout/cart')->getCartUrl();
+$currentUrl = Mage::helper('core/url')->getCurrentUrl();
+ if($currentUrl !== "https://lunchordinners.com/checkout/cart/"){ ?>
+  <form id="discount-coupon-form" action="<?php echo $this->getFormActionUrl() ?>" method="post">
+    <div class="discount">
+        <h2><?php echo $this->__('Discount Codes') ?></h2>
+        <div class="discount-form">
+            <label for="coupon_code"><?php echo $this->__('Discount Codes') ?></label>
+            <input type="hidden" name="remove" id="remove-coupone" value="0" />
+            <div class="field-wrapper">
+                <input class="input-text" type="text" id="coupon_code" name="coupon_code" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
+                <div class="button-wrapper">
+                    <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Apply')) ?>" class="button2" onclick="discountForm.submit(false)" value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply') ?></span></span></button>
+                    <?php if(strlen($this->getCouponCode())): ?>
+                        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Cancel')) ?>" class="button2 cancel-coupon" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel') ?>"><span><span><?php echo $this->__('Cancel') ?></span></span>
+                        </button>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<?php } ?>
+   </div>
+        <div class="minicart-actions">
+    <?php if ($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+                <ul class="checkout-types minicart">
+                               <?php echo $this->getChildHtml('extra_actions') ?>
+                    <li><a onclick="onepage();"
+                           title="<?php echo $this->quoteEscape($this->__('Continue to Checkout')) ?>"
+                           class="button checkout-button" href="javascript:void(0);">
+                <?php echo $this->__('Continue to Checkout') ?>
+                        </a></li>
+                </ul>
+                   <?php endif ?>
+
+            <a class="cart-link"
+               href="<?php echo $this->getUrl('checkout/cart'); ?>">
+    <?php echo $this->__('View Shopping Cart'); ?>
+            </a>
+
+        </div>
+
+
+
+    <?php else: ?>
+        <p class="empty"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+
+<?php endif; ?>
+
+</div>
+<?php
+// print_r(Mage::getModel('core/session')->getCartParams()); die("hf");
+if (Mage::getSingleton('core/session')->getCartParams()) {
+    // print_r(Mage::getSingleton('core/session')->getCartParams()); die("hf");
+
+    $params = Mage::getSingleton('core/session')->getCartParams();
+
+    $time = $params ['time'];
+    $order_for = $params ['order_for'];
+    $delivery_date = $params ['delivery_date'];
+    $delivery_time = $params ['delivery_time'];
+} else {
+    $time = 'now';
+    $order_for = 'delivery';
+    if (!empty($vendor)) {
+        if ($vendor ['min_freeship'] > $total) {
+            $order_for = 'pickup';
+        } else {
+            $order_for = 'delivery';
+        }
+    }
+
+    $delivery_date = "";
+    $delivery_time = "";
+}
+?>
+<form style="display: none" id="minicartCheckoutForm" method="post" action="<?php echo $this->getCheckoutUrl(); ?>">
+    <input id="times" type="hidden" name="time" value="<?php echo $time; ?>" />
+    <input id="order_for" type="hidden" name="order_for" value="<?php echo $order_for; ?>" />
+    <input id="delivery_date" type="hidden" value="<?php echo $delivery_date; ?>" name="delivery_date" />
+    <input id="delivery_time" type="hidden" value="<?php echo $delivery_time; ?>" name="delivery_time" />
+</form>
+
+
+
+
+<script>
+    var test = "<?php echo $time; ?>";
+    var del_date = "<?php echo $delivery_date; ?>";
+    var del_time = "<?php echo $delivery_time; ?>";
+    var order_for = "<?php echo $order_for; ?>";
+    if (test == "later")
+    {
+        jQuery("#time").show();
+        jQuery("#later").addClass('active');
+        jQuery("#now").removeClass('active');
+        jQuery("#del_date").val(del_date);
+        jQuery("#del_time").val(del_time);
+
+    }
+    if (order_for == "pickup")
+    {
+        jQuery("#pickup").addClass('active');
+        jQuery("#delivery").removeClass('active');
+    }
+    else {
+        jQuery("#delivery").addClass('active');
+        jQuery("#pickup").removeClass('active');
+    }
+    var showNow = "<?php echo $showNow; ?>";
+    if (showNow == "No")
+    {
+        jQuery("#now").hide();
+        jQuery("#later").trigger('click');
+    }
+    function showTime(id)
+    {
+        jQuery("#time").show();
+        jQuery("#" + id).addClass('active');
+        jQuery("#now").removeClass('active');
+
+        var date = jQuery("#del_date option:selected").val();
+        var time = jQuery("#del_time option:selected").val();
+        jQuery("#times").attr("value", "later");
+        jQuery("#delivery_date").attr("value", date);
+        jQuery("#delivery_time").attr("value", time);
+
+    }
+    function hideTime(id)
+    {
+        jQuery("#time").hide();
+        jQuery("#" + id).addClass('active');
+        jQuery("#later").removeClass('active');
+        jQuery("#times").attr("value", "now");
+        jQuery("#delivery_date").attr("value", "");
+        jQuery("#delivery_time").attr("value", "");
+    }
+
+    function orderType(id) {
+        jQuery("#" + id).addClass('active');
+        if (id === "delivery") {
+            jQuery("#pickup").removeClass('active');
+            jQuery("#order_for").attr("value", "delivery");
+        } else {
+            jQuery("#delivery").removeClass('active');
+            jQuery("#order_for").attr("value", "pickup");
+        }
+    }
+
+
+    jQuery("#dietary-info").click(function () {
+        jQuery('body').addClass('hidden-body');
+        jQuery("#info-text").addClass('dietary-info');
+    });
+    jQuery('.lunchdinner-wrap .close-pop ').click(function () {
+        jQuery('body').removeClass('hidden-body');
+        jQuery("#info-text").removeClass('dietary-info');
+    });
+    function onepage()
+    {
+        var date = jQuery("#del_date option:selected").val();
+        var time = jQuery("#del_time option:selected").val();
+
+        jQuery("#delivery_date").attr("value", date);
+        jQuery("#delivery_time").attr("value", time);
+//        jQuery('#minicartCheckoutForm').append(jQuery('#form').html());
+        jQuery('#minicartCheckoutForm').submit();
+
+    }
+
+    var resizeMiniCart = function () {
+        $j('.minicart-actions').css({
+            border: '1px solid transparent'
+        });
+        $j('.minicart-wrapper').css({
+            overflowY: 'scroll'
+        });
+    }
+
+    $j(document).ready(function () {
+        $j('.skip-link.skip-cart').click(resizeMiniCart);
+    });
+</script>
+
+<style>
+    body.hidden-body {
+        overflow: hidden;
+    }
+
+    .lunchdinner {
+        background-color: rgba(0, 0, 0, 0.5);
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 99999;
+    }
+
+    .lunchdinner.dietary-info {
+        display: block !important;
+    }
+
+    .lunchdinner-wrap {
+        background: #fff none repeat scroll 0 0;
+        box-shadow: 0 0 10px 2px #333;
+        margin: 10% auto;
+        padding: 36px 20px 20px;
+        position: relative;
+        width: 50%;
+    }
+
+    .lunchdinner-wrap .close-pop {
+        cursor: pointer;
+        font-size: 20px;
+        height: 15px;
+        line-height: 15px;
+        position: absolute;
+        right: 4px;
+        top: 6px;
+        width: 15px;
+    }
+    .btn-edit {
+        display: none;
+    }
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+var discountForm = new VarienForm('discount-coupon-form');
+discountForm.submit = function (isRemove) {
+    if (isRemove) {
+        $('coupon_code').removeClassName('required-entry');
+        $('remove-coupone').value = "1";
+    } else {
+        $('coupon_code').addClassName('required-entry');
+        $('remove-coupone').value = "0";
+    }
+    return VarienForm.prototype.submit.bind(discountForm)();
+}
+//]]>
+</script>

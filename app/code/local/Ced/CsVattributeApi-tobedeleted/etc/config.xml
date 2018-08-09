@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the Academic Free License (AFL 3.0)
+  * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+  * It is also available through the world-wide-web at this URL:
+  * http://opensource.org/licenses/afl-3.0.php
+  *
+  * @category    Ced
+  * @package     Ced_CsVattributeApi
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+  */
+-->
+<config>
+	<modules>
+		<Ced_CsVattributeApi>
+			<version>0.0.1</version>
+			<!-- <release_version>0.0.1</release_version> -->
+			<parent_product_name>Vendor Attribute Addon</parent_product_name>
+			<author>CedCommerce Core Team (connect@cedcommerce.com)</author>
+		</Ced_CsVattributeApi>
+	</modules>
+	<frontend>
+        <routers>
+            <csvattributeapi>
+                <use>standard</use>
+                <args>
+                    <module>Ced_CsVattributeApi</module>
+                    <frontName>csvattributeapi</frontName>
+                </args>
+            </csvattributeapi>
+        </routers>
+        <!-- <layout>
+            <updates>
+                <csdotzot>
+                    <file>ced/csdotzot/csdotzot.xml</file>
+                </csdotzot>
+            </updates>
+        </layout> -->
+     </frontend>
+	<global>
+	<helpers>
+		<csvattributeapi>
+			<class>Ced_CsVattributeApi_Helper</class>
+		</csvattributeapi>
+	</helpers>
+	<!-- <blocks> -->
+        <!-- <csorder>
+			<rewrite>
+	         	<adminhtml_sales_order_view>Ced_CsDotzot_Block_Adminhtml_Sales_Order_View</adminhtml_sales_order_view>
+	         </rewrite>
+	    </csorder> -->
+	    <!-- <csorder>
+			<rewrite>
+				<shipment_list_grid>Ced_CsDotzot_Block_Awb_List_Grid</shipment_list_grid>
+         		<adminhtml_sales_order_shipment_view>Ced_CsDotzot_Block_Adminhtml_Sales_Order_Shipment_View</adminhtml_sales_order_shipment_view>
+            </rewrite>
+        </csorder>  -->
+		<!-- <csvattributeapi>
+			<class>Ced_CsVattributeApi_Block</class>
+		</csvattributeapi>		
+	</blocks> -->
+	<models>
+		<csvattributeapi>
+			<class>Ced_CsVattributeApi_Model</class>
+		</csvattributeapi>
+   <!--  <vendorapi>
+      <rewrite>
+        <vendor_api>Ced_CsVattributeApi_Model_Vendor_Api</vendor_api>
+      </rewrite>
+    </vendorapi> -->
+	</models>
+	</global>
+</config>

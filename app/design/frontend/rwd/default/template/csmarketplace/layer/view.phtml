@@ -1,0 +1,148 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * You can check the licence at this URL: http://cedcommerce.com/license-agreement.txt
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ *
+ * @category    Ced
+ * @package     Ced_Auction
+ * @author      CedCommerce Core Team <connect@cedcommerce.com >
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php
+$params = $this->getRequest()->getParams();
+$rest = '';
+if (isset($params['rest'])) {
+    $rest = $params['rest'];
+}
+?>
+<?php
+$_filters = $this->filterAttr();
+//echo get_class($this); die("flkjv");
+?>
+<?php
+$params = $this->getRequest()->getParams();
+
+if (isset($params['fgroup'])) {
+    $fgroup = $params['fgroup'];
+} else {
+    $fgroup = '';
+}
+
+if (count($params) == 0) {
+    $style = 'style="display:none"';
+} else {
+    $style = 'style="display:"';
+}
+//   if(!empty($params)):
+?>
+<div <?php echo $style; ?> class='filter'>
+    <h2 class="attr-heading"><?php echo $this->__('Shop By') ?></h2>
+
+<?php $totals = [];
+foreach ($_filters as $_filter) {
+    ?>
+
+        <?php
+        $values = $this->getValue($_filter);
+
+        $vals = explode(',', $values);
+        $totals = array_merge($vals, $totals);
+        ?>
+
+    <?php
+    }
+    $totals = array_filter($totals);
+    $totals = array_unique($totals);
+    $totals = array_values($totals);
+//print_r($totals); die("fgkj");
+    ?>
+    <ul>
+        <?php
+        for ($v = 0; $v < count($totals); $v++) {
+            $name = explode(':', $totals[$v]);
+            //print_r($name); die("gf");
+            ?>
+            <li>
+                <span id="<?php echo $name[0]; ?>" onclick="fun(this.id);"><input type="checkbox" value="<?php echo $name[0]; ?>"> <?php echo $name[1]; ?>
+                </span></li>
+    <?php
+}
+?>
+    </ul>  </div>         
+<style>
+    .filter {
+        background: #f3f3f3 none repeat scroll 0 0;
+        padding-bottom: 15px;
+        padding-top: 0;
+        width: 100%;
+    }
+    .filter > h2 {
+        background: #aa3a2f none repeat scroll 0 0;
+        color: #fff;
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 7px;
+        padding: 6px 8px;
+    }
+    .filter > ul {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .filter > ul li {
+        line-height: 28px;
+    }
+    .filter > ul li span {
+        cursor: pointer;
+    }
+    .attr-heading{
+        text-transform: uppercase;
+        font-weight: 900;
+    }
+    .attr-value
+    {
+        padding-top:14px;
+    }
+
+</style>  
+<script type="text/javascript">
+
+    var fgroup = "<?php echo $fgroup ?>";
+    var test = "input[value=" + fgroup + "]";
+//alert(test);
+    jQuery(test).attr('checked', 'checked');
+    function fun(id)
+    {
+        var rest = "<?php echo $rest ?>";
+        //var fgroup = "<?php // echo $fgroup ?>";
+        //alert($fgroup);
+        var fgroup = "<?php echo $fgroup ?>";
+        var val = "input[value=" + fgroup + "]";
+        //alert(val);
+
+
+        if (jQuery(val).is(':checked'))
+        {
+
+            var uri = "<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>" + "&fgroup=" + id;
+            window.location.href = uri;
+        }
+        else {
+
+            var uri = "<?php echo $this->getUrl('csmarketplace/vshops/index') ?>" + "?rest=" + rest;
+            window.location.href = uri;
+        }
+
+        jQuery(val).attr('checked', false);
+
+
+    }
+</script>  

@@ -1,0 +1,51 @@
+<?php 
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category  Ced
+  * @package   Ced_Mobiconnect
+  * @author    CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+?>
+<?php
+/**
+ * @see Mage_Adminhtml_Block_Denied
+ */
+?>
+<?php
+$modules = Mage::helper('mobiconnect')->getCedCommerceExtensions(false,true);
+$args = '';
+foreach ($modules as $moduleName=>$releaseVersion)
+{
+	$moduleProductName = isset($releaseVersion['parent_product_name']) ? $releaseVersion['parent_product_name'] : $moduleName;
+	$releaseVersion = isset($releaseVersion['release_version']) ? $releaseVersion['release_version'] : $releaseVersion;
+	
+	$m = strtolower($moduleName); if(!preg_match('/ced/i',$m)){ return $this; }  $h = Mage::getStoreConfig(Ced_Mobiconnect_Block_Extensions::HASH_PATH_PREFIX.$m.'_hash'); for($i=1;$i<=(int)Mage::getStoreConfig(Ced_Mobiconnect_Block_Extensions::HASH_PATH_PREFIX.$m.'_level');$i++){$h = base64_decode($h);}$h = json_decode($h,true); 
+	if(is_array($h) && isset($h['domain']) && isset($h['module_name']) && isset($h['license']) && $h['module_name'] == $m && $h['license'] == Mage::getStoreConfig(Ced_Mobiconnect_Block_Extensions::HASH_PATH_PREFIX.$m)){}else{ 
+		$args .= $moduleProductName.',';
+	}	
+}
+$args = trim($args,',');
+$test = 'In order to use these module(s) you have to Activate these module(s) before use.';
+//echo strlen($test).'<br>';
+$test1 = 'fghfgjfgjfghj fhgmjngh kgh kgh kghd jfhj fghm fghm jfgh ';
+//echo strlen($test1);
+?>
+<h2 class="page-heading">
+	<?php echo $this->helper('adminhtml')->__('Invalid License') ?>
+</h2>
+<?php if(strlen($args) > 0) { ?>
+	<p><?php echo $this->helper('adminhtml')->__('For Following Module(s):')?> <?php echo $args; ?></p>
+<?php } ?>
+<p><?php echo $this->helper('adminhtml')->__('In order to use these module(s) you have to '); ?>
+<a href="<?php echo $this->getUrl('adminhtml/system_config/edit/section/cedcore/'); ?>" title="<?php echo $this->helper('adminhtml')->__('Activate'); ?>"><?php echo $this->helper('adminhtml')->__('Activate'); ?></a>
+<?php echo $this->helper('adminhtml')->__(' these module(s) before use.') ?></p>

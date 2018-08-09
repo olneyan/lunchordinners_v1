@@ -1,0 +1,4 @@
+$installer->run("
+ALTER TABLE `".$installer->getTable($eavTableName)."`
+ADD UNIQUE `IDX_CSMARKETPLACE_CED_".strtoupper($type)."_UNIQUE_KEY`
+( `attribute_id` , `entity_id` , `entity_type_id` , `store_id` )");

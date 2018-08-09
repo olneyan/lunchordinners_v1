@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     default_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ ?>
+
+<?php
+	$params = Mage::helper('csmarketplace')->getFilterParams();
+?>
+<?php if(count(Mage::helper('csmarketplace')->getNewVendors())) { ?>
+<div class="notification-global">	
+	<strong class="label"><span class="critical"><strong><?php echo count(Mage::helper('csmarketplace')->getNewVendors()); ?></strong></span> <?php echo Mage::helper('csmarketplace')->__('Approval Request for Vendor(s).'); ?></strong>
+	<?php echo Mage::helper('csmarketplace')->__('Approve Vendor(s) from'); ?> <a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/adminhtml_vendor/",$params); ?>"><?php echo Mage::helper('csmarketplace')->__('Manage Vendors').' '.Mage::helper('csmarketplace')->__('Panel'); ?></a>.
+</div>
+<?php } ?>
+<?php if(count(Mage::getModel('csmarketplace/vproducts')->getVendorProducts(Ced_CsMarketplace_Model_Vproducts::PENDING_STATUS))) { ?>
+<div class="notification-global">	
+	<strong class="label"><span class="critical"><strong><?php echo count(Mage::getModel('csmarketplace/vproducts')->getVendorProducts(Ced_CsMarketplace_Model_Vproducts::PENDING_STATUS)); ?></strong></span> <?php echo Mage::helper('csmarketplace')->__('Approval Request for Vendor Product(s).'); ?></strong>
+	<?php echo Mage::helper('csmarketplace')->__('Approve Vendor Product(s) from'); ?> <a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/adminhtml_vproducts/pending"); ?>"><?php echo Mage::helper('csmarketplace')->__('Vendor Pending Products'); ?></a>.
+</div>
+<?php } ?>
+<?php if(Mage::getStoreConfig(Ced_CsMarketplace_Model_Vendor::XML_PATH_VENDOR_WEBSITE_SHARE)) { ?>
+<div class="notification-global">	
+	<strong class="label"><span class="critical"><strong></strong></span><?php echo Mage::helper('csmarketplace')->__('Vendor Account Sharing option need to be refresh.')?></strong>
+	<?php echo Mage::helper('csmarketplace')->__('Click here to');?><a href="<?php echo $this->getUrl("adminhtml/adminhtml_vendor/rebuildWebsites"); ?>"><?php echo Mage::helper("csmarketplace")->__(' Rebuild Vendor Account Sharing.')?></a>
+</div>
+<?php } ?>
+<?php 
+$tablePrefix = (string) Mage::getConfig()->getTablePrefix();
+$exists = (boolean) Mage::getSingleton('core/resource')
+			->getConnection('core_write')
+			->showTableStatus($tablePrefix.'ced_csmarketplace_vendor_payments_requested');
+ if($exists && get_class(Mage::getModel('csmarketplace/vpayment_requested'))!=null){
+
+	$collection = Mage::getModel('csmarketplace/vpayment_requested')
+						->getCollection()
+						->addFieldToFilter('status',array('eq'=>Ced_CsMarketplace_Model_Vpayment_Requested::PAYMENT_STATUS_REQUESTED));
+	$collection->getSelect()->group("vendor_id");
+
+?>
+<?php if(count($collection) > 0){ ?>
+	<div class="notification-global">	
+		<strong class="label"><span class="critical"><strong><?php echo count($collection); ?></strong></span> <?php echo Mage::helper('csmarketplace')->__('Vendor(s) have requested for Payment(s).'); ?></strong>
+		<?php echo Mage::helper('csmarketplace')->__('Release Payment(s) from'); ?> <a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/adminhtml_vpayments_requested/index"); ?>"><?php echo Mage::helper('csmarketplace')->__('Requested Payments').' '.Mage::helper('csmarketplace')->__('Panel'); ?></a>.
+	</div>
+<?php }} ?>

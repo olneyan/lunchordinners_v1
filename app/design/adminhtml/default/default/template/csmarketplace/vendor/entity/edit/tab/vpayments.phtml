@@ -1,0 +1,68 @@
+<?php 
+
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+*
+ * @category    design
+ * @package     default_default
+ * @author 		CedCommerce Core Team <coreteam@cedcommerce.com>
+ * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+ <?php $helper = Mage::helper ( 'csmarketplace' );?>
+<div>
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Transactions Statistics') ?></h4>
+		<div class="form-buttons"></div>
+	</div>
+	<div id="transaction_state" class="fieldset ">
+		<div class="hor-scroll">
+			<table class="form-list" id="my-orders-table">
+				<tbody>
+					<tr>
+						<td class="label"><label for="earning_amount"><strong><?php echo $helper->__('Total Earned Amount') ?></strong></label></td>
+						<td class="value"><div class="input-text" id="earning_amount"><strong><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getEarningAmount()); ?></strong></div></td>
+					</tr>
+					<?php /* ?>
+					<tr style="display: none;" class="summary-details">
+						<td class="label"><label for="paid_amount"><?php echo $helper->__('Total Paid Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="paid_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getPaidAmount()); ?></div></td>
+					</tr>
+					<tr style="display: none;" class="summary-details">
+						<td class="label"><label for="canceled_amount"><?php echo $helper->__('Total Canceled Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="canceled_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getCanceledAmount()); ?></div></td>
+					</tr>
+					<tr style="display: none;" class="summary-details">
+						<td class="label"><label for="refunded_amount"><?php echo $helper->__('Total Refunded Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="refunded_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getRefundedAmount()); ?></div></td>
+					</tr>
+					<tr onclick="expandDetails(this, '.summary-details')" class="summary-total">
+						<td class="label"><label for="received_amount"><div class="summary-collapse" style="float: none; text-align: left;"><?php echo $helper->__('Total Received Amount') ?></div></label></td>
+						<td class="value"><div class="input-text" id="received_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getReceivedAmount()); ?></div></td>
+					</tr> <?php */ ?>
+					<tr>
+						<td class="label"><label for="pending_amount"><?php echo $helper->__('Total Pending Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="pending_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getPendingAmount()); ?></div></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="refundable_amount"><?php echo $helper->__('Total Refundable Amount') ?></label></td>
+						<td class="value"><div class="input-text" id="refundable_amount"><?php echo Mage::app()->getLocale()->currency(Mage::app()->getBaseCurrencyCode())->toCurrency($this->getRefundableAmount()); ?></div></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="pending_transfer"><?php echo $helper->__('Pending Transfers') ?></label></td>
+						<td class="value"><div class="input-text" id="pending_transfer"><?php echo $this->getPendingTransfers()?$this->getPendingTransfers():0; ?></div></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
+<br/>
+<?php echo $this->getChildHtml('vpayments.grid'); ?>
